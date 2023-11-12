@@ -1,0 +1,42 @@
+{% extends "producto/base.html" %}
+
+{% block titulo %}
+    Inicio
+{% endblock titulo %}
+
+{% block contenido %}
+
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-8 mt-5 text-center">
+        <h1 style="margin-top: 1%; color: #570116; font-weight: bold;">Categorías de productos</h1>
+        <h5 style="margin-top: 1% text-align: justify; color: #570116;">
+            Ofrecemos los mejores productos para una vida afectiva y sexual plena.
+        </h5>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        {% for c in categorias %}
+        <div class="col-2 mt-5 text-center">
+            <a href="#" style="text-decoration: none;">
+                <div class="card">
+                    <div class="card-header">{{ c.nombre }}</div>
+                    <!--
+                    <div class="card-body">
+                        <img
+                            src=""
+                            alt="Foto de {{ c.nombre }}"
+                            width="150"
+                            height="100"
+                        />
+                        <hr />
+                        <span> {{ c.descripcion }} </span>
+                    </div>
+                    -->
+                </div>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+
+{% endblock contenido %}
