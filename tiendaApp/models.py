@@ -9,7 +9,7 @@ from tiendaApp.choices import primerJuguete
 # Clase categorías
 class Categoria(models.Model):
     nombre = models.CharField(max_length=100, verbose_name="Nombre de la categoría")
-    creado = models.DateTimeField(default=timezone.now)
+    creado = models.DateTimeField(auto_now=True)
     
     def __str__(self):
         return "{}".format(self.nombre)
@@ -23,7 +23,7 @@ class Categoria(models.Model):
 class Subcategoria(models.Model):
     categoria = models.ForeignKey(Categoria, null=False, on_delete=models.PROTECT)
     nombre = models.CharField(max_length=100, verbose_name="Nombre de la subcategoría")
-    creado = models.DateTimeField(default=timezone.now)
+    creado = models.DateTimeField(auto_now=True)
     
     def __str__(self):
         return "{}".format(self.nombre)
@@ -41,9 +41,9 @@ class Producto(models.Model):
     cantidad = models.IntegerField(verbose_name="Stock del producto")
     categoria = models.ForeignKey(Categoria, null=False, on_delete=models.PROTECT)
     subcategoria = models.ForeignKey(Subcategoria, null=False, on_delete=models.PROTECT)
-    primerJuguete = models.CharField(max_length=1, choices=primerJuguete, default='n')
-    descripcion = models.CharField(max_length=100, verbose_name="Descripción del producto")
-    creado = models.DateTimeField(default=timezone.now)
+    primerJuguete = models.CharField(max_length=2, choices=primerJuguete, default='No')
+    descripcion = models.CharField(max_length=1000, verbose_name="Descripción del producto")
+    creado = models.DateTimeField(auto_now=True)
     
     def __str__(self):
         return "{}".format(self.nombre)

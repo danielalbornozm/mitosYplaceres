@@ -20,5 +20,9 @@ from tiendaApp import views as vista
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', vista.inicio, name='inicio')
+    path('', vista.inicio, name='inicio'),
+    path('<str:id_categoria>/<str:categoria>/', vista.categoria, name='categoria'),
+    path('<str:id_subcategoria>/<str:subcategoria>/<str:id_categoria>/<str:categoria>/', vista.productos, name='productos'),
+    path('<str:id_subcategoria>/<str:subcategoria>/<str:id_categoria>/<str:categoria>/<str:producto_id>/mantenedor/', vista.mantenedor_productos, name='productoAdd'),
+    path('<str:id_subcategoria>/<str:subcategoria>/<str:id_categoria>/<str:categoria>/<str:producto_id>/confirmar/', vista.eliminar_producto, name='productoDel'),
 ]

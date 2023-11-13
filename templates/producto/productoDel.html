@@ -1,0 +1,31 @@
+{% extends "producto/base.html" %}
+
+{% block titulo %}
+    Confirmar eliminación
+{% endblock titulo %}
+
+
+{% block contenido %}
+
+<div class="row">
+    <div class="col-9 offset-1">
+        <h3>Confirmar eliminación del producto</h3>
+        <div class="alert alert-danger h5">
+            ¿Desea eliminar el producto {{ producto.nombre }}?
+        </div>
+        <form method='POST'>
+            {% csrf_token %}
+            <div class="row">
+                <div class="col">
+                    <a class="btn btn-dark" href="{% url 'productos' id_categoria=id_categoria categoria=categoria id_subcategoria=id_subcategoria subcategoria=subcategoria %}">Cancelar</a>
+                </div>
+                <div class="col">
+                    <button class="btn btn-danger" type="submit">Confirmar eliminación</button>
+                </div>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+{% endblock contenido %}

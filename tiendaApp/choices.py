@@ -1,4 +1,4 @@
 primerJuguete = (
-    ('s', 'Si'),
-    ('n', 'No')
+    ('Si', 'Si'),
+    ('No', 'No')
 )

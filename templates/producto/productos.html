@@ -1,0 +1,66 @@
+{% extends "producto/base.html" %}
+
+{% block titulo %}
+    Productos
+{% endblock titulo %}
+
+{% block contenido %}
+
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-8 mt-5 text-center">
+            <h1 style="margin-top: 1%; color: #570116; font-weight: bold;">Productos</h1>
+            <h5 style="margin-top: 1% text-align: justify; color: #570116;">
+                Ofrecemos los mejores productos para una vida afectiva y sexual plena.
+        </div>
+    </div>
+    <hr>
+    <div class="row justify-content-center">
+        <div class="col-3">
+            <h5 style="text-align: center; color: #570116;">Listado de productos</h5>
+        </div>
+        <div class="col-6">
+            <form class="d-flex" role="search">
+                <input class="form-control me-2" type="search" placeholder="Buscar producto" aria-label="Search">
+                <button class="btn btn-outline-success" type="submit">Buscar</button>
+            </form>
+        </div>
+        <div class="col-3 justify-content-center">
+            <a class="btn btn-success" href="{% url 'productoAdd' id_categoria=id_categoria categoria=categoria id_subcategoria=id_subcategoria subcategoria=subcategoria producto_id=0 %}">Agregar productos</a>
+        </div>
+    </div>
+    <hr>
+    <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Marca</th>
+            <th scope="col">Precio</th>
+            <th scope="col">Cantidad</th>
+            <th scope="col">Categoría</th>
+            <th scope="col">Subcategoría</th>
+            <th scope="col">Primer juguete</th>
+            <th scope="col">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for producto in productos %}
+          <tr>
+            <th scope="row">{{ forloop.counter }}</th>
+            <td>{{ producto.nombre }}</td>
+            <td>{{ producto.marca }}</td>
+            <td>{{ producto.precio }}</td>
+            <td>{{ producto.cantidad }}</td>
+            <td>{{ producto.categoria }}</td>
+            <td>{{ producto.subcategoria }}</td>
+            <td>{{ producto.primerJuguete }}</td>
+            <td>
+                <a class="btn btn-warning btn-sm" href="{% url 'productoAdd' id_categoria categoria id_subcategoria subcategoria producto.id %}">Ver</a>
+            </td>
+        </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock contenido %}

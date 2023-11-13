@@ -1,0 +1,84 @@
+{% extends "producto/base.html" %}
+
+{% block titulo %}
+    Mantenedor de productos
+{% endblock titulo %}
+
+
+{% block contenido %}
+
+<div class="container-fluid">
+    <div class="row mt-5">
+        <div class="col">
+            <h2 style="text-align: center;">Mantenedor de productos</h2>
+            <hr>
+            <form method="POST">
+                {% csrf_token %}
+                <div class="row">
+                    {{ form.non_field_errors }}
+                    <div class="col-9">
+                        <div class="row">
+                            <div class="col-3 mb-3">
+                                {{ form.nombre.label_tag }}
+                                {{ form.nombre }}
+                                {{ form.nombre.errors }}
+                            </div>
+                            <div class="col-3 mb-3">
+                                {{ form.marca.label_tag }}
+                                {{ form.marca }}
+                                {{ form.marca.errors }}
+                            </div>
+                            <div class="col-3 mb-3">
+                                {{ form.precio.label_tag }}
+                                {{ form.precio }}
+                                {{ form.precio.errors }}
+                            </div>
+                            <div class="col-3 mb-3">
+                                {{ form.cantidad.label_tag }}
+                                {{ form.cantidad }}
+                                {{ form.cantidad.errors }}
+                            </div>
+                            <div class="col-3 mb-3">
+                                {{ form.categoria.label_tag }}
+                                {{ form.categoria }}
+                                {{ form.categoria.errors }}
+                            </div>
+                            <div class="col-3 mb-3">
+                                {{ form.subcategoria.label_tag }}
+                                {{ form.subcategoria }}
+                                {{ form.subcategoria.errors }}
+                            </div>
+                            <div class="col-3 mb-3">
+                                <label for="id_materno">Primer juguete:</label>
+                                {{ form.primerJuguete }}
+                                {{ form.primerJuguete.errors }}
+                            </div>
+                            <div class="col-6 mb-3">
+                                {{ form.descripcion.label_tag }}
+                                {{ form.descripcion }}
+                                {{ form.descripcion.errors }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        Fotografía
+                    </div>
+                </div>
+                <hr>
+                <div class="row justify-content-center text-center">
+                    <div class="col-4">
+                        <button class="btn btn-success" type="submit" name="guardar">Guardar</button>
+                    </div>
+                    <div class="col-4">
+                        <button class="btn btn-warning btn-sm" type="submit" name="editar">Editar</button>
+                    </div>
+                    <div class="col-4">
+                        <a class="btn btn-danger btn-sm" href="{% url 'productoDel' id_categoria=id_categoria categoria=categoria id_subcategoria=id_subcategoria subcategoria=subcategoria producto_id=producto_id %}">Eliminar</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock contenido %}

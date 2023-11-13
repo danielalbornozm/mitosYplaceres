@@ -14,8 +14,8 @@ class ProductoForm(forms.ModelForm):
         attrs={'class':'form-control', 'placeholder': 'Ingrese cantidad del del producto'}))
     primerJuguete = forms.CharField(widget=forms.Select(choices=primerJuguete,
         attrs={'class':'form-select'}))
-    descripcion = forms.CharField(widget=forms.TextInput(
-        attrs={'class':'form-control', 'placeholder': 'Ingrese descripción del producto'}))
+    descripcion = forms.CharField(widget=forms.Textarea(
+        attrs={'class':'form-control', 'rows': 5, 'placeholder': 'Ingrese descripción del producto'}))
     categoria = forms.ModelChoiceField(
         queryset = Categoria.objects.all(),
         empty_label = "Seleccione categoria",
