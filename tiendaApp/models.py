@@ -3,6 +3,7 @@ from django import forms
 from django.db import models
 from django.utils import timezone
 from tiendaApp.choices import primerJuguete
+import os
 
 # Create your models here.
 
@@ -45,6 +46,15 @@ class Producto(models.Model):
     descripcion = models.CharField(max_length=1000, verbose_name="Descripción del producto")
     creado = models.DateTimeField(auto_now=True)
     
+    def generarNombre(instance, filename):
+        extension = os.path.splitext(filename)[1][1:]
+        ruta = 'productos'
+        fecha = timezone.now().strftime("%d%m%Y_%H%M%S")
+        nombre = "{}.{}".format(fecha, extension)
+        return os.path.join(ruta, nombre)
+    
+    foto = models.ImageField(upload_to=generarNombre,null=True,default='productos/producto.png')
+    
     def __str__(self):
         return "{}".format(self.nombre)
     
@@ -52,6 +62,10 @@ class Producto(models.Model):
         db_table = 'producto'
         verbose_name = 'Producto'
         verbose_name_plural = 'Productos'
+    
+    
+    
+    
         
 
 

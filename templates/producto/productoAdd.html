@@ -1,4 +1,5 @@
 {% extends "producto/base.html" %}
+{% load static %}
 
 {% block titulo %}
     Mantenedor de productos
@@ -12,7 +13,7 @@
         <div class="col">
             <h2 style="text-align: center;">Mantenedor de productos</h2>
             <hr>
-            <form method="POST">
+            <form method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="row">
                     {{ form.non_field_errors }}
@@ -61,7 +62,14 @@
                         </div>
                     </div>
                     <div class="col-3">
-                        Fotografía
+                        <div class="row">
+                            <div class="col">
+                                <img src="{% static 'images/productos/producto.png' %}" alt="Imagen de un producto"
+                                    width="200" height="auto" class="mx-auto my-auto d-block">
+                                <label for="foto">Fotografía del producto:</label>
+                                <input type="file" name="foto" id="foto" class="form-control form-control-sm">
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <hr>

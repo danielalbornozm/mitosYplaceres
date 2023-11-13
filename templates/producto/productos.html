@@ -1,4 +1,5 @@
 {% extends "producto/base.html" %}
+{% load static %}
 
 {% block titulo %}
     Productos
@@ -20,8 +21,8 @@
             <h5 style="text-align: center; color: #570116;">Listado de productos</h5>
         </div>
         <div class="col-6">
-            <form class="d-flex" role="search">
-                <input class="form-control me-2" type="search" placeholder="Buscar producto" aria-label="Search">
+            <form class="d-flex" role="search" action="{% url 'productos' id_subcategoria=id_subcategoria id_categoria=id_categoria categoria=categoria subcategoria=subcategoria %}" method="get">
+                <input class="form-control me-2" type="search" placeholder="Buscar producto por su nombre" aria-label="Search" name="q">
                 <button class="btn btn-outline-success" type="submit">Buscar</button>
             </form>
         </div>
@@ -41,6 +42,7 @@
             <th scope="col">Categoría</th>
             <th scope="col">Subcategoría</th>
             <th scope="col">Primer juguete</th>
+            <th scope="col">Imagen</th>
             <th scope="col">Acciones</th>
           </tr>
         </thead>
@@ -55,6 +57,11 @@
             <td>{{ producto.categoria }}</td>
             <td>{{ producto.subcategoria }}</td>
             <td>{{ producto.primerJuguete }}</td>
+            <td>
+                {% if producto.foto %}
+                    <img src="{{ producto.foto.url }}" alt="Foto del producto" width="50" height="auto">
+                {% endif %}
+            </td>
             <td>
                 <a class="btn btn-warning btn-sm" href="{% url 'productoAdd' id_categoria categoria id_subcategoria subcategoria producto.id %}">Ver</a>
             </td>

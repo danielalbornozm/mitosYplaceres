@@ -30,7 +30,15 @@ def categoria(request, id_categoria, categoria):
 def productos(request, id_categoria, categoria, id_subcategoria, subcategoria):
     categorias = Categoria.objects.all()
     subcategorias = Subcategoria.objects.all()
+
+    # Obtener el valor de búsqueda desde la consulta GET
+    q = request.GET.get('q')
+
+    # Filtrar productos según la búsqueda
     productos = Producto.objects.filter(subcategoria__id=id_subcategoria, categoria__id=id_categoria)
+    if q:
+        productos = productos.filter(nombre__icontains=q)
+
     data = {
         'id_subcategoria': id_subcategoria,
         'id_categoria': id_categoria,
@@ -68,7 +76,7 @@ def mantenedor_productos(request, id_categoria, categoria, id_subcategoria, subc
 
     # Métodos según el botón presionado    
     if request.method == 'POST':
-        form = ProductoForm(request.POST, instance=producto)
+        form = ProductoForm(request.POST, request.FILES, instance=producto)
         print("Estamos")
 
         if 'guardar' in request.POST:
@@ -80,6 +88,8 @@ def mantenedor_productos(request, id_categoria, categoria, id_subcategoria, subc
                 print(form.errors)
         elif 'editar' in request.POST:
             if form.is_valid():
+                if 'foto' in request.FILES:
+                    producto.foto = request.FILES['foto']
                 form.save()
                 print("Editando")
                 return redirect('productos', id_categoria, categoria, id_subcategoria, subcategoria)
