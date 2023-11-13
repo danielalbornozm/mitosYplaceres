@@ -1,4 +1,5 @@
 {% extends "producto/base.html" %}
+{% load static %}
 
 {% block titulo %}
     Inicio
@@ -21,18 +22,16 @@
             <a href="{% url 'categoria' c.id c.nombre %}" style="text-decoration: none;">
                 <div class="card">
                     <div class="card-header">{{ c.nombre }}</div>
-                    <!--
                     <div class="card-body">
                         <img
-                            src=""
+                            src="{% static 'images/productos/producto.png' %}"
                             alt="Foto de {{ c.nombre }}"
                             width="150"
                             height="100"
                         />
                         <hr />
-                        <span> {{ c.descripcion }} </span>
+                        <span> Descripción </span>
                     </div>
-                    -->
                 </div>
             </a>
         </div>
