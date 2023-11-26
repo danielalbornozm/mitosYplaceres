@@ -58,12 +58,10 @@
             <td>{{ producto.subcategoria }}</td>
             <td>{{ producto.primerJuguete }}</td>
             <td>
-                {% if producto.foto %}
-                    <img src="{{ producto.foto.url }}" alt="Foto del producto" width="50" height="auto">
-                {% endif %}
+                <img src="{{ producto.foto.url }}" alt="Foto del producto" width="50" height="auto">
             </td>
             <td>
-                <a class="btn btn-warning btn-sm" href="{% url 'productoAdd' id_categoria categoria id_subcategoria subcategoria producto.id %}">Ver</a>
+                <a class="btn btn-warning btn-sm" href="{% url 'detalle_producto' id_categoria categoria id_subcategoria subcategoria producto.id %}">Ver</a>
             </td>
         </tr>
             {% endfor %}
