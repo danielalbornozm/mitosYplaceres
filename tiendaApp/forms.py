@@ -45,46 +45,155 @@ class ProductoForm(forms.ModelForm):
     
 ###################################################################################
 
+from django.core.exceptions import ValidationError
+from django.core.validators import validate_email
+from datetime import date
 from .models import Trabajador, PerfilTrabajador, MensajeContacto
 
 class TrabajadorForm(forms.ModelForm):
-    # Campo adicional para confirmar contraseña
     confirmar_contraseña = forms.CharField(widget=forms.PasswordInput(), label='Confirmar Contraseña')
 
     class Meta:
         model = Trabajador
         fields = ['nombre', 'paterno', 'materno', 'sexo', 'rut', 'fecha_nacimiento', 'telefono', 'correo', 'contraseña', 'confirmar_contraseña', 'foto']
         widgets = {
-            'fecha_nacimiento': forms.SelectDateWidget(years=range(1900, 2024)),  
+            'fecha_nacimiento': forms.SelectDateWidget(years=range(1900, 2024)),
             'contraseña': forms.PasswordInput(),
         }
+
+    def clean_contraseña(self):
+        contraseña = self.cleaned_data.get('contraseña')
+
+        if len(contraseña) < 8:
+            raise ValidationError('La contraseña debe tener al menos 8 caracteres.')
+
+        return contraseña
 
     def clean(self):
         cleaned_data = super().clean()
         contraseña = cleaned_data.get('contraseña')
         confirmar_contraseña = cleaned_data.get('confirmar_contraseña')
 
-        # Verifica si las contraseñas coinciden
         if contraseña != confirmar_contraseña:
-            raise forms.ValidationError('Las contraseñas no coinciden.')
+            self.add_error('confirmar_contraseña', 'Las contraseñas no coinciden.')
 
         return cleaned_data
+
+    def clean_fecha_nacimiento(self):
+        fecha_nacimiento = self.cleaned_data.get('fecha_nacimiento')
+
+        if fecha_nacimiento and fecha_nacimiento > date.today():
+            raise ValidationError('La fecha de nacimiento no puede ser en el futuro.')
+
+        return fecha_nacimiento
+
+    def clean_correo(self):
+        correo = self.cleaned_data.get('correo')
+
+        try:
+            validate_email(correo)
+        except ValidationError:
+            raise ValidationError('Ingrese una dirección de correo electrónico válida.')
+
+        return correo
+    
+    def clean_rut(self):
+        rut = self.cleaned_data.get('rut')
+
+        # Verifica si el RUT tiene el formato correcto
+        if not rut or not self.validate_rut_format(rut):
+            raise ValidationError('Ingrese un RUT válido.')
+
+
+        return rut
+
+    def validate_rut_format(self, rut):
+        parts = rut.split('-')
+
+    # Asegura de que haya dos partes (cuerpo y dígito verificador)
+        if len(parts) != 2:
+            return False
+
+        body, verifier = parts
+
+    # Asegura de que el cuerpo tenga al menos 9 caracteres
+        if len(body) < 7:
+            return False
+
+    # Verifica que el cuerpo y el dígito verificador tengan el formato correcto
+        if not body.isdigit() or (not verifier.isdigit() and verifier.upper() != 'K'):
+            return False
+
+        return True
+
 
 class TrabajadorEditForm(forms.ModelForm):
     class Meta:
         model = Trabajador
         fields = ['nombre', 'paterno', 'materno', 'sexo', 'rut', 'fecha_nacimiento', 'telefono', 'correo', 'contraseña', 'foto']
         widgets = {
-            'fecha_nacimiento': forms.SelectDateWidget(years=range(1900, 2024)),  
-    
-        }  
-         
-             
+            'fecha_nacimiento': forms.SelectDateWidget(years=range(1900, 2024)),
+        }
 
-    # Agregar campo de selección para el perfil
     perfil = forms.ModelChoiceField(queryset=PerfilTrabajador.objects.all(), required=False)
 
+    def clean_fecha_nacimiento(self):
+        fecha_nacimiento = self.cleaned_data.get('fecha_nacimiento')
 
+        if fecha_nacimiento and fecha_nacimiento > date.today():
+            raise ValidationError('La fecha de nacimiento no puede ser en el futuro.')
+
+        return fecha_nacimiento
+
+    def clean_correo(self):
+        correo = self.cleaned_data.get('correo')
+
+        try:
+            validate_email(correo)
+        except ValidationError:
+            raise ValidationError('Ingrese una dirección de correo electrónico válida.')
+
+        return correo
+    def clean_correo(self):
+        correo = self.cleaned_data.get('correo')
+
+        try:
+            validate_email(correo)
+        except ValidationError:
+            raise ValidationError('Ingrese una dirección de correo electrónico válida.')
+
+        return correo
+    
+    def clean_rut(self):
+        rut = self.cleaned_data.get('rut')
+
+        # Verifica si el RUT tiene el formato correcto
+        if not rut or not self.validate_rut_format(rut):
+            raise ValidationError('Ingrese un RUT válido.')
+
+
+        return rut
+
+    def validate_rut_format(self, rut):
+        parts = rut.split('-')
+
+    # Asegura de que haya dos partes (cuerpo y dígito verificador)
+        if len(parts) != 2:
+            return False
+
+        body, verifier = parts
+
+    # Asegura que el cuerpo tenga al menos 9 caracteres
+        if len(body) < 7:
+            return False
+
+    # Verifica que el cuerpo y el dígito verificador tengan el formato correcto
+        if not body.isdigit() or (not verifier.isdigit() and verifier.upper() != 'K'):
+            return False
+
+        return True
+    
+    
 
 class ContactoForm(forms.ModelForm):
     class Meta:
@@ -96,7 +205,7 @@ class ContactoForm(forms.ModelForm):
             'correo': forms.TextInput(attrs={'style': 'width: 100%; max-width: 560px;'}),
             'mensaje': forms.Textarea(attrs={'style': 'width: 100%; max-width: 560px;'}),
         }
-        
+
         
 ###############################################################################################
 

@@ -15,10 +15,14 @@
             
                     <form method="GET" action="{% url 'mostrar_trabajadores' perfil.id  %}" class="d-flex">
                         <input class="form-control" type="search" name="q" placeholder="Ingrese el nombre del trabajador" aria-label="Search" style="width: 400px;" id="searchInput">
-                        <button type="submit" class="btn btn-primary ml-2">Buscar</button>
+                        <button type="submit" class="btn btn-primary ms-2">Buscar</button>
                     </form>
                     
+                    
+                    
                     <a href="{% url 'agregar_trabajador' perfil.id %}" class="btn btn-primary mr-3">Agregar Trabajador</a>
+                </div>
+                <div  id="searchResults">
                 </div>
                 
                 <table class="table table-striped mt-3">
@@ -38,7 +42,7 @@
                     </thead>
                     <tbody>
                         {% for trabajador in trabajadores %}
-                            <tr >
+                            <tr>
                                 <td>{{ trabajador.nombre }}</td>
                                 <td>{{ trabajador.paterno }}</td>
                                 <td>{{ trabajador.materno }}</td>
@@ -59,4 +63,38 @@
             </div>
         </div>
     </div>
+    
+
+    <script>
+        $(document).ready(function () {
+            var lastSearchValue = '';
+    
+            $('#searchForm').on('submit', function (e) {
+                e.preventDefault();
+                search();
+            });
+    
+            $('#searchInput').on('input', function () {
+                search();
+            });
+    
+            function search() {
+                var query = $('#searchInput').val().trim();
+    
+                if (query !== lastSearchValue) {
+                    lastSearchValue = query;
+    
+                    $.ajax({
+                        url: '{% url "buscar_trabajadores" %}',
+                        method: 'GET',
+                        data: { q: query },
+                        success: function (data) {
+                            $('#searchResults').html(data);
+                            $('#searchResults').show();
+                        }
+                    });
+                }
+            }
+        });
+    </script>
 {% endblock %}
