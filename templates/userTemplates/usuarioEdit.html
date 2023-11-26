@@ -1,0 +1,69 @@
+{% extends "userTemplates/base.html" %}
+{% block contenido %}
+{% load static %}
+    <div class="row mt-5">
+        <div class="col-10 offset-1">
+            <h2>Modificar Usuarios</h2>
+            <form method="POST" action= "{% url 'usuarioEditado' usuario.id %}" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="row">
+                    {{form.non_field_errors}}
+                    <div class="col-3 mb-3">
+                        {{form.run.label_tag}} {{form.run}}
+                        <div class="text-danger">{{form.run.errors}}</div>
+                    </div>
+                    <div class="col-3 mb-3">
+                        {{form.nombre.label_tag}} {{form.nombre}}
+                        <div class="text-danger">{{form.nombre.errors}}</div>
+                    </div>
+                    <div class="col-3 mb-3">
+                        <label for="id_paterno">Apellido Paterno</label> {{form.paterno}}
+                        <div class="text-danger">{{form.paterno.errors}}</div>
+                    </div>
+                    <div class="col-3 mb-3">
+                        <label for="id_materno">Apellido materno</label> {{form.materno}}
+                        <div class="text-danger">{{form.materno.errors}}</div>
+                    </div>
+                    <div class="col-3 mb-3">
+                        {{form.sexo.label_tag}} {{form.sexo}}
+                        <div class="text-danger">{{form.sexo.errors}}</div>
+                    </div>           
+                    <div class="col-3 mb-3">
+                        {{form.correo.label_tag}} {{form.correo}}
+                        <div class="text-danger">{{form.correo.errors}}</div>
+                    </div>
+                    <div class="col-3 mb-3">
+                        <label for="id_fechaNac">Fecha de Nacimiento</label>
+                        <input type="date" class="form-control" name="fechaNac" value="{{ form.fechaNac.value|date:'Y-m-d'}}">
+                        <div class="text-danger">{{form.fechaNac.errors}}</div>
+                    </div>
+                    <div class="col-3 mb-3">
+                        {{form.tipo.label_tag}} {{form.tipo}}
+                        <div class="text-danger">{{form.tipo.errors}}</div>
+                    </div>
+                    <div class="col-3 mb-3">
+                        {{form.direccion.label_tag}} {{form.direccion}}
+                        <div class="text-danger">{{form.direccion.errors}}</div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <a class="btn btn-dark" href="{% url 'listaUsuarios' %}">Listado de Usuarios</a>
+                    </div>
+                    <div class="col">
+                        <button type="submit" class="btn btn-warning">Modificar</button>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="row">
+                        <div class="col">
+                            <img src="{{usuario.foto.url}}" alt="Imagen de Usuario" width="200" height="auto" class="mx-auto my-auto d-block">
+                            <label for="foto">Fotografia de Usuario</label>
+                            <input type="file" name="foto" id="foto" class="form-control form-control-sm">
+                        </div>
+                    </div>
+                </div>   
+            </form>
+        </div>
+    </div>
+{% endblock  %}

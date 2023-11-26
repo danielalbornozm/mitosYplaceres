@@ -17,3 +17,22 @@ class ProductoAdmin(admin.ModelAdmin):
 admin.site.register(Categoria, CategoriaAdmin)
 admin.site.register(Subcategoria, SubcategoriaAdmin)
 admin.site.register(Producto, ProductoAdmin)
+
+###################################################################
+
+
+
+###################################################################
+
+from tiendaApp.models import Tipo, Usuario
+
+class TipoAdmin(admin.ModelAdmin):
+    list_display = ['id','nombre','descripcion']
+
+class UsuarioAdmin(admin.ModelAdmin):
+    list_display = [
+        'run','nombre','paterno','materno','sexo','fechaNac','tipo','correo','direccion'
+    ]
+
+admin.site.register(Tipo, TipoAdmin)
+admin.site.register(Usuario, UsuarioAdmin)

@@ -1,0 +1,28 @@
+{% extends "userTemplates/base.html" %}
+{% block contenido %}
+{% load static %}
+    <section>
+        <div class="row">
+            <h1>Listado Categorias Clientes</h1>
+            {% for tipo in tipos %}
+            <div class="col-3">
+                <div class="card">
+                    <div class="card-header">{{tipo}}</div>
+                    <div class="card-body">
+                        <b>Nombre: {{tipo.nombre}}</b>
+                        <br>
+                        <b>Descripcion:</b> {{tipo.descripcion}}
+                        <br>
+                        <img src="{% static 'images/tipoUsuarios/' %}{{tipo.nombre}}{{'.png'}}" alt="Foto de tipo Cliente {{tipo.nombre}}" width="150" height="150" >
+                        <br>
+                        <form class="d-flex" role="Buscar" action="{% url 'listaTipo' %}" method="get">
+                            {% csrf_token %}
+                            <button class="btn btn-dark btn-sm mt-2" type="submit" name="q" value="{{tipo.id}}" id="listaTipo" >Ir a {{tipo.nombre}}</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>    
+    </section>
+{% endblock  %}

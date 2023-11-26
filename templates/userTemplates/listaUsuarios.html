@@ -1,0 +1,57 @@
+{% extends "userTemplates/base.html" %}
+{% block contenido %}
+    <div class="row">
+        <div class="col">
+            <div class="row">
+                <div class="col-5">
+                    <div class="h2">Listado de Clientes</div>
+                </div>
+                <div class="col-4">
+                    <form class="d-flex" role="Buscar" action="{% url 'buscador' %}" method="GET">
+                        {% csrf_token %}
+                        <input class="form-control me-2" type="search" placeholder="Buscar por nombre de cliente" name="q" id="buscador">
+                        <button class="btn btn-warning btn-sm" type="submit">Buscar</button>
+                    </form>
+                  </div>
+                <div class="col-3">
+                    <a class="btn btn-success btn-sm" href="{% url 'userAdd' %}">Agregar Cliente</a>
+                </div>
+            </div>
+            <table class="table table-dark table-hover table-striped">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>RUN</th>
+                        <th>Nombre</th>
+                        <th>Tipo</th>
+                        <th>Direccion</th>
+                        <th>Correo</th>
+                        <th>Fotografia</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for usuario in usuarios %}
+                    <tr>
+                        <td>{{forloop.counter}}</td>
+                        <td>{{usuario.run}}</td>
+                        <td>{{usuario.nombre}} {{usuario.paterno}} {{usuario.materno}}</td>
+                        <td>{{usuario.tipo}}</td>
+                        <td>{{usuario.direccion}}</td>
+                        <td>{{usuario.correo}}</td>
+                        <td>
+                            {% if usuario.foto %}
+                            <img src="{{usuario.foto.url}}" alt="Foto del Usuario" width="50" height="auto">
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a class="btn btn-warning btn-sm" href="{% url 'editarUsuario' usuario.id %}">Modificar</a>
+                            <a class="btn btn-danger btn-sm" href="{% url 'usuarioDelete' usuario.id %}">Eliminar</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock  %}

@@ -1,0 +1,112 @@
+{% extends "Trabajadores/base.html" %}
+{% block title %}Detalles Trabajador{% endblock %}
+
+{% load static %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header bg-dark text-white">
+            <h2 style="text-align: center; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">Detalles del Trabajador</h2>
+        </div>
+        <div class="card-body">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <label class="col-form-label">Perfil:</label><br>
+                        {{ form_edicion.perfil }}
+                        <select name="{{ form_edicion.perfil.name }}" class="form-select">
+                            {% for perfil in perfiles %}
+                                <option value="{{ perfil.id }}">{{ perfil.nombre }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <label class="col-form-label">Nombre:</label><br>
+                        {{ form_edicion.nombre }}
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="col-form-label">Apellido Paterno:</label><br>
+                        {{ form_edicion.paterno }}
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="col-form-label">Apellido Materno:</label><br>
+                        {{ form_edicion.materno }}
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <label class="col-form-label">Sexo:</label><br>
+                        {{ form_edicion.sexo }}
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="col-form-label">RUT:</label><br>
+                        {{ form_edicion.rut }}
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="col-form-label">Fecha de Nacimiento:</label><br>
+                        {{ form_edicion.fecha_nacimiento }}
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <label class="col-form-label">Teléfono:</label><br>
+                        {{ form_edicion.telefono }}
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="col-form-label">Correo:</label><br>
+                        {{ form_edicion.correo }}
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-4 ml-3">
+                            <label class="col-form-label">Contraseña:</label><br>
+                            {{ form_edicion.contraseña }}
+                        </div>
+                    </div>
+
+                    
+                </div>
+
+                
+                
+                    <div class="row mb-3">
+                        <div class="col-md-8">
+                            <label class="col-form-label">Nueva Foto:</label>
+                            {{ form_edicion.foto }}
+                        </div>
+                    </div>
+                        <img style="margin-left: 60px;" src="{{ trabajador.foto.url }}" width="350px" alt="{{ trabajador.nombre }}">
+                    </div>
+                </div>
+
+                <div class="row mt-3">
+                    <div class="col-md-12 text-center">
+                        <button type="submit" class="btn btn-info">Guardar Cambios</button>
+                
+                        
+                        <a href="{% url 'elim_trabajador' trabajador_id=trabajador.id %}" class="btn btn-info">Eliminar Trabajador</a>
+
+                        <a href="{% url 'mostrar_trabajadores' perfil_id=trabajador.perfil_id %}" class="btn btn-info">Pagina anterior</a>
+                    </div>
+                </div>
+                
+               
+            </form>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

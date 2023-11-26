@@ -1,0 +1,79 @@
+{% extends "userTemplates/base.html" %}
+{% block contenido %}
+{% load static %}
+    <div class="container">
+        <div class="row mt-5">
+            <div class="col">
+                <h2>Mantenedor de Usuarios</h2>
+                <form method="post" enctype="multipart/form-data"> 
+                    {% csrf_token %}
+                    <div class="row">
+                        {{form.non_field_errors}}
+                        <div class="col-3 mb-3">
+                            {{form.run.label_tag}}
+                            {{form.run}}
+                            {{form.run.errors}}
+                        </div>
+                        <div class="col-3 mb-3">
+                            {{form.nombre.label_tag}}
+                            {{form.nombre}}
+                            {{form.nombre.errors}}
+                        </div>
+                        <div class="col-3 mb-3">
+                            <label for="id_paterno">Apellido Paterno</label>
+                            {{form.paterno}}
+                            {{form.paterno.errors}}
+                        </div>
+                        <div class="col-3 mb-3">
+                            <label for="id_materno">Apellido Materno</label>
+                            {{form.materno}}
+                            {{form.materno.errors}}
+                        </div>
+                        <div class="col-3 mb-3">
+                            {{form.sexo.label_tag}}
+                            {{form.sexo}}
+                            {{form.sexo.errors}}
+                        </div>                      
+                        <div class="col-3 mb-3">
+                            <label for="id_correo">Correo E-Mail</label>
+                            {{form.correo}}
+                            {{form.correo.errors}}
+                        </div>
+                        <div class="col-3 mb-3">
+                            <label for="id_fechaNAc">Fecha de Nacimiento</label>
+                            {{form.fechaNac}}
+                            {{form.fechaNac.errors}}
+                        </div>
+                        <div class="col-3 mb-3">
+                            {{form.tipo.label_tag}}
+                            {{form.tipo}}
+                            {{form.tipo.errors}}
+                        </div>
+                        <div class="col-3 mb-3">
+                            <label for="id_direccion">Direccion de Envio</label>
+                            {{form.direccion}}
+                            {{form.direccion.errors}}
+                        </div>                                                            
+                    </div>                                  
+                    <div class="row">
+                        <div class="col">
+                            <a class = "btn btn-dark" href="{% url 'inicio' %}">Volver a Inicio</a>
+                        </div>
+                        <div class="col">
+                            <button type="submit" class="btn btn-primary">Guardar</button>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="row">
+                            <div class="col">
+                                <img src="{% static 'images/conejo.png' %}" alt="Imagen de Usuario" width="200" height="auto" class="mx-auto my-auto d-block">
+                                <label for="foto">Fotografia de Usuario</label>
+                                <input type="file" name="foto" id="foto" class="form-control form-control-sm">
+                            </div>
+                        </div>
+                    </div>       
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock  %}

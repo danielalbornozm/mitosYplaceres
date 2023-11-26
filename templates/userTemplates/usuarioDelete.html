@@ -1,0 +1,20 @@
+{% extends "userTemplates/base.html" %}
+{% block contenido %}
+    <div class="row">
+        <div class="col-10 offset-1">
+            <h3>Confirmar eliminacion de Usuario</h3>
+            <div class="alert alert-danger-h4">Estas seguro de eliminar a Usuario {{usuario.nombre}} {{usuario.paterno}} {{usuario.materno}}</div>
+            <form method="POST">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col">
+                        <a class="btn btn-dark" href="{% url 'listaUsuarios' %}">Cancelar</a>
+                    </div>
+                    <div class="col">
+                        <button class="btn btn-danger" type="submit">Confirmar Eliminacion</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock  %}

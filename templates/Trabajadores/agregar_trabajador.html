@@ -1,0 +1,92 @@
+    {% extends "Trabajadores/base.html" %}
+    {% block title %}Ingreso Trabajador{% endblock %}
+
+
+    {% load static %}
+
+    {% block content %}
+        <div class="container">
+            <div class="card mt-4">
+                <div class="card-header bg-dark text-white">
+                    <h2 style="text-align: center; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">Agregar Trabajador</h2>
+                </div>
+                <div class="card-body">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label for="{{ form.nombre.id_for_label }}" class="col-form-label">{{ form.nombre.label_tag }}</label><br>
+                                {{ form.nombre }}
+                            </div>
+
+                            <div class="col-md-4">
+                                <label for="{{ form.paterno.id_for_label }}" class="col-form-label">{{ form.paterno.label_tag }}</label><br>
+                                {{ form.paterno }}
+                            </div>
+
+                            <div class="col-md-4">
+                                <label for="{{ form.materno.id_for_label }}" class="col-form-label">{{ form.materno.label_tag }}</label><br>
+                                {{ form.materno }}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label for="{{ form.sexo.id_for_label }}" class="col-form-label">{{ form.sexo.label_tag }}</label><br>
+                                {{ form.sexo }}
+                            </div>
+
+                            <div class="col-md-4">
+                                <label for="{{ form.rut.id_for_label }}" class="col-form-label">{{ form.rut.label_tag }}</label><br>
+                                {{ form.rut }}
+                            </div>
+
+                            <div class="col-md-4">
+                                <label for="{{ form.fecha_nacimiento.id_for_label }}" class="col-form-label">{{ form.fecha_nacimiento.label_tag }}</label><br>
+                                {{ form.fecha_nacimiento }}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label for="{{ form.telefono.id_for_label }}" class="col-form-label">{{ form.telefono.label_tag }}</label><br>
+                                {{ form.telefono }}
+                            </div>
+
+                            <div class="col-md-4">
+                                <label for="{{ form.correo.id_for_label }}" class="col-form-label">{{ form.correo.label_tag }}</label><br>
+                                {{ form.correo }}
+                            </div>
+                            <div class="col-md-4">
+                                <label for="{{ form.contraseña.id_for_label }}" class="col-form-label">{{ form.contraseña.label_tag }}</label><br>
+                                {{ form.contraseña }}
+                            </div>
+                            
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label for="{{ form.confirmar_contraseña.id_for_label }}" class="col-form-label">{{ form.confirmar_contraseña.label_tag }}</label><br>
+                                {{ form.confirmar_contraseña }}
+                                {% if form.errors.confirmar_contraseña %}
+                                    <p class="text-danger">{{ form.errors.confirmar_contraseña }}</p>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-4">
+                                
+                                <label for="{{ form.foto.id_for_label }}" class="col-form-label">{{ form.foto.label_tag }}</label><br>
+                                {{ form.foto }}
+                                <img style="margin-left: 60px;" src="{% static 'images/perfil.png' %}" width="200px" alt="">
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary mt-3 col-12">Registrar</button>
+                    
+
+                    </form>
+                    
+                </div>
+            </div>
+        </div>
+    {% endblock %}
