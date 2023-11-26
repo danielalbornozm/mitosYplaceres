@@ -89,7 +89,32 @@ def mantenedor_productos(request, id_categoria, categoria, id_subcategoria, subc
                 return redirect('productos', id_categoria, categoria, id_subcategoria, subcategoria)
             else:
                 print(form.errors)
-        elif 'editar' in request.POST:
+    else:
+        form = ProductoForm(initial=valores_iniciales, instance=producto)
+        
+    return render(request, 'producto/productoAdd.html', {'form': form, **data})
+
+def detalle_producto(request, id_categoria, categoria, id_subcategoria, subcategoria, producto_id):
+    
+    producto = get_object_or_404(Producto, id=producto_id)
+    
+    data = {
+        'id_subcategoria': id_subcategoria,
+        'id_categoria': id_categoria,
+        'categoria': categoria,
+        'subcategoria': subcategoria,
+        'producto_id': producto_id,
+        'foto': producto.foto,
+    }
+    
+    producto = get_object_or_404(Producto, id=producto_id)
+
+    # Métodos según el botón presionado    
+    if request.method == 'POST':
+        form = ProductoForm(request.POST, request.FILES, instance=producto)
+        print("Estamos")
+
+        if 'editar' in request.POST:
             if form.is_valid():
                 if 'foto' in request.FILES:
                     producto.foto = request.FILES['foto']
@@ -99,9 +124,9 @@ def mantenedor_productos(request, id_categoria, categoria, id_subcategoria, subc
             else:
                 print(form.errors)
     else:
-        form = ProductoForm(initial=valores_iniciales, instance=producto)
+        form = ProductoForm(instance=producto)
         
-    return render(request, 'producto/productoAdd.html', {'form': form, **data})
+    return render(request, 'producto/detalle_producto.html', {'form': form, **data})
 
 def eliminar_producto(request, id_categoria, categoria, id_subcategoria, subcategoria, producto_id):
     
