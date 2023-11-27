@@ -1,6 +1,9 @@
 {% for trabajador in trabajadores %}
-        <div class="result-item">
-            {{ trabajador.nombre }} {{ trabajador.paterno }} {{ trabajador.materno }}
-        </div>
-    
+    <div>
+        <a href="{% url 'editar_trabajador' trabajador.id trabajador.perfil_id  %}">
+        {{ trabajador.nombre }} {{ trabajador.paterno }} {{ trabajador.materno }} 
+        </a>
+    </div>
+{% empty %}
+    <div>No se encontraron resultados</div>
 {% endfor %}

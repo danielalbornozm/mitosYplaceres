@@ -48,6 +48,7 @@ class ProductoForm(forms.ModelForm):
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
 from datetime import date
+import re
 from .models import Trabajador, PerfilTrabajador, MensajeContacto
 
 class TrabajadorForm(forms.ModelForm):
@@ -64,8 +65,8 @@ class TrabajadorForm(forms.ModelForm):
     def clean_contraseña(self):
         contraseña = self.cleaned_data.get('contraseña')
 
-        if len(contraseña) < 8:
-            raise ValidationError('La contraseña debe tener al menos 8 caracteres.')
+        if len(contraseña) < 8 or not re.search(r'[A-Z]', contraseña) or not re.search(r'[!@#$%^&*(),.?":{}|<>]', contraseña):
+            raise forms.ValidationError('La contraseña debe tener al menos 8 caracteres, una mayúscula y un símbolo.')
 
         return contraseña
 
@@ -74,7 +75,7 @@ class TrabajadorForm(forms.ModelForm):
         contraseña = cleaned_data.get('contraseña')
         confirmar_contraseña = cleaned_data.get('confirmar_contraseña')
 
-        if contraseña != confirmar_contraseña:
+        if contraseña and confirmar_contraseña and contraseña != confirmar_contraseña:
             self.add_error('confirmar_contraseña', 'Las contraseñas no coinciden.')
 
         return cleaned_data
@@ -137,6 +138,19 @@ class TrabajadorEditForm(forms.ModelForm):
 
     perfil = forms.ModelChoiceField(queryset=PerfilTrabajador.objects.all(), required=False)
 
+    def clean_contraseña(self):
+        contraseña = self.cleaned_data.get('contraseña')
+
+        if len(contraseña) < 8:
+            raise ValidationError('La contraseña debe tener al menos 8 caracteres.')
+        
+        if not re.search(r'[A-Z]', contraseña) or not re.search(r'[!@#$%^&*(),.?":{}|<>]', contraseña):
+            raise forms.ValidationError('La contraseña debe contener al menos una mayúscula y un símbolo.')
+
+        return contraseña
+
+    
+
     def clean_fecha_nacimiento(self):
         fecha_nacimiento = self.cleaned_data.get('fecha_nacimiento')
 
@@ -154,15 +168,7 @@ class TrabajadorEditForm(forms.ModelForm):
             raise ValidationError('Ingrese una dirección de correo electrónico válida.')
 
         return correo
-    def clean_correo(self):
-        correo = self.cleaned_data.get('correo')
 
-        try:
-            validate_email(correo)
-        except ValidationError:
-            raise ValidationError('Ingrese una dirección de correo electrónico válida.')
-
-        return correo
     
     def clean_rut(self):
         rut = self.cleaned_data.get('rut')

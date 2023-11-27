@@ -21,7 +21,7 @@ from django.urls import path, include
 from tiendaApp import views as vista
 from django.conf import settings
 from django.conf.urls.static import static
-from tiendaApp.views import  mostrar_trabajadores, agregar_trabajador,editar_trabajador,elim_trabajador,mostrar_perfiles, enviar_mensaje
+from tiendaApp.views import  mostrar_trabajadores, agregar_trabajador,editar_trabajador,elim_trabajador,mostrar_perfiles, enviar_mensaje, buscar_trabajadores
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -31,12 +31,13 @@ urlpatterns = [
     path('<str:id_subcategoria>/<str:subcategoria>/<str:id_categoria>/<str:categoria>/<str:producto_id>/mantenedor/', vista.mantenedor_productos, name='productoAdd'),
     path('<str:id_subcategoria>/<str:subcategoria>/<str:id_categoria>/<str:categoria>/<str:producto_id>/editar/', vista.detalle_producto, name='detalle_producto'),
     path('<str:id_subcategoria>/<str:subcategoria>/<str:id_categoria>/<str:categoria>/<str:producto_id>/confirmar/', vista.eliminar_producto, name='productoDel'),
-    path('perfiles/', mostrar_perfiles, name="mostrar_perfiles"),  # Corregido aquí
+    path('perfiles/', mostrar_perfiles, name="mostrar_perfiles"), 
     path('perfiles/mostrar_trabajadores/<int:perfil_id>/', vista.mostrar_trabajadores, name='mostrar_trabajadores'),
     path('mostrar_trabajadores/agregar_trabajador/<int:perfil_id>/', agregar_trabajador, name='agregar_trabajador'),
     path('detalle_trabajador/<int:trabajador_id>/<int:perfil_id>/', editar_trabajador, name='editar_trabajador'),
     path('detalle_trabajador/elim_trabajador/<int:trabajador_id>/', elim_trabajador, name='elim_trabajador'),
-    path('contacto', enviar_mensaje, name='contacto' ),
+    path('buscar_trabajadores/', buscar_trabajadores, name='buscar_trabajadores'),
+    path('inicio/contacto', enviar_mensaje, name='contacto' ),
     path('accounts/',include('django.contrib.auth.urls')),
     path('inicio/',vista.inicioUser, name= "inicioUsuario"),
     path('inicio/user/userAdd/', vista.crear_ususario, name='userAdd'),

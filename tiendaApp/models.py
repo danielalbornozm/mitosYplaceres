@@ -80,11 +80,11 @@ class Trabajador(models.Model):
     paterno = models.CharField(max_length=100)
     materno = models.CharField(max_length=100)
     sexo = models.CharField(max_length=1, choices=[('M', 'Masculino'), ('F', 'Femenino')])
-    rut = models.CharField(max_length=12)
+    rut = models.CharField(max_length=12, unique=True)
     fecha_nacimiento = models.DateField()
     telefono = models.CharField(max_length=15)
-    correo = models.EmailField()
-    contraseña = models.CharField(max_length=255, validators=[MinLengthValidator(6)])  
+    correo = models.EmailField(unique=True)
+    contraseña = models.CharField(max_length=255, validators=[MinLengthValidator(8)])  
     foto = models.ImageField(upload_to='fotos_trabajadores', blank=True, null=True)
 
     def __str__(self):

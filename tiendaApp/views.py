@@ -161,10 +161,8 @@ from django.http import JsonResponse
 
 # Create your views here.
 def mostrar_perfiles(request):
-    # Obtener todos los perfiles de trabajadores
     perfiles = PerfilTrabajador.objects.all()
     
-    # Pasar los perfiles al data para que estén disponibles en la plantilla
     data = {'perfiles': perfiles}
     
     return render(request,'Trabajadores/perfiles.html', data)
@@ -173,24 +171,18 @@ def mostrar_trabajadores(request, perfil_id):
     
     print(f"Vista mostrar_trabajadores alcanzada con perfil_id: {perfil_id}")
     
-    # Obtén el perfil asociado al ID proporcionado
     perfil = PerfilTrabajador.objects.get(id=perfil_id)
 
-    # Obtén los trabajadores asociados a ese perfil
     trabajadores = Trabajador.objects.filter(perfil=perfil)
 
-    # Procesar la consulta de búsqueda
     query = request.GET.get('q')
     if query:
-        # Filtrar los trabajadores por nombre, apellido, u otros campos relevantes
         trabajadores = trabajadores.filter(
             Q(nombre__icontains=query) |
             Q(paterno__icontains=query) |
             Q(materno__icontains=query)
-            # Agrega más campos según sea necesario
         )
 
-    # Si no es una solicitud Ajax, renderizar la página completa
     return render(request, 'Trabajadores/mostrar_trabajadores.html', {'perfil': perfil, 'trabajadores': trabajadores})
 
 def agregar_trabajador(request, perfil_id):
@@ -211,7 +203,6 @@ def agregar_trabajador(request, perfil_id):
             else:
                 messages.error(request, 'Las contraseñas no coinciden.')
         else:
-            # El formulario no es válido, maneja el error
             print(form.errors)
     else:
         form = TrabajadorForm()
@@ -238,7 +229,6 @@ def editar_trabajador(request, trabajador_id, perfil_id):
             # Guarda el trabajador con los cambios en el perfil
             trabajador_form.save()
 
-            # Redirige al perfil anterior
             return redirect('mostrar_trabajadores', perfil_id=perfil_id)
 
     else:
@@ -249,29 +239,24 @@ def editar_trabajador(request, trabajador_id, perfil_id):
 
 
 def elim_trabajador(request, trabajador_id):
-    # Obtener el trabajador por ID
     trabajador = get_object_or_404(Trabajador, id=trabajador_id)
 
-    # Obtener el perfil del trabajador
-    perfil_id = trabajador.perfil.id  # Asegúrate de que el nombre del campo sea correcto
+    perfil_id = trabajador.perfil.id  
 
-    # Lógica para eliminar el trabajador
     trabajador.delete()
 
-    # Redirigir a donde desees después de la eliminación
     return redirect('mostrar_trabajadores', perfil_id=perfil_id)
 
 def enviar_mensaje(request):
     if request.method == 'POST':
         form = ContactoForm(request.POST)
         if form.is_valid():
-            # Guardar los datos en la base de datos
             nombre = form.cleaned_data['nombre']
             apellido = form.cleaned_data['apellido']
             correo = form.cleaned_data['correo']
             mensaje = form.cleaned_data['mensaje']
 
-            # Crear un nuevo objeto MensajeContacto y guardarlo en la base de datos
+            # Crear un nuevo objeto MensajeContacto y guardar en la base de datos
             nuevo_mensaje = MensajeContacto(nombre=nombre, apellido=apellido, correo=correo, mensaje=mensaje)
             nuevo_mensaje.save()
 
@@ -280,7 +265,17 @@ def enviar_mensaje(request):
     else:
         form = ContactoForm()
 
-    return render(request, 'contacto.html', {'form': form})
+    return render(request, 'producto/contacto.html', {'form': form})
+
+def buscar_trabajadores(request):
+    # Obtener el valor de búsqueda de la solicitud GET
+    query = request.GET.get('q', '')
+
+    # Filtrar los trabajadores según el valor de búsqueda
+    trabajadores = Trabajador.objects.filter(nombre__icontains=query)
+
+    # Renderizar los resultados en un fragmento de HTML
+    return render(request, 'trabajadores/fragmento_resultados_busqueda.html', {'trabajadores': trabajadores})
 
 ############################################################################################################
 
