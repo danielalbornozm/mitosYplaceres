@@ -21,7 +21,6 @@
                     <a href="{% url 'agregar_trabajador' perfil.id %}" class="btn btn-primary mr-3">Agregar Trabajador</a>
                 </div>
                 
-                <div id="searchResults" style="display: none;"></div>
                 
                 <table class="table table-striped mt-3">
                     <thead>
@@ -62,44 +61,5 @@
         </div>
     </div>
 
-    <script>
-        $(document).ready(function () {
-            var lastSearchValue = '';
 
-            $('#searchForm').on('submit', function (e) {
-                e.preventDefault();
-                search();
-            });
-
-            $('#searchInput').on('input', function () {
-                search();
-            });
-
-            function search() {
-                var query = $('#searchInput').val().trim();
-
-                if (query !== lastSearchValue) {
-                    lastSearchValue = query;
-
-                    $.ajax({
-                        url: '{% url "buscar_trabajadores" %}',
-                        method: 'GET',
-                        data: { q: query },
-                        success: function (data) {
-                            $('#searchResults').html('');
-                            if (data.trabajadores.length > 0) {
-                                $('#searchResults').show();
-                                for (var i = 0; i < data.trabajadores.length; i++) {
-                                    var worker = data.trabajadores[i];
-                                    $('#searchResults').append('<a href="{% if trabajador.id and perfil.id %}{% url "editar_trabajador" trabajador.id perfil.id %}{% endif %}">' + worker.nombre +  '</a><br>');
-                                }
-                            } else {
-                                $('#searchResults').hide();
-                            }
-                        }
-                    });
-                }
-            }
-        });
-    </script>
 {% endblock %}
