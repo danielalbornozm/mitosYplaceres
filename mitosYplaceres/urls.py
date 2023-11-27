@@ -48,9 +48,9 @@ urlpatterns = [
     path('buscador', vista.busqueda, name='buscador'),
     path('listaTipo', vista.listaTipo, name="listaTipo"),
 
-    path('agregar/<int:producto_id>/', agregar_producto, name="Add"),
-    path('eliminar/<int:producto_id>/', eliminar_producto, name="Del"),
-    path('restar/<int:producto_id>/', restar_producto, name="Sub"),
+    path('agregar/#/<int:producto_id>/', agregar_producto, name="Add"),
+    path('eliminar/#/<int:producto_id>/', eliminar_producto, name="Del"),
+    path('restar/#/<int:producto_id>/', restar_producto, name="Sub"),
     path('limpiar/', limpiar_carrito, name="CLS"),
 
     path('tienda/', vista.tienda, name='tienda'),
