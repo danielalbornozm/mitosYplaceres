@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from tiendaApp.models import Categoria, Subcategoria, Producto
+from tiendaApp.Carrito import Carrito
 from tiendaApp.forms import ProductoForm
 
 # Create your views here.
@@ -375,4 +376,32 @@ def listaTipo(request):
     return render(request, 'userTemplates/listaUsuarios.html', data)
 
 
+#Vistas Carrito
+
+def tienda(request):
+    productos = Producto.objects.all()
+    return render(request, "userTemplates/tienda.html", {'productos':productos})
+
+def agregar_producto(request, producto_id):
+    carrito = Carrito(request)
+    producto = Producto.objects.get(id=producto_id)
+    carrito.agregar(producto)
+    return redirect("userTemplates/tienda.html")
+
+def eliminar_producto(request, producto_id):
+    carrito = Carrito(request)
+    producto = Producto.objects.get(id=producto_id)
+    carrito.eliminar(producto)
+    return redirect("userTemplates/tienda.html")
+
+def restar_producto(request, producto_id):
+    carrito = Carrito(request)
+    producto = Producto.objects.get(id=producto_id)
+    carrito.restar(producto)
+    return redirect("userTemplates/tienda.html")
+
+def limpiar_carrito(request):
+    carrito = Carrito(request)
+    carrito.limpiar()
+    return redirect("userTemplates/tienda.html")
 

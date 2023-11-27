@@ -64,6 +64,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                #'tiendaApp.context_processor.py.total_carrito'
             ],
         },
     },
@@ -81,7 +82,7 @@ DATABASES = {
             'NAME': 'db_mitosyplaceres',
             'USER': 'db_user_mitosyplaceres',
             'PASSWORD': 'asd123',
-            'HOST': 'localhost',
+            'HOST': '/Applications/MAMP/tmp/mysql/mysql.sock',
             'PORT': '3306',
             'OPTIONS': {
                 'init_command':'SET sql_mode="STRICT_ALL_TABLES"',
