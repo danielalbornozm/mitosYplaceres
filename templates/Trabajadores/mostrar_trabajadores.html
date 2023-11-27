@@ -13,17 +13,15 @@
                 <div class="d-flex justify-content-between align-items-center">
                     <h2>{{ perfil.cargo }}</h2>
             
-                    <form method="GET" action="{% url 'mostrar_trabajadores' perfil.id  %}" class="d-flex">
+                    <form id="searchForm" method="GET" action="{% url 'mostrar_trabajadores' perfil.id %}" class="d-flex">
                         <input class="form-control" type="search" name="q" placeholder="Ingrese el nombre del trabajador" aria-label="Search" style="width: 400px;" id="searchInput">
                         <button type="submit" class="btn btn-primary ms-2">Buscar</button>
                     </form>
                     
-                    
-                    
                     <a href="{% url 'agregar_trabajador' perfil.id %}" class="btn btn-primary mr-3">Agregar Trabajador</a>
                 </div>
-                <div  id="searchResults">
-                </div>
+                
+                <div id="searchResults" style="display: none;"></div>
                 
                 <table class="table table-striped mt-3">
                     <thead>
@@ -43,7 +41,7 @@
                     <tbody>
                         {% for trabajador in trabajadores %}
                             <tr>
-                                <td>{{ trabajador.nombre }}</td>
+                                <td>{{ trabajador.nombre  }}</td>
                                 <td>{{ trabajador.paterno }}</td>
                                 <td>{{ trabajador.materno }}</td>
                                 <td>{{ trabajador.sexo }}</td>
@@ -63,34 +61,41 @@
             </div>
         </div>
     </div>
-    
 
     <script>
         $(document).ready(function () {
             var lastSearchValue = '';
-    
+
             $('#searchForm').on('submit', function (e) {
                 e.preventDefault();
                 search();
             });
-    
+
             $('#searchInput').on('input', function () {
                 search();
             });
-    
+
             function search() {
                 var query = $('#searchInput').val().trim();
-    
+
                 if (query !== lastSearchValue) {
                     lastSearchValue = query;
-    
+
                     $.ajax({
                         url: '{% url "buscar_trabajadores" %}',
                         method: 'GET',
                         data: { q: query },
                         success: function (data) {
-                            $('#searchResults').html(data);
-                            $('#searchResults').show();
+                            $('#searchResults').html('');
+                            if (data.trabajadores.length > 0) {
+                                $('#searchResults').show();
+                                for (var i = 0; i < data.trabajadores.length; i++) {
+                                    var worker = data.trabajadores[i];
+                                    $('#searchResults').append('<a href="{% if trabajador.id and perfil.id %}{% url "editar_trabajador" trabajador.id perfil.id %}{% endif %}">' + worker.nombre +  '</a><br>');
+                                }
+                            } else {
+                                $('#searchResults').hide();
+                            }
                         }
                     });
                 }

@@ -282,6 +282,21 @@ def enviar_mensaje(request):
 
     return render(request, 'contacto.html', {'form': form})
 
+def buscar_trabajadores(request):
+    query = request.GET.get('q', '')
+    trabajadores = Trabajador.objects.filter(nombre__icontains=query)
+    
+    results = []
+    for trabajador in trabajadores:
+        results.append({
+            'id': trabajador.id,
+            'nombre': trabajador.nombre,
+            'apellido_paterno': trabajador.paterno,
+            'apellido_materno': trabajador.materno,
+        })
+
+    return JsonResponse({'trabajadores': results})
+
 ############################################################################################################
 
 from ast import arg

@@ -1,6 +1,17 @@
-{% for trabajador in trabajadores %}
-        <div class="result-item">
-            {{ trabajador.nombre }} {{ trabajador.paterno }} {{ trabajador.materno }}
-        </div>
-    
-{% endfor %}
+{% if trabajadores %}
+    <ul>
+        {% for trabajador in trabajadores %}
+            <li>
+                {% if trabajador.id and perfil.id %}
+                    <a href="{% url 'editar_trabajador' trabajador.id perfil.id %}">
+                {% endif %}
+                {{ trabajador.nombre }} {{ trabajador.apellido_paterno }} {{ trabajador.materno }}
+                {% if trabajador.id and perfil.id %}
+                    </a>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No se encontraron trabajadores.</p>
+{% endif %}
