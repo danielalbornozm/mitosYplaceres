@@ -81,7 +81,7 @@ class Trabajador(models.Model):
     materno = models.CharField(max_length=100)
     sexo = models.CharField(max_length=1, choices=[('M', 'Masculino'), ('F', 'Femenino')])
     rut = models.CharField(max_length=12, unique=True)
-    fecha_nacimiento = models.DateField(blank=True, null=True)
+    fecha_nacimiento = models.DateField()
     telefono = models.CharField(max_length=15)
     correo = models.EmailField(unique=True)
     contraseña = models.CharField(max_length=255, validators=[MinLengthValidator(8)])  

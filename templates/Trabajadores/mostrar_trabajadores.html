@@ -4,62 +4,121 @@
 {% load static %}
 
 {% block content %}
-    <div class="container">
-        <div class="card mt-4">
-            <div class="card-header bg-dark text-white">
-                <h2 style="text-align: center; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">Lista de Trabajadores</h2>
-            </div>
-            <div class="card-body">
-                <div class="d-flex justify-content-between align-items-center">
-                    <h2>{{ perfil.cargo }}</h2>
-            
-                    <form id="searchForm" method="GET" action="{% url 'mostrar_trabajadores' perfil.id %}" class="d-flex">
-                        <input class="form-control" type="search" name="q" placeholder="Ingrese el nombre del trabajador" aria-label="Search" style="width: 400px;" id="searchInput">
-                        <button type="submit" class="btn btn-primary ms-2">Buscar</button>
-                    </form>
-                    
-                    <a href="{% url 'agregar_trabajador' perfil.id %}" class="btn btn-primary mr-3">Agregar Trabajador</a>
-                </div>
-                
-                
-                <table class="table table-striped mt-3">
-                    <thead>
-                        <tr>
-                            <th>Nombre</th>
-                            <th>Apellido Paterno</th>
-                            <th>Apellido Materno</th>
-                            <th>Sexo</th>
-                            <th>RUT</th>
-                            <th>Fecha de Nacimiento</th>
-                            <th>Teléfono</th>
-                            <th>Correo</th>
-                            <th>Foto</th>
-                            <th>Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for trabajador in trabajadores %}
-                            <tr>
-                                <td>{{ trabajador.nombre  }}</td>
-                                <td>{{ trabajador.paterno }}</td>
-                                <td>{{ trabajador.materno }}</td>
-                                <td>{{ trabajador.sexo }}</td>
-                                <td>{{ trabajador.rut }}</td>
-                                <td>{{ trabajador.fecha_nacimiento }}</td>
-                                <td>{{ trabajador.telefono }}</td>
-                                <td>{{ trabajador.correo }}</td>
-                                <td><img src="{{ trabajador.foto.url }}" alt="{{ trabajador.nombre }}" width="70" height="50"></td>
+<div class="container">
+    <div class="card mt-4">
+        <div class="card-header bg-dark text-white">
+            <h2 style="text-align: center; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">
+                Lista de Trabajadores</h2>
+        </div>
+        <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center">
+                <h2>{{ perfil.cargo }}</h2>
 
-                                <td>
-                                    <a href="{% url 'editar_trabajador' trabajador.id perfil.id %}" class="btn btn-info btn-sm">Modificar</a>
-                                </td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+                <form id="searchForm" class="d-flex">
+                    <input class="form-control" type="search" name="q" placeholder="Ingrese el nombre del trabajador"
+                        aria-label="Search" style="width: 400px;" id="searchInput">
+                    <button type="submit" class="btn btn-primary ms-2">Buscar</button>
+                </form>
+
+                <a href="{% url 'agregar_trabajador' perfil.id %}" class="btn btn-primary mr-3">Agregar Trabajador</a>
             </div>
+            <div class="card">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div id="buscarResultados">
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+                
+
+            <table class="table table-striped mt-3">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Apellido Paterno</th>
+                        <th>Apellido Materno</th>
+                        <th>Sexo</th>
+                        <th>RUT</th>
+                        <th>Fecha de Nacimiento</th>
+                        <th>Teléfono</th>
+                        <th>Correo</th>
+                        <th>Foto</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for trabajador in trabajadores %}
+                    <tr data-perfil-id="{{ trabajador.perfil_id }}">
+                        <td>{{ trabajador.nombre }}</td>
+                        <td>{{ trabajador.paterno }}</td>
+                        <td>{{ trabajador.materno }}</td>
+                        <td>{{ trabajador.sexo }}</td>
+                        <td>{{ trabajador.rut }}</td>
+                        <td>{{ trabajador.fecha_nacimiento }}</td>
+                        <td>{{ trabajador.telefono }}</td>
+                        <td>{{ trabajador.correo }}</td>
+                        <td><img src="{{ trabajador.foto.url }}" alt="{{ trabajador.nombre }}" width="70" height="50">
+                        </td>
+
+                        <td>
+                            <a href="{% url 'editar_trabajador' trabajador.id perfil.id %}"
+                                class="btn btn-info btn-sm">Modificar</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
     </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        var lastSearchValue = '';
+       
+
+        $('#searchForm').on('submit', function (e) {
+            e.preventDefault();
+            search();
+        });
+
+        $('#searchInput').on('input', function () {
+            search();
+        });
+
+        function search() {
+            var query = $('#searchInput').val().trim();
+
+            if (query !== lastSearchValue) {
+                lastSearchValue = query;
+
+                // Incluir el perfil_id en los datos de la solicitud AJAX.
+                $.ajax({
+                    url: '{% url "buscar_trabajadores" %}',
+                    method: 'GET',
+                    data: {
+                        q: query,
+                
+                    },
+                    success: function (data) {
+                        // Mostrar resultados solo si hay algo en la búsqueda
+                        if (query !== '' && data.trim() !== '') {
+                            $('#buscarResultados').html(data).show();
+                        } else {
+                            // Ocultar el contenedor si la búsqueda está vacía o no hay resultados
+                            $('#buscarResultados').hide();
+                        }
+                    }
+                });
+            }
+        }
+    });
+</script>
+
 
 
 {% endblock %}
