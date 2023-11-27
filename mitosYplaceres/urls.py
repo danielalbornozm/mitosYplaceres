@@ -53,7 +53,7 @@ urlpatterns = [
     path('restar/<int:producto_id>/', restar_producto, name="Sub"),
     path('limpiar/', limpiar_carrito, name="CLS"),
 
-    path('tienda', vista.tienda, name='tienda'),
+    path('tienda/', vista.tienda, name='tienda'),
 
 
 ]

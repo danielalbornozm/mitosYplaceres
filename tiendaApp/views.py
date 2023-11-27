@@ -380,28 +380,28 @@ def listaTipo(request):
 
 def tienda(request):
     productos = Producto.objects.all()
-    return render(request, "userTemplates/tienda.html", {'productos':productos})
+    return render(request, "ventas/tienda.html", {'productos':productos})
 
 def agregar_producto(request, producto_id):
     carrito = Carrito(request)
     producto = Producto.objects.get(id=producto_id)
     carrito.agregar(producto)
-    return redirect("userTemplates/tienda.html")
+    return redirect("ventas/tienda.html")
 
 def eliminar_producto(request, producto_id):
     carrito = Carrito(request)
     producto = Producto.objects.get(id=producto_id)
     carrito.eliminar(producto)
-    return redirect("userTemplates/tienda.html")
+    return redirect("ventas/tienda.html")
 
 def restar_producto(request, producto_id):
     carrito = Carrito(request)
     producto = Producto.objects.get(id=producto_id)
     carrito.restar(producto)
-    return redirect("userTemplates/tienda.html")
+    return redirect("ventas/tienda.html")
 
 def limpiar_carrito(request):
     carrito = Carrito(request)
     carrito.limpiar()
-    return redirect("userTemplates/tienda.html")
+    return redirect("ventas/tienda.html")
 
