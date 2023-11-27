@@ -374,5 +374,20 @@ def listaTipo(request):
     }
     return render(request, 'userTemplates/listaUsuarios.html', data)
 
+#########################################################################################################
+
+# FRONT END
+
+def inicioFront(request):
+    categorias = Categoria.objects.all()
+    subcategoria = Subcategoria.objects.all()
+    productos = Producto.objects.all()
+    data = {
+        'categorias': categorias,
+        'subcategorias': subcategoria,
+        'productos': productos
+    }
+    return render(request, 'frontEnd/inicio.html', data)
+
 
 
