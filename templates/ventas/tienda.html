@@ -1,8 +1,12 @@
 {% extends "userTemplates/base.html" %}
 {% block contenido %}
+{% load static %}
     <div class="container">
         <div class="row">
             <div class="col-12 align-self-center"><h2>Tienda Catalogo online</h2></div>
+            <div class="card-body">
+                <img src="{% static 'images/carrito/cart.png' %}" alt="Foto del producto" width="50" height="auto"><b>{{cantidad_carrito}}</b>
+            </div>
         </div>
         <div class="row">
             <div class="col-8">
@@ -10,13 +14,18 @@
                     <div class="col-12">
                         <div class="row">
                             {% for producto in productos %}
-                            <div class="col-6">
-                                <div class="card" style="height: 10rem; width: 23rem; margin: 5px 0px;">
+                            <div class="col-4">
+                                <div class="card mt-4">
                                     <div class="card-body">
-                                        <h5 class="card-title">{{producto.nombre}}</h5>
-                                        <p class="card-text">{{producto.categoria}}</p>
-                                        <p class="card-text">${{producto.precio}}</p>
-                                        <a href="{% url 'Add' producto.id %}" class="btn btn-primary">Agregar al carrito</a>
+                                        <b>Nombre: {{producto.nombre}}</b>
+                                        <br>
+                                        <b>Precio:</b> $ {{producto.precio}}
+                                        <br>
+                                        <b>Cantidad:</b> {{producto.cantidad}}
+                                        <br>
+                                        <img src="{{ producto.foto.url }}" alt="Foto del producto" width="50" height="auto">
+                                        <br>
+                                        <a href="{% url 'Add' producto.id %}" class="btn btn-primary mt-1">Agregar al carrito</a>
                                     </div>
                                 </div>
                             </div>
