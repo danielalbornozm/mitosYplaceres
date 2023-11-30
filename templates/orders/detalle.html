@@ -1,5 +1,7 @@
 {% extends "userTemplates/base.html" %}
 
+{% load cart_tags %}
+
 {% block title %}Detalle del pedido #{{ order.id }}#{% endblock %}
 
 {% block contenido %}
@@ -22,7 +24,7 @@
                                 <td>{{ order_line.producto.nombre }}</td>
                                 <td>{{ order_line.cantidad }}</td>
                                 <td>$ {{ order_line.producto.precio }}</td>
-                                <td>$ {{ order_line.producto.precio}} * {{order_line.cantidad}}</td>
+                                <td>$ {{ order_line.producto.precio|multiply:order_line.cantidad}}</td>
                             </tr>
                         {% endfor %}
                     </tbody>
@@ -32,7 +34,7 @@
                             <td>&nbsp;</td>
                             <td>&nbsp;</td>
                             <td class="text-center">
-                                {{ order.total }}
+                                $ {{ order.total }}
                             </td>
                         </tr>
                     </tfoot>
