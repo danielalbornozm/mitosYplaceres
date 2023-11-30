@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'tiendaApp'
+    'tiendaApp',
+    'orders',
 ]
 
 MIDDLEWARE = [
@@ -121,6 +122,9 @@ TIME_ZONE = 'America/Santiago'
 USE_I18N = True
 
 USE_TZ = True
+
+
+## MAIL ##
 
 
 # Static files (CSS, JavaScript, Images)

@@ -54,6 +54,7 @@ urlpatterns = [
     path('limpiar/', limpiar_carrito, name="CLS"),
 
     path('tienda/', vista.tienda, name='tienda'),
+    path('orders/#/', include('orders.urls')),
 
 
 ]

@@ -7,6 +7,9 @@
             <div class="card-body">
                 <img src="{% static 'images/carrito/cart.png' %}" alt="Foto del producto" width="50" height="auto"><b>{{cantidad_carrito}}</b>
             </div>
+            <div>
+                <a href="{% url 'order_list' %}">Mis pedidos</a>
+            </div>
         </div>
         <div class="row">
             <div class="col-8">

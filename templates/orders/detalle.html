@@ -1,0 +1,43 @@
+{% extends "userTemplates/base.html" %}
+
+{% block title %}Detalle del pedido #{{ order.id }}#{% endblock %}
+
+{% block contenido %}
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h1 class="text-center text-muted">Detalle del pedido #{{ order.id }}#</h1>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr class="text-center">
+                            <th>Producto</th>
+                            <th>Cantidad</th>
+                            <th>Precio/u</th>
+                            <th>Precio total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for order_line in order.orderline_set.all %}
+                           <tr class="text-center">
+                                <td>{{ order_line.producto.nombre }}</td>
+                                <td>{{ order_line.cantidad }}</td>
+                                <td>$ {{ order_line.producto.precio }}</td>
+                                <td>$ {{ order_line.producto.precio}} * {{order_line.cantidad}}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td class="text-center">
+                                {{ order.total }}
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}
