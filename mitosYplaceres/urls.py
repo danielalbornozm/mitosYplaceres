@@ -15,7 +15,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from pathlib import Path
-from xml.etree.ElementInclude import include
+#from xml.etree.ElementInclude import include
 from django.contrib import admin
 from django.urls import path, include
 from tiendaApp import views as vista
@@ -45,6 +45,10 @@ urlpatterns = [
     path('listaUsuarios/usuarioEdit/<int:usuario_id>', vista.carga_editar_usuarios, name='editarUsuario'),
     path('usuarioEdit/usuarioEditado/<int:usuario_id>', vista.editar_usuario, name='usuarioEditado'),
     path('listaUsuarios/usuarioDelete/<int:usuario_id>', vista.eliminar_usuario, name='usuarioDelete'),
+    
+    path('accounts/', include('django.contrib.auth.urls')),
+    path('inicioSesion/', vista.login_view, name='login'),
+    path('cerrarSesion/', vista.exit, name='exit'),
 
     path('buscador', vista.busqueda, name='buscador'),
     path('listaTipo', vista.listaTipo, name="listaTipo"),

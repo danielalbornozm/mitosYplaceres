@@ -20,6 +20,18 @@ admin.site.register(Producto, ProductoAdmin)
 
 ###################################################################
 
+from tiendaApp.models import PerfilTrabajador, Trabajador
+
+class PerfilTrabajadorAdmin(admin.ModelAdmin):
+    list_display = ['cargo', 'descripcion', 'foto']
+    
+class TrabajadorAdmin(admin.ModelAdmin):
+    list_display = ['perfil', 'nombre', 'paterno', 'materno',
+                    'sexo', 'rut', 'fecha_nacimiento', 'telefono', 
+                    'correo', 'contraseña', 'foto']
+
+admin.site.register(PerfilTrabajador, PerfilTrabajadorAdmin)
+admin.site.register(Trabajador, TrabajadorAdmin)
 
 
 ###################################################################
