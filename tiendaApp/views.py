@@ -428,3 +428,35 @@ def listaTipo(request):
 
 
 
+# INICIO DE SESION
+
+from django.shortcuts import render
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+
+
+def login_view(request):
+    if request.method == 'POST':
+        form = AuthenticationForm(request, request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request, user)
+                # Obtener la URL a la que se debe redirigir
+                next_url = request.GET.get('next', 'menu_admin')
+                # Redirigir a la página deseada después del inicio de sesión
+                return redirect(next_url)
+            else:
+                # El usuario no pudo ser autenticado, puedes manejar esto de alguna manera
+                pass
+    else:
+        form = AuthenticationForm()
+
+    return render(request, 'registration/login.html', {'form': form})
+
+@login_required
+def exit(request):
+    logout(request)
