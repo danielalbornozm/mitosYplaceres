@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import permission_required
 from tiendaApp.models import Categoria, Subcategoria, Producto
+from tiendaApp.Carrito import Carrito
 from tiendaApp.forms import ProductoForm
 
 
@@ -430,4 +431,32 @@ def exit(request):
     return redirect('inicio')
 
 
+#Vistas Carrito
+
+def tienda(request):
+    productos = Producto.objects.all()
+    return render(request, "ventas/tienda.html", {'productos':productos})
+
+def agregar_producto(request, producto_id):
+    carrito = Carrito(request)
+    producto = Producto.objects.get(id=producto_id)
+    carrito.agregar(producto)
+    return redirect("tienda")
+
+def eliminar_producto(request, producto_id):
+    carrito = Carrito(request)
+    producto = Producto.objects.get(id=producto_id)
+    carrito.eliminar(producto)
+    return redirect("tienda")
+
+def restar_producto(request, producto_id):
+    carrito = Carrito(request)
+    producto = Producto.objects.get(id=producto_id)
+    carrito.restar(producto)
+    return redirect("tienda")
+
+def limpiar_carrito(request):
+    carrito = Carrito(request)
+    carrito.limpiar()
+    return redirect("tienda")
 

@@ -157,10 +157,5 @@ class Usuario(models.Model):
         db_table = 'usuario'
         verbose_name = 'Usuario'
         verbose_name_plural = 'Usuarios'
-        ordering = ['nombre','paterno','materno'] 
-    
-        
-
-
-
+        ordering = ['nombre','paterno','materno']
 

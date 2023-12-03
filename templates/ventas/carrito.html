@@ -1,0 +1,53 @@
+<div class="row">
+    <div class="col">
+        <h3>Carrito de Compras</h3>
+        <table class="table table-dark table-hover table-striped text-center">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Producto</th>
+                    <th>Cantidad</th>
+                    <th>$</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if request.session.carrito.items %}
+                {% for key, value in request.session.carrito.items %}
+                <tr>
+                    <td>{{value.producto_id}}</td>
+                    <td>{{value.nombre}}</td>
+                    <td>{{value.cantidad}}</td>
+                    <td>${{value.acumulado}}</td>
+                    <td>
+                        <a href="{% url 'Add' value.producto_id %}" class="badge btn btn-dark badge-dark">+</a>
+                        <a href="{% url 'Sub' value.producto_id %}" class="badge btn btn-dark badge-dark">-</a>
+                    </td>
+                </tr>
+                {% endfor %}
+                {% else %}
+                <tr>
+                    <td colspan="5">
+                        <div class="alert alert-danger text-center"> Sin Productos en Carrito</div>
+                    </td>
+                </tr>
+                {% endif %}
+                <tr>
+                    <td colspan="5">Total de Compra: $ {{total_carrito}}</td>
+                </tr>
+                <tr>
+                    <td colspan="5"> 
+                        <a href="{% url 'CLS' %}" class="btn btn-danger">Limpiar</a>
+                        <a href="{% url 'process_order' %}" class="btn btn-success">Crear pedido</a>
+                        <a href="{% url 'validarCarrito' %}" class="btn btn-info">Validar pedido</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="5">
+                        <div class="alert alert-warning h4">{{mensaje}}</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

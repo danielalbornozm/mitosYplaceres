@@ -72,6 +72,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'tiendaApp.context_processor.total_carrito',
+                'tiendaApp.context_processor.cantidad_carrito'
             ],
         },
     },
@@ -127,6 +129,9 @@ TIME_ZONE = 'America/Santiago'
 USE_I18N = True
 
 USE_TZ = True
+
+
+## MAIL ##
 
 
 # Static files (CSS, JavaScript, Images)
