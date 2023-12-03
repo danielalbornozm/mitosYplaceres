@@ -68,6 +68,9 @@
               <li><a class="dropdown-item" href="#">Action</a></li>
             </ul>
         </li>
+        <li class="nav-item ms-1 me-5">
+          <a class="btn btn-outline-dark fw-bold text-uppercase" href="#">Ver carrito</a>
+        </li>
     </ul>
     <form class="d-flex" role="search">
         <input class="form-control me-2" style="font-weight:bold;" type="search" placeholder="Busca tu producto" aria-label="Search">
@@ -92,6 +95,8 @@
                         />
                         <hr />
                         <span>${{ p.precio|intcomma }}</span>
+                        <hr />
+                        <span>Cantidad: {{ p.cantidad|intcomma }}</span>
                         <hr />
                         <button class="btn btn-outline-dark" type="#" style="text-transform:capfirst;">Agregar al carrito</button>
                     </div>
