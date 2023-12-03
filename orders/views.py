@@ -19,6 +19,9 @@ from tiendaApp.Carrito import Carrito
 
 # Create your views here.
 def process_order(request):
+
+    validarCarrito(request)
+
     order = Order.objects.create(user=request.user, completed=True)
     cart = Carrito(request)
     order_lines = list()
@@ -56,9 +59,7 @@ def validarCarrito(request):
             del cart.carrito[id]
             Carrito.guardar_carrito(cart)
             print("error")
-            return redirect('tienda')
-    
-    process_order(request)
+            return redirect('tienda')    
         
     return redirect('tienda')
 
