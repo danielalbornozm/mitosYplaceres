@@ -40,7 +40,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'tiendaApp',
     'orders',
+    'crispy_forms',
+    'crispy_bootstrap5',
 ]
+
+# Variables globales de Crispy
+CRISPY_ALLOWED_TEMPLATE_PACKS = 'bootstrap5'
+CRISPY_TEMPLATE_PACK = 'bootstrap5'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -84,7 +90,7 @@ DATABASES = {
             'NAME': 'db_mitosyplaceres',
             'USER': 'db_user_mitosyplaceres',
             'PASSWORD': 'asd123',
-            'HOST': '/Applications/MAMP/tmp/mysql/mysql.sock',
+            'HOST': 'localhost',
             'PORT': '3306',
             'OPTIONS': {
                 'init_command':'SET sql_mode="STRICT_ALL_TABLES"',
@@ -142,3 +148,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Variables de redirección de login y logout
+LOGIN_REDIRECT_URL = 'inicioProductos'
+LOGOUT_REDIRECT_URL = 'inicio'
