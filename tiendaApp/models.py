@@ -63,6 +63,8 @@ class Producto(models.Model):
         db_table = 'producto'
         verbose_name = 'Producto'
         verbose_name_plural = 'Productos'
+        
+###########################################################################################
 
 # Clase Perfil trabajador
 class PerfilTrabajador(models.Model):
@@ -72,6 +74,11 @@ class PerfilTrabajador(models.Model):
 
     def __str__(self):
         return self.cargo
+    
+    class Meta:
+        db_table = 'perfil trabajador'
+        verbose_name = 'perfil trabajador'
+        verbose_name_plural = 'perfil trabajadores'
     
 # Clase trabajador
 class Trabajador(models.Model):
@@ -89,6 +96,11 @@ class Trabajador(models.Model):
 
     def __str__(self):
         return f"{self.nombre} {self.paterno} {self.materno}"
+    
+    class Meta:
+        db_table = 'trabajador'
+        verbose_name = 'trabajador'
+        verbose_name_plural = 'trabajadores'
     
 # Clase mensaje contacto
 class MensajeContacto(models.Model):

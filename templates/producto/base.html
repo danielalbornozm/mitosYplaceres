@@ -15,14 +15,14 @@
             <div class="col">
                 <nav class="navbar navbar-expand bg-body-tertiary">
                     <div class="container-fluid">
-                      <a class="navbar-brand" href="{% url 'inicio' %}">Mitos y Placeres</a>
+                      <a class="navbar-brand" href="{% url 'inicioProductos' %}">Mitos y Placeres</a>
                       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                       </button>
                       <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                           <li class="nav-item">
-                            <a class="nav-link" href="#">Productos</a>
+                            <a class="nav-link" href="{% url 'inicioProductos' %}">Productos</a>
                           </li>
                           <li class="nav-item">
                             <a class="nav-link" href="{% url 'inicioUsuario' %}">Clientes</a>
@@ -30,6 +30,18 @@
                           <li class="nav-item">
                             <a class="nav-link" href="{% url 'mostrar_perfiles' %}">Trabajadores</a>
                           </li>
+                          {% if request.user.is_authenticated %}
+                              <li class="nav-item ms-1 me-1">
+                                  <a class="nav-link" href="#">Usuario: <b> {{ request.user.username | upper }}, bienvenido a tu aplicación</b></a>
+                              </li>
+                              <li class="nav-item ms-1 me-1">
+                                <a class="btn btn-outline-dark fw-bold text-uppercase" href="{% url 'exit' %}">Cerrar sesión</a>
+                              </li>
+                          {% else %}
+                              <li class="nav-item ms-1 me-1">
+                                  <a class="btn btn-outline-dark fw-bold text-uppercase" href="{% url 'login' %}">Inicio de sesión</a>
+                              </li>
+                          {% endif %}
                         </ul>
                       </div>
                     </div>
