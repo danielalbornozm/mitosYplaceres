@@ -8,4 +8,6 @@ urlpatterns = [
     path('<int:pk>', OrderDetail.as_view(), name='order_detail'),
     
     path('validarCarrito/', validarCarrito, name='validarCarrito'),
+    path('rebajarCarrito/', rebajarCarrito, name='rebajarCarrito'),
+    
 ]

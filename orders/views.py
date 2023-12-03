@@ -13,6 +13,7 @@ from django.views.generic.list import ListView
 from django.views.generic import DetailView
 
 from tiendaApp.admin import ProductoAdmin
+from tiendaApp.forms import ProductoForm
 from .models import Order, OrderLine, Producto
 from tiendaApp.Carrito import Carrito
 
@@ -61,6 +62,17 @@ def validarCarrito(request):
             print("error")
             return redirect('tienda')    
         
+    return redirect('tienda')
+
+def rebajarCarrito(request):
+
+    cart = Carrito(request)
+
+    for key, value in cart.carrito.items():
+        producto = get_object_or_404(Producto, id=key)
+        cantidad = value['cantidad']
+        producto.reducir_cantidad(cantidad)
+    
     return redirect('tienda')
 
 
