@@ -40,6 +40,8 @@ def process_order(request):
 
     OrderLine.objects.bulk_create(order_lines)
 
+    rebajarCarrito(request)
+
     cart.limpiar()
 
     messages.success(request, "El pedido se ha creado correctamente!")
