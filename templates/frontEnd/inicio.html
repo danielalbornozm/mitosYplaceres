@@ -1,0 +1,105 @@
+{% extends "frontEnd/base.html" %}
+{% load static %}
+{% load humanize %}
+
+{% block titulo %}
+    Inicio
+{% endblock titulo %}
+
+{% block contenido %}
+
+<!-- CARRUSEL -->
+<div id="carouselExampleCaptions" class="carousel slide">
+    <div class="carousel-indicators">
+      <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+      <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+      <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+    </div>
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img src="{% static "images/frontEnd/carrusel1.jpeg" %}" class="d-block w-100" alt="..." style="height:645px;">
+        <div class="carousel-caption d-none d-md-block">
+          <h1 style="color:#9491d9; text-transform:uppercase;">Juguetes sensuales y divertidos</h1>
+          <h3 style="color:#9491d9; font-weight:bold;">Ofrecemos los mejores productos para una vida afectiva y sexual plena.</h3>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <img src="{% static "images/frontEnd/carrusel2.jpg" %}" class="d-block w-100" alt="..." style="height:645px;">
+        <div class="carousel-caption d-none d-md-block">
+          <h1 style="color:#a61248; text-transform:uppercase;">Lencería y accesorios</h1>
+          <h3 style="color:#a61248; font-weight:bold;">Transforma tus encuentros y disfruta tus fantasías.</h3>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <img src="{% static "images/frontEnd/fondo.png" %}" class="d-block w-100" alt="..." style="height:645px;">
+        <div class="carousel-caption d-none d-md-block">
+          <h1 style="color:black; text-transform:uppercase;">¿No has comprado nunca?</h1>
+          <h1 style="color:black; text-transform:uppercase;">¡Nosotros te guiamos!</h1>
+          <h3 style="color:black; font-weight:bold;">Descarga myp_app disponible en la Play Store de tu móvil.</h3>
+        </div>
+      </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+</div>
+
+<!-- BARRA DE BUSQUEDA DE PRODUCTOS -->
+<nav class="navbar navbar-expand-lg d-flex justify-content-center mt-3" style="background-color:#B3124D">
+    <ul class="navbar-nav mt-1">
+        <li class="nav-item dropdown ms-5 me-5">
+            <a class="nav-link dropdown-toggle fw-bold text-uppercase" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Categoría
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="#">Action</a></li>
+            </ul>
+        </li>
+        <li class="nav-item dropdown me-5">
+            <a class="nav-link dropdown-toggle fw-bold text-uppercase" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Subcategoría
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="#">Action</a></li>
+            </ul>
+        </li>
+    </ul>
+    <form class="d-flex" role="search">
+        <input class="form-control me-2" style="font-weight:bold;" type="search" placeholder="Busca tu producto" aria-label="Search">
+        <button class="btn btn-outline-dark" type="submit" style="font-weight:bold; text-transform:uppercase;">Buscar</button>
+    </form>
+</nav>
+
+<!-- MOSTRAR PRODUCTOS -->
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        {% for p in productos %}
+        <div class="col-2 mt-3 mb-3 text-center ">
+            <a href="#" style="text-decoration:none;">
+                <div class="card">
+                    <div class="card-header">{{ p.nombre }}</div>
+                    <div class="card-body">
+                        <img
+                            src="{{ p.foto.url }}"
+                            alt="Foto de {{ p.nombre }}"
+                            width="150"
+                            height="100"
+                        />
+                        <hr />
+                        <span>${{ p.precio|intcomma }}</span>
+                        <hr />
+                        <button class="btn btn-outline-dark" type="#" style="text-transform:capfirst;">Agregar al carrito</button>
+                    </div>
+                </div>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock contenido %}
