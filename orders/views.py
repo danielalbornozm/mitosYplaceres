@@ -56,7 +56,7 @@ def validarCarrito(request):
             del cart.carrito[id]
             Carrito.guardar_carrito(cart)
             print("error")
-            break
+            return redirect('tienda')
         
     return redirect('tienda')
 
