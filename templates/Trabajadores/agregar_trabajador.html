@@ -6,7 +6,7 @@
 {% block content %}
     <div class="container">
         <div class="card mt-4">
-            <div class="card-header bg-dark text-white">
+            <div class="card-header  text-white" style="font-size: large; background-color:rgb(20, 20, 118);">
                 <h2 style="text-align: center; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">Agregar Trabajador</h2>
             </div>
             <div class="card-body">
@@ -14,6 +14,13 @@
                     {% csrf_token %}
 
                     <div class="row">
+
+                        <div class="col-md-4">
+                            <label for="{{ form.perfil.id_for_label }}" class="col-form-label">{{ form.perfil.label_tag }}</label><br>
+                            {{ form.perfil }}
+                           
+                        </div>
+
                         <div class="col-md-4">
                             <label for="{{ form.nombre.id_for_label }}" class="col-form-label">{{ form.nombre.label_tag }}</label><br>
                             {{ form.nombre }}
@@ -26,14 +33,17 @@
                             
                         </div>
 
+                        
+                    </div>
+
+                    <div class="row">
                         <div class="col-md-4">
                             <label for="{{ form.materno.id_for_label }}" class="col-form-label">Apellido materno</label><br>
                             {{ form.materno }}
                            
                         </div>
-                    </div>
 
-                    <div class="row">
+
                         <div class="col-md-4">
                             <label for="{{ form.sexo.id_for_label }}" class="col-form-label">{{ form.sexo.label_tag }}</label><br>
                             {{ form.sexo }}
@@ -48,6 +58,10 @@
                             {% endif %}
                         </div>
 
+                        
+                    </div>
+
+                    <div class="row">
                         <div class="col-md-4">
                             <label for="{{ form.fecha_nacimiento.id_for_label }}" class="col-form-label">{{ form.fecha_nacimiento.label_tag }}</label><br>
                             {{ form.fecha_nacimiento }}
@@ -55,9 +69,8 @@
                                 <p class="text-danger">{{ form.errors.fecha_nacimiento }}</p>
                             {% endif %}
                         </div>
-                    </div>
 
-                    <div class="row">
+
                         <div class="col-md-4">
                             <label for="{{ form.telefono.id_for_label }}" class="col-form-label">{{ form.telefono.label_tag }}</label><br>
                             {{ form.telefono }}
@@ -72,6 +85,10 @@
                             {% endif %}
                         </div>
 
+                        
+                    </div>
+
+                    <div class="row">
                         <div class="col-md-4">
                             <label for="{{ form.contraseña.id_for_label }}" class="col-form-label">{{ form.contraseña.label_tag }}</label><br>
                             {{ form.contraseña }}
@@ -79,9 +96,8 @@
                                 <p class="text-danger">{{ form.errors.contraseña }}</p>
                             {% endif %}
                         </div>
-                    </div>
 
-                    <div class="row">
+
                         <div class="col-md-4">
                             <label for="{{ form.confirmar_contraseña.id_for_label }}" class="col-form-label">{{ form.confirmar_contraseña.label_tag }}</label><br>
                             {{ form.confirmar_contraseña }}

@@ -19,13 +19,11 @@
                         aria-label="Search" style="width: 400px;" id="searchInput">
                     <button type="submit" class="btn btn-primary ms-2">Buscar</button>
                 </form>
-
-                <a href="{% url 'agregar_trabajador' perfil.id %}" class="btn btn-primary mr-3">Agregar Trabajador</a>
             </div>
             <div class="card">
                 <div class="row">
-                    <div class="col-md-3">
-                        <div id="buscarResultados">
+                    <div class="col-md-12 text-center">
+                        <div  id="buscarResultados">
 
                         </div>
 
@@ -96,7 +94,6 @@
             if (query !== lastSearchValue) {
                 lastSearchValue = query;
 
-                // Incluir el perfil_id en los datos de la solicitud AJAX.
                 $.ajax({
                     url: '{% url "buscar_trabajadores" %}',
                     method: 'GET',
@@ -105,7 +102,6 @@
                 
                     },
                     success: function (data) {
-                        // Mostrar resultados solo si hay algo en la búsqueda
                         if (query !== '' && data.trim() !== '') {
                             $('#buscarResultados').html(data).show();
                         } else {

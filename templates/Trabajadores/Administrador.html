@@ -1,0 +1,105 @@
+{% extends "Trabajadores/base.html" %}
+{% block title %}Administrador{% endblock %}
+
+{% load static %}
+
+{% block content %}
+
+<div class="container mt-4" style="background-color:azure">
+
+    <h2 style="font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">
+        Administración</h2>
+
+
+    <div class="card" style="background-color:azure">
+        <div class="row">
+            <div class="col-md-4 mt-4 ">
+                <div class="card border-3 shadow mx-auto " style="width: 300px; height: 160px;">
+                    <div class="card-header text-white" style="font-size: large; background-color:rgb(20, 20, 118);">
+                        Empleados </div>
+                    <div class="card-body ">
+                        <li>
+                            <a href="{% url 'mostrar_perfiles' %}">Ver lista de empleados</a>
+
+                        </li>
+                        <li>
+                            <a href="{% url 'agregar_trabajador' %}">Registrar empleado</a>
+                        </li>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mt-4 ">
+                <div class="card border-3 shadow mx-auto " style="width: 300px; height: 160px;">
+                    <div class="card-header text-white " style="font-size: large; background-color:rgb(20, 20, 118);">
+                        Productos </div>
+                    <div class="card-body ">
+                        <li>
+                            <a href="{% url 'categorias_productos' %}">Ver bodega</a>
+
+                        </li>
+                        <li>
+                            <a href="{% url 'compra_proveedor' %}">Ingresar producto</a>
+                        </li>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mt-4 ">
+                <div class="card border-3 shadow mx-auto " style="width: 300px; height: 160px;">
+                    <div class="card-header text-white " style="font-size: large; background-color:rgb(20, 20, 118);">
+                        Ventas </div>
+                    <div class="card-body ">
+                        <li>
+                            <a href="{% url 'mostrar_perfiles' %}">Ver Resumen de ventas</a>
+
+                        </li>
+
+
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-4 mt-4 ">
+                    <div class="card border-3 shadow mx-auto " style="width: 300px; height: 160px;">
+                        <div class="card-header text-white "
+                            style="font-size: large; background-color:rgb(20, 20, 118);"> Clientes </div>
+                        <div class="card-body ">
+                            <li>
+                                <a href="{% url 'lista_clientes' %}">Ver lista de clientes</a>
+
+                            </li>
+
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mt-4 mb-4 ">
+                    <div class="card border-3 shadow mx-auto " style="width: 300px; height: 160px;">
+                        <div class="card-header text-white "
+                            style="font-size: large; background-color:rgb(20, 20, 118);"> Soporte al cliente </div>
+                        <div class="card-body ">
+                            <li>
+                                <a href="{% url 'mostrar_perfiles' %}">Ver lista de mensajes, reclamos y sugerencias</a>
+
+                            </li>
+
+
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+{% endblock %}

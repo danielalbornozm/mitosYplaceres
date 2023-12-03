@@ -46,17 +46,18 @@ class ProductoForm(forms.ModelForm):
 ###################################################################################
 
 from django.core.exceptions import ValidationError
+from django.forms import inlineformset_factory
 from django.core.validators import validate_email
 from datetime import date
 import re
-from .models import Trabajador, PerfilTrabajador, MensajeContacto
+from .models import Trabajador, PerfilTrabajador, MensajeContacto, CompraProveedor,DetalleCompra
 
 class TrabajadorForm(forms.ModelForm):
     confirmar_contraseña = forms.CharField(widget=forms.PasswordInput(), label='Confirmar Contraseña')
 
     class Meta:
         model = Trabajador
-        fields = ['nombre', 'paterno', 'materno', 'sexo', 'rut', 'fecha_nacimiento', 'telefono', 'correo', 'contraseña', 'confirmar_contraseña', 'foto']
+        fields = ['perfil','nombre', 'paterno', 'materno', 'sexo', 'rut', 'fecha_nacimiento', 'telefono', 'correo', 'contraseña', 'confirmar_contraseña', 'foto']
         widgets = {
             'fecha_nacimiento': forms.SelectDateWidget(years=range(1900, 2024)),
             'contraseña': forms.PasswordInput(),
@@ -133,7 +134,7 @@ class TrabajadorEditForm(forms.ModelForm):
         model = Trabajador
         fields = ['nombre', 'paterno', 'materno', 'sexo', 'rut', 'fecha_nacimiento', 'telefono', 'correo', 'contraseña', 'foto']
         widgets = {
-            'fecha_nacimiento': forms.SelectDateWidget(years=range(1900, 2024)),
+            'fecha_nacimiento': forms.DateInput(),
         }
 
     perfil = forms.ModelChoiceField(queryset=PerfilTrabajador.objects.all(), required=False)
@@ -212,7 +213,39 @@ class ContactoForm(forms.ModelForm):
             'mensaje': forms.Textarea(attrs={'style': 'width: 100%; max-width: 560px;'}),
         }
 
-        
+
+
+
+
+class DetalleCompraForm(forms.ModelForm):
+    class Meta:
+        model = DetalleCompra
+        fields = ['producto', 'cantidad', 'precio_unitario']
+
+    producto = forms.ModelChoiceField(queryset=Producto.objects.all())
+
+class CompraProveedorForm(forms.ModelForm):
+    class Meta:
+        model = CompraProveedor
+        fields = ['numero_factura', 'proveedor', 'rut_proveedor', 'correo_proveedor', 'fecha_compra']
+        widgets = {
+            'fecha_compra': forms.SelectDateWidget(years=range(2023, 2051)),
+            'numero_factura': forms.TextInput(attrs={'type': 'number', 'min': 0, 'autocomplete': 'off'}),
+
+        }
+    
+    def clean_numero_factura(self):
+        numero_factura = self.cleaned_data.get('numero_factura')
+
+        # Verificar si el número de factura ya existe en la base de datos
+        if CompraProveedor.objects.filter(numero_factura=numero_factura).exists():
+            raise forms.ValidationError("Este número de factura ya está registrado. Por favor, ingresa uno diferente.")
+
+        # Validar si el número de factura contiene solo dígitos
+        if not numero_factura.isdigit():
+            raise forms.ValidationError("El número de factura debe contener solo números.")
+
+        return numero_factura
 ###############################################################################################
 
 from dataclasses import field

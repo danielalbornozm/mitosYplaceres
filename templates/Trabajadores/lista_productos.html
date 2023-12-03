@@ -1,0 +1,81 @@
+{% extends "Trabajadores/base.html" %}
+{% block title %}Lista Productos{% endblock %}
+
+{% load static %}
+
+{% block content %}
+<div class="container">
+    <div class="card mt-4">
+        <div class="card-header text-white" style="font-size: large; background-color:rgb(20, 20, 118);">
+            <h2 style="text-align: center; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">
+                Lista de Productos
+            </h2>
+        </div>
+        <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center">
+                <h2>{{ perfil.cargo }}</h2>
+
+                <form id="searchForm" class="d-flex">
+                    <input class="form-control" type="search" name="q" placeholder="Ingrese el nombre del trabajador"
+                        aria-label="Search" style="width: 400px;" id="searchInput">
+                    <button type="submit" class="btn btn-primary ms-2">Buscar</button>
+                </form>
+            </div><br>
+
+            <div class="card">
+                <div class="row">
+                    <div class="col-md-12 text-center" id="buscarResultados">
+                        <!-- Contenido de búsqueda dinámica -->
+                    </div>
+                </div>
+            </div>
+
+            
+
+            <table class="table table-striped mt-3">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Marca</th>
+                        <th scope="col">Precio</th>
+                        <th scope="col">Cantidad</th>
+                        <th scope="col">Categoría</th>
+                        <th scope="col">Subcategoría</th>
+                        <th scope="col">Primer juguete</th>
+                        <th scope="col">Imagen</th>
+                        <th scope="col">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for producto in productos %}
+                    <tr>
+                        <th scope="row">{{ forloop.counter }}</th>
+                        <td>{{ producto.nombre }}</td>
+                        <td>{{ producto.marca }}</td>
+                        <td>{{ producto.precio }}</td>
+                        <td>{{ producto.cantidad }}</td>
+                        <td>{{ producto.categoria }}</td>
+                        <td>{{ producto.subcategoria }}</td>
+                        <td>{{ producto.primerJuguete }}</td>
+                        <td>
+                            <!-- Agrega aquí el código para mostrar la imagen del producto -->
+                        </td>
+                        
+                        <td>
+                                <a class="btn btn-warning btn-sm" href="{% url 'detalle_producto' producto_id=producto.id %}">Ver</a>
+                        </td>
+                        
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    // script JavaScript aquí
+</script>
+
+{% endblock %}

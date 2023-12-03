@@ -1,0 +1,73 @@
+{% extends "Trabajadores/base.html" %}
+{% block title %}Ingreso productos{% endblock %}
+
+{% load static %}
+
+{% block content %}
+<div class="container" style="width: 1100px;">
+  <div class="card mt-4">
+    <div class="card-header  text-white" style="font-size: large; background-color:rgb(20, 20, 118);" >
+      <h2 style="text-align: center; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">
+        Registro de factura</h2>
+    </div>
+    <div class="card-body">
+      <form method="post">
+        {% csrf_token %}
+
+        <div class="row">
+          <div class="col-md-4">
+            <label for="{{ form.numero_factura.id_for_label }}" class="col-form-label">{{ form.numero_factura.label_tag }}</label><br>
+            {{ form.numero_factura }}
+          </div>
+          <div class="col-md-4">
+            <label for="{{ form.proveedor.id_for_label }}" class="col-form-label">Nombre {{ form.proveedor.label_tag }}</label><br>
+            {{ form.proveedor }}
+          </div>
+          <div class="col-md-4">
+            <label for="{{ form.rut_proveedor.id_for_label }}" class="col-form-label">Rut proveedor</label><br>
+            {{ form.rut_proveedor }}
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-4">
+            <label for="{{ form.correo_proveedor.id_for_label }}" class="col-form-label">{{ form.correo_proveedor.label_tag }}</label><br>
+            {{ form.correo_proveedor }}
+          </div>
+          <div class="col-md-4">
+            <label for="{{ form.fecha_compra.id_for_label }}" class="col-form-label">{{ form.fecha_compra.label_tag }}</label><br>
+            {{ form.fecha_compra }}
+          </div>
+        </div><br>
+
+        
+
+
+        <div class="row mt-3">
+          <div class="col-md-4">
+            <label for="{{ detalle_form.producto.id_for_label }}" class="col-form-label">{{ detalle_form.producto.label_tag }}</label><br>
+            {{ detalle_form.producto }}
+            <a  href="{% url 'registro_producto' %}">      ---> Registrar producto</a>
+
+          </div>
+          <div class="col-md-4">
+            <label for="{{ detalle_form.cantidad.id_for_label }}" class="col-form-label">{{ detalle_form.cantidad.label_tag }}</label><br>
+            {{ detalle_form.cantidad }}
+          </div>
+          <div class="col-md-4">
+            <label for="{{ detalle_form.precio_unitario.id_for_label }}" class="col-form-label">{{ detalle_form.precio_unitario.label_tag }}</label><br>
+            {{ detalle_form.precio_unitario }}
+          </div>
+        </div>
+
+
+        <div class="row mt-3">
+          <div class="col-md-12  text-center mt-5">
+            <button type="submit" class="btn btn-info">Realizar registro</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

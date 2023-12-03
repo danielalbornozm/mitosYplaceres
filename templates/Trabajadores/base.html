@@ -13,6 +13,7 @@
         p,h2{
             font-family: 'Frank Ruhl Libre', sans-serif;
         }
+        
 
     
     </style>
@@ -22,7 +23,7 @@
 <body>
     {% block menu %}
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="{% url 'mostrar_perfiles' %}">Mitos y Placeres</a>
+        <a class="navbar-brand" href="{% url 'menu_admin' %}">Mitos y Placeres</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -30,7 +31,7 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item {% if request.path == '/perfiles_trabajadores/' %}active{% endif %}">
-                    <a class="nav-link" href="{% url 'mostrar_perfiles' %}">Menu Principal</a>
+                    <a class="nav-link" href="{% url 'menu_admin' %}">Menu Principal</a>
                 </li>
                 <li class="nav-item {% if request.path == '/perfil/' %}active{% endif %}">
                     {% if perfil.id %}
