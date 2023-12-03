@@ -75,11 +75,6 @@ class PerfilTrabajador(models.Model):
     def __str__(self):
         return self.cargo
     
-    class Meta:
-        db_table = 'perfil trabajador'
-        verbose_name = 'perfil trabajador'
-        verbose_name_plural = 'perfil trabajadores'
-    
 # Clase trabajador
 class Trabajador(models.Model):
     perfil = models.ForeignKey(PerfilTrabajador, on_delete=models.CASCADE)
@@ -96,11 +91,6 @@ class Trabajador(models.Model):
 
     def __str__(self):
         return f"{self.nombre} {self.paterno} {self.materno}"
-    
-    class Meta:
-        db_table = 'trabajador'
-        verbose_name = 'trabajador'
-        verbose_name_plural = 'trabajadores'
     
 # Clase mensaje contacto
 class MensajeContacto(models.Model):

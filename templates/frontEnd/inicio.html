@@ -53,20 +53,10 @@
 <nav class="navbar navbar-expand-lg d-flex justify-content-center mt-3" style="background-color:#B3124D">
     <ul class="navbar-nav mt-1">
         <li class="nav-item dropdown ms-5 me-5">
-            <a class="nav-link dropdown-toggle fw-bold text-uppercase" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Categoría
-            </a>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#">Action</a></li>
-            </ul>
+          <select class="form-select" aria-label="Default select example" id="cboCategoria" name="cboCategoria"></select>
         </li>
         <li class="nav-item dropdown me-5">
-            <a class="nav-link dropdown-toggle fw-bold text-uppercase" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Subcategoría
-            </a>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#">Action</a></li>
-            </ul>
+          <select class="form-select" aria-label="Default select example" id="cboSubcategoria" name="cboSubcategoria"></select>
         </li>
         <li class="nav-item ms-1 me-5">
           <a class="btn btn-outline-dark fw-bold text-uppercase" href="#">Ver carrito</a>
@@ -80,31 +70,12 @@
 
 <!-- MOSTRAR PRODUCTOS -->
 <div class="container-fluid">
-    <div class="row justify-content-center">
-        {% for p in productos %}
-        <div class="col-2 mt-3 mb-3 text-center ">
-            <a href="#" style="text-decoration:none;">
-                <div class="card">
-                    <div class="card-header">{{ p.nombre }}</div>
-                    <div class="card-body">
-                        <img
-                            src="{{ p.foto.url }}"
-                            alt="Foto de {{ p.nombre }}"
-                            width="150"
-                            height="100"
-                        />
-                        <hr />
-                        <span>${{ p.precio|intcomma }}</span>
-                        <hr />
-                        <span>Cantidad: {{ p.cantidad|intcomma }}</span>
-                        <hr />
-                        <button class="btn btn-outline-dark" type="#" style="text-transform:capfirst;">Agregar al carrito</button>
-                    </div>
-                </div>
-            </a>
-        </div>
-        {% endfor %}
+    <div class="row justify-content-center" id="productos-container">
     </div>
 </div>
 
 {% endblock contenido %}
+
+{% block js %}
+  <script src="{% static 'js/index.js' %}"></script>
+{% endblock js %}

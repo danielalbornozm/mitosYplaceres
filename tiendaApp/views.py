@@ -430,4 +430,51 @@ def exit(request):
     return redirect('inicio')
 
 
+##########################################################################################################
+
+# Funciones para Django Front End
+
+from .models import Categoria, Subcategoria, Producto 
+
+def get_categorias(_request):
+    categoria = list(Categoria.objects.values())
+    
+    if (len(categoria) > 0):
+        data = {'message':"Éxito", 'categoria':categoria}
+    else:
+        data = {'message':"Sin datos"}
+        
+    return JsonResponse(data)
+
+def get_subcategorias(_request, categoria_id):
+    subcategoria = list(Subcategoria.objects.filter(categoria = categoria_id).values())
+    
+    if (len(subcategoria) > 0):
+        data = {'message':"Éxito", 'subcategoria':subcategoria}
+    else:
+        data = {'message':"Sin datos"}
+        
+    return JsonResponse(data)
+
+def get_productos(_request, categoria_id, subcategoria_id):
+    productos = list(Producto.objects.filter(categoria = categoria_id, subcategoria = subcategoria_id))
+    
+    if (len(productos) > 0):
+        data = {'message':"Éxito", 'productos': [
+            {
+                'nombre': producto.nombre,
+                'foto': producto.foto.url,
+                'precio': producto.precio,
+                'cantidad': producto.cantidad,   
+            }
+            for producto in productos
+        ]}
+    else:
+        data = {'message':"Sin datos"}
+        
+    return JsonResponse(data)
+        
+
+
+
 
