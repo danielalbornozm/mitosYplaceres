@@ -47,16 +47,18 @@ def validarCarrito(request):
 
     for key, value in cart.carrito.items(): 
         if (value['cantidad'] <= get_object_or_404(Producto, pk=key).cantidad):
-            messages.success(request, "A!")
+            messages.success(request, "Correcto!")
             print("ok")
 
         else:
-            messages.success(request, "B!")
+            messages.success(request, "Incorrecto!")
             id = str(get_object_or_404(Producto, pk=key).pk)
             del cart.carrito[id]
             Carrito.guardar_carrito(cart)
             print("error")
             return redirect('tienda')
+    
+    process_order(request)
         
     return redirect('tienda')
 
