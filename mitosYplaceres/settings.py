@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.humanize',
     'tiendaApp',
+    'orders',
     'crispy_forms',
     'crispy_bootstrap5',
 ]
