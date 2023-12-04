@@ -88,6 +88,32 @@ const listarCategorias = async () => {
 const cargaInicial = async () => {
     await listarCategorias();
 
+    cboCategoria.addEventListener("change", async (evento) => {
+        const idCategoriaSeleccionada = evento.target.value;
+        
+        // Llamar a listarSubcategorias y guardar el resultado
+        const subcategoriasResponse = await listarSubcategorias(idCategoriaSeleccionada);
+
+        // Verificar si listarSubcategorias fue exitoso antes de llamar a cargarProductos
+        if (subcategoriasResponse && subcategoriasResponse.message === "Éxito") {
+            cargarProductos(idCategoriaSeleccionada, subcategoriasResponse.subcategoria[0].id);
+        } else {
+            console.error("No se pudieron cargar las subcategorías");
+        }
+    });
+
+    cboSubcategoria.addEventListener("change", (evento) => {
+        const idCategoriaSeleccionada = cboCategoria.value; // Obtener la categoría actualmente seleccionada
+        const idSubcategoriaSeleccionada = evento.target.value; // Obtener la subcategoría seleccionada
+
+        cargarProductos(idCategoriaSeleccionada, idSubcategoriaSeleccionada);
+    });
+};
+
+/*
+const cargaInicial = async () => {
+    await listarCategorias();
+
     cboCategoria.addEventListener("change", (evento) => {
         //console.log(evento);
         //console.log(evento.target);
@@ -103,7 +129,7 @@ const cargaInicial = async () => {
         cargarProductos(evento.target.value, evento.target.value);
     })
 };
-
+*/
 
 window.addEventListener("load", async () => {
     await cargaInicial();
