@@ -100,7 +100,8 @@ def detalle_producto(request, producto_id, id_categoria=None, id_subcategoria=No
         form = ProductoForm(request.POST, request.FILES, instance=producto)
         print("Estamos")
 
-        if 'editar' in request.POST:
+        if 'guardar' in request.POST:
+            print("aquí")
             if form.is_valid():
                 if 'foto' in request.FILES:
                     producto.foto = request.FILES['foto']
@@ -145,14 +146,14 @@ from django.db.models import Q
 from django.core.mail import send_mail
 from django.http import JsonResponse
 import os
-
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
-
+@login_required(login_url='inicio')
 def menu_admin(request):
     return render(request, 'Trabajadores/Administrador.html')
 
-
+@login_required(login_url='inicio')
 def mostrar_perfiles(request):
     perfiles = PerfilTrabajador.objects.all()
     
@@ -160,6 +161,7 @@ def mostrar_perfiles(request):
     
     return render(request,'Trabajadores/perfiles.html', data)
 
+@login_required(login_url='inicio')
 def mostrar_trabajadores(request, perfil_id):
     
     
@@ -177,6 +179,7 @@ def mostrar_trabajadores(request, perfil_id):
 
     return render(request, 'Trabajadores/mostrar_trabajadores.html', {'perfil': perfil, 'trabajadores': trabajadores})
 
+@login_required(login_url='inicio')
 def agregar_trabajador(request):
 
     if request.method == 'POST':
@@ -200,8 +203,7 @@ def agregar_trabajador(request):
 
     return render(request, 'Trabajadores/agregar_trabajador.html', {'form': form})
 
-
-
+@login_required(login_url='inicio')
 def editar_trabajador(request, trabajador_id, perfil_id):
     trabajador = get_object_or_404(Trabajador, id=trabajador_id)
 
@@ -227,8 +229,7 @@ def editar_trabajador(request, trabajador_id, perfil_id):
 
     return render(request, 'Trabajadores/detalle_trabajador.html', {'trabajador': trabajador, 'form_edicion': form})
 
-
-
+@login_required(login_url='inicio')
 def elim_trabajador(request, trabajador_id):
     trabajador = get_object_or_404(Trabajador, id=trabajador_id)
 
@@ -238,6 +239,7 @@ def elim_trabajador(request, trabajador_id):
 
     return redirect('mostrar_trabajadores', perfil_id=perfil_id)
 
+@login_required(login_url='inicio')
 def enviar_mensaje(request):
     if request.method == 'POST':
         form = ContactoForm(request.POST)
@@ -258,6 +260,7 @@ def enviar_mensaje(request):
 
     return render(request, 'producto/contacto.html', {'form': form})
 
+@login_required(login_url='inicio')
 def buscar_trabajadores(request):
     # Obtener el valor de búsqueda de la solicitud GET
     query = request.GET.get('q', '')
@@ -268,6 +271,7 @@ def buscar_trabajadores(request):
     # Renderizar los resultados en un fragmento de HTML
     return render(request, 'trabajadores/fragmento_resultados_busqueda.html', {'trabajadores': trabajadores})
 
+@login_required(login_url='inicio')
 @permission_required('tiendaApp.menu_admin', login_url='menu_admin')
 def compra_proveedor(request):
     cantidad_productos_range = range(1, 11)
@@ -298,7 +302,7 @@ def compra_proveedor(request):
 
     return render(request, 'Trabajadores/compra_proveedor.html', {'form': form, 'detalle_form': detalle_form, 'cantidad_productos_range': cantidad_productos_range})
 
-
+@login_required(login_url='inicio')
 def lista_clientes(request):
     usuarios = Usuario.objects.all()
     tipos = Tipo.objects.all()
@@ -318,6 +322,7 @@ def lista_clientes(request):
     }
     return render(request, 'Trabajadores/lista_clientes.html', data)
 
+@login_required(login_url='inicio')
 def categorias_productos(request):
     categorias = Categoria.objects.all()
     subcategoria = Subcategoria.objects.all()
@@ -338,6 +343,7 @@ def categorias_productos(request):
     
     return render(request, 'Trabajadores/lista_productos.html', data)
 
+@login_required(login_url='inicio')
 def registro_producto(request):
     if request.method == 'POST':
         form = ProductoForm(request.POST, request.FILES)
@@ -356,24 +362,12 @@ def registro_producto(request):
     
     return render(request, 'Trabajadores/registro_producto.html', {'form': form})
 
-
+@login_required(login_url='inicio')
 def lista_correos(request):
-    mensaje = MensajeContacto.objects.all()
-    print(mensaje)
-
-    query = request.GET.get('q')
-    if query:
-        mensaje = MensajeContacto.filter(
-            Q(nombre__icontains=query) |
-            Q(paterno__icontains=query)
-        )
+    mensajes = MensajeContacto.objects.all()
+    print(mensajes)
     
-    data = {
-        'mensaje':mensaje
-    }
-    
-    
-    return render(request, 'Trabajadores/lista_correos.html', data)
+    return render(request, 'Trabajadores/lista_correos.html', {'mensajes': mensajes})
 
 
 ############################################################################################################
@@ -560,6 +554,16 @@ def get_productos(_request, categoria_id, subcategoria_id):
             }
             for producto in productos
         ]}
+    else:
+        data = {'message':"Sin datos"}
+        
+    return JsonResponse(data)
+
+def get_contacto(_request):
+    contacto = list(MensajeContacto.objects.values())
+    
+    if (len(contacto) > 0):
+        data = {'message':"Éxito", 'contacto':contacto}
     else:
         data = {'message':"Sin datos"}
         

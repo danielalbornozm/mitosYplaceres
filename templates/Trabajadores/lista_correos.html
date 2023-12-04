@@ -29,7 +29,7 @@
                 <th>Apellido</th>
                 <th>Correo</th>
                 <th>Mensaje</th>
-                <th>Accion</th>
+                <!--<th>Accion</th>-->
             </tr>
         </thead>
         <tbody>
@@ -41,9 +41,11 @@
                     <td>{{ mensaje.apellido }}</td>
                     <td>{{ mensaje.correo }}</td>
                     <td>{{ mensaje.mensaje }}</td>
+                    <!--
                     <td>
-                        <a class="btn btn-danger btn-sm" href="{% url 'eliminar_mensaje' mensaje.id %}">Leer</a>
+                        <a class="btn btn-danger btn-sm" href="#">Leer</a>
                     </td>
+                    -->
                 </tr>
             {% endfor %}
         </tbody>

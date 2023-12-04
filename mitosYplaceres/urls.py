@@ -61,6 +61,7 @@ urlpatterns = [
     path('categorias/', vista.get_categorias, name='categorias'),
     path('subcategorias/<int:categoria_id>', vista.get_subcategorias, name='subcategorias'),
     path('producto/<int:categoria_id>/<int:subcategoria_id>', vista.get_productos, name='producto'),
+    path('contacto/', vista.get_contacto, name='contacto'),
   
     path('buscador', vista.busqueda, name='buscador'),
     path('listaTipo', vista.listaTipo, name="listaTipo"),
