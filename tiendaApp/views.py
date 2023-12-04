@@ -355,22 +355,9 @@ def registro_producto(request):
 
 
 def lista_correos(request):
-    mensaje = MensajeContacto.objects.all()
-    print(mensaje)
-
-    query = request.GET.get('q')
-    if query:
-        mensaje = MensajeContacto.objects.filter(
-            Q(nombre__icontains=query) |
-            Q(paterno__icontains=query)
-        )
+    mensajes = MensajeContacto.objects.all()
+    return render(request, 'Trabajadores/lista_correos.html', {'mensajes': mensajes})
     
-    data = {
-        'mensaje':mensaje
-    }
-    
-    
-    return render(request, 'Trabajadores/lista_correos.html', data)
 
 
 ############################################################################################################
