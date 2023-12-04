@@ -17,7 +17,7 @@
             {% csrf_token %}
             <div class="row">
                 <div class="col">
-                    <a class="btn btn-dark" href="{% url 'productos' id_categoria=id_categoria categoria=categoria id_subcategoria=id_subcategoria subcategoria=subcategoria %}">Cancelar</a>
+                    <a class="btn btn-dark" href="{% url 'categorias_productos'  %}">Cancelar</a>
                 </div>
                 <div class="col">
                     <button class="btn btn-danger" type="submit">Confirmar eliminación</button>
