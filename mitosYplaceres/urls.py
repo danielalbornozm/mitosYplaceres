@@ -53,6 +53,15 @@ urlpatterns = [
     path('listaUsuarios/usuarioEdit/<int:usuario_id>', vista.carga_editar_usuarios, name='editarUsuario'),
     path('usuarioEdit/usuarioEditado/<int:usuario_id>', vista.editar_usuario, name='usuarioEditado'),
     path('listaUsuarios/usuarioDelete/<int:usuario_id>', vista.eliminar_usuario, name='usuarioDelete'),
+    
+    path('accounts/', include('django.contrib.auth.urls')),
+    path('inicioSesion/', vista.login_view, name='login'),
+    path('cerrarSesion/', vista.exit, name='exit'),
+    
+    path('categorias/', vista.get_categorias, name='categorias'),
+    path('subcategorias/<int:categoria_id>', vista.get_subcategorias, name='subcategorias'),
+    path('producto/<int:categoria_id>/<int:subcategoria_id>', vista.get_productos, name='producto'),
+    
     path('buscador', vista.busqueda, name='buscador'),
     path('listaTipo', vista.listaTipo, name="listaTipo"),
 ]
