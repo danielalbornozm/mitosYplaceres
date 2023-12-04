@@ -39,8 +39,8 @@ class Subcategoria(models.Model):
 class Producto(models.Model):
     nombre = models.CharField(max_length=200, verbose_name="Nombre del producto")
     marca = models.CharField(max_length=100, verbose_name="Marca del producto")
-    precio = models.IntegerField(verbose_name="Precio del producto")
-    cantidad = models.IntegerField(verbose_name="Stock del producto")
+    precio = models.PositiveIntegerField(verbose_name="Precio del producto")
+    cantidad = models.PositiveIntegerField(verbose_name="Stock del producto")
     categoria = models.ForeignKey(Categoria, null=False, on_delete=models.PROTECT)
     subcategoria = models.ForeignKey(Subcategoria, null=False, on_delete=models.PROTECT)
     primerJuguete = models.CharField(max_length=2, choices=primerJuguete, default='No')
@@ -63,6 +63,8 @@ class Producto(models.Model):
         db_table = 'producto'
         verbose_name = 'Producto'
         verbose_name_plural = 'Productos'
+        
+###########################################################################################
 
 # Clase Perfil trabajador
 class PerfilTrabajador(models.Model):
@@ -80,11 +82,11 @@ class Trabajador(models.Model):
     paterno = models.CharField(max_length=100)
     materno = models.CharField(max_length=100)
     sexo = models.CharField(max_length=1, choices=[('M', 'Masculino'), ('F', 'Femenino')])
-    rut = models.CharField(max_length=12)
+    rut = models.CharField(max_length=12, unique=True)
     fecha_nacimiento = models.DateField()
     telefono = models.CharField(max_length=15)
-    correo = models.EmailField()
-    contraseña = models.CharField(max_length=255, validators=[MinLengthValidator(6)])  
+    correo = models.EmailField(unique=True)
+    contraseña = models.CharField(max_length=255, validators=[MinLengthValidator(8)])  
     foto = models.ImageField(upload_to='fotos_trabajadores', blank=True, null=True)
 
     def __str__(self):
@@ -99,7 +101,34 @@ class MensajeContacto(models.Model):
 
     def __str__(self):
         return f"{self.nombre} {self.apellido} - {self.correo}"   
-    
+
+# Clase compra a proveedores  
+class CompraProveedor(models.Model):
+    numero_factura = models.PositiveIntegerField( verbose_name="Número de Factura")
+    proveedor = models.CharField(max_length=200, verbose_name="Proveedor")
+    rut_proveedor = models.CharField(max_length=20, verbose_name="RUT del proveedor", blank=True, null=True)
+    correo_proveedor = models.EmailField(max_length=255, verbose_name="Correo electrónico del proveedor", blank=True, null=True)
+    fecha_compra = models.DateField()
+
+    def __str__(self):
+        return f"Factura #{self.numero_factura} - Proveedor: {self.proveedor}"
+
+class DetalleCompra(models.Model):
+    compra = models.ForeignKey(CompraProveedor, on_delete=models.CASCADE, related_name='detalles')
+    producto = models.CharField(max_length=100, verbose_name="Producto")
+    cantidad = models.IntegerField(verbose_name="Cantidad")
+    precio_unitario = models.IntegerField( verbose_name="Precio Unitario")
+    total = models.IntegerField( verbose_name="Total")
+
+    def calcular_total(self):
+        self.total = self.cantidad * self.precio_unitario
+
+    def save(self, *args, **kwargs):
+        self.calcular_total()
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"Detalle - Producto: {self.producto} - Cantidad: {self.cantidad} - Total: {self.total}"
 
 ##################################################################################################
 
@@ -126,6 +155,7 @@ class Usuario(models.Model):
     sexo = models.CharField(max_length=1, choices=sexos, default='m')
     direccion = models.CharField(max_length=100, verbose_name='Direccion')
     correo = models.CharField(max_length=50, verbose_name='E-Mail')
+    telefono = models.CharField(max_length=15, verbose_name='Telefono')
     fechaNac = models.DateField(blank=True, null=True, verbose_name='Fecha de Nacimiento')
     tipo = models.ForeignKey(Tipo,null=False,on_delete=models.RESTRICT)
     creado = models.DateTimeField(default=timezone.now, editable=False)

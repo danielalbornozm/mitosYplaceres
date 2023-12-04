@@ -1,0 +1,97 @@
+{% extends "Trabajadores/base.html" %}
+{% load static %}
+
+{% block title %}
+    Registro productos
+{% endblock title %}
+
+{% block content %}
+
+<div class="container" style="width: 1100px;">
+    <div class="card mt-4">
+      <div class="card-header  text-white" style="font-size: large; background-color:rgb(20, 20, 118);" >
+        <h2 style="text-align: center; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">
+          Registro de producto</h2>
+      </div>
+      <div class="card-body">
+        <form method="post">
+          {% csrf_token %}
+  
+          <div class="row">
+            <div class="col-md-4">
+                <label for="{{ form.nombre.id_for_label }}" class="col-form-label">{{ form.nombre.label_tag }}</label><br>
+                {{ form.nombre }}
+                {{ form.nombre.errors }}
+            </div>
+            <div class="col-md-4">
+                <label for="{{ form.marca.id_for_label }}" class="col-form-label">{{ form.marca.label_tag }}</label><br>
+                {{ form.marca }}
+                {{ form.marca.errors }}
+            </div>
+            <div class="col-md-4">
+              <label for="{{ form.precio.id_for_label }}" class="col-form-label">{{ form.precio.label_tag }}</label><br>
+              {{ form.precio }}
+              {{ form.precio.errors }}
+            </div>
+          </div>
+  
+          <div class="row">
+            <div class="col-md-4">
+                <label for="{{ form.cantidad.id_for_label }}" class="col-form-label">{{ form.cantidad.label_tag }}</label><br>
+                {{ form.cantidad }}
+                {{ form.cantidad.errors }}
+            </div>
+            <div class="col-md-4">
+                <label for="{{ form.categoria.id_for_label }}" class="col-form-label">{{ form.categoria.label_tag }}</label><br>
+                {{ form.categoria }}
+                {{ form.categoria.errors }}
+            </div>
+            <div class="col-md-4">
+                <label for="{{ form.subcategoria.id_for_label }}" class="col-form-label">{{ form.subcategoria.label_tag }}</label><br>
+                {{ form.subcategoria }}
+                {{ form.subcategoria.errors }}
+            </div>
+          </div>
+          
+          <div class="row">
+            <div class="col-md-4">
+                <label for="{{ form.primerJuguete.id_for_label }}" class="col-form-label">Primer juguete:</label><br>
+                {{ form.primerJuguete }}
+                {{ form.primerJuguete.errors }}
+            </div>
+            <div class="col-md-4">
+                <label for="{{ form.descripcion.id_for_label }}" class="col-form-label">{{ form.descripcion.label_tag }}</label><br>
+                {{ form.descripcion }}
+                {{ form.descripcion.errors }}
+            </div>
+            <div class="col-3">
+                <div class="row">
+                    <div class="col">
+                        {% if producto.foto %}
+                            <img src="{{ producto.foto.url }}" alt="Foto del producto" width="200" height="auto" class="mx-auto my-auto d-block">
+                        {% else %}
+                            <img src="{% static 'images/productos/producto.png' %}" alt="Imagen de un producto"
+                                width="200" height="auto" class="mx-auto my-auto d-block">
+                        {% endif %}
+                        <label for="foto">Fotografía del producto:</label>
+                        <input type="file" name="foto" id="foto" class="form-control form-control-sm">
+                    </div>
+                </div>
+            </div>
+          </div>
+
+  
+         
+          
+          <div class="row justify-content-center text-center mt-5">
+            <div class="col">
+              <button class="btn btn-info" type="submit" name="guardar">Guardar</button>
+            </div>
+          </div>
+  
+        </form>
+      </div>
+    </div>
+</div>
+
+{% endblock content %}
