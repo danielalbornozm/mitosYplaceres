@@ -363,7 +363,7 @@ def lista_correos(request):
 
     query = request.GET.get('q')
     if query:
-        mensaje = MensajeContacto.filter(
+        mensaje = MensajeContacto.objects.filter(
             Q(nombre__icontains=query) |
             Q(paterno__icontains=query)
         )
