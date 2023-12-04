@@ -87,7 +87,7 @@ def detalle_producto(request, producto_id, id_categoria=None, id_subcategoria=No
     data = {
         'id_subcategoria': id_subcategoria,
         'id_categoria': id_categoria,
-        'categoria': categoria,
+        #'categoria': categoria,
         'subcategoria': subcategoria,
         'producto_id': producto_id,
         'foto': producto.foto,
