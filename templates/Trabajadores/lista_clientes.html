@@ -1,0 +1,80 @@
+{% extends "Trabajadores/base.html" %}
+{% block title %}Lista Trabajadores{% endblock %}
+
+{% load static %}
+
+{% block content %}
+<div class="container">
+    <div class="card mt-4">
+        <div class="card-header text-white" style="font-size: large; background-color:rgb(20, 20, 118);">
+            <h2 style="text-align: center; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">
+                Lista de Clientes
+            </h2>
+        </div>
+        <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center">
+                <h2>{{ perfil.cargo }}</h2>
+
+                <form id="searchForm" class="d-flex">
+                    <input class="form-control" type="search" name="q" placeholder="Ingrese el nombre del cliente"
+                        aria-label="Search" style="width: 400px;" id="searchInput">
+                    <button type="submit" class="btn btn-primary ms-2">Buscar</button>
+                </form>
+            </div><br>
+
+            <div class="card">
+                <div class="row">
+                    <div class="col-md-12 text-center" id="buscarResultados">
+                        <!-- Contenido de búsqueda dinámica -->
+                    </div>
+                </div>
+            </div>
+
+            <table class="table table-striped mt-3">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Nombre</th>
+                        <th>Apellido Paterno</th>
+                        <th>Apellido Materno</th>
+                        <th>Sexo</th>
+                        <th>RUT</th>
+                        <th>Fecha de Nacimiento</th>
+                        <th>Teléfono</th>
+                        <th>Correo</th>
+                        <th>Foto</th>
+                        <th>Accion</th>
+                        
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for usuario in usuarios %}
+                        <td>{{forloop.counter}}</td>
+                        <td>{{ usuario.nombre }}</td>
+                        <td>{{ usuario.paterno }}</td>
+                        <td>{{ usuario.materno }}</td>
+                        <td>{{ usuario.sexo }}</td>
+                        <td>{{ usuario.run }}</td>
+                        <td>{{ usuario.fechaNac }}</td>
+                        <td>{{ usuario.telefono }}</td>
+                        <td>{{ usuario.correo }}</td>
+                        <td>
+                            {% if usuario.foto %}
+                            <img src="{{usuario.foto.url}}" alt="Foto del Usuario" width="50" height="auto">
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a class="btn btn-danger btn-sm" href="{% url 'usuarioDelete' usuario.id %}">Eliminar</a>
+
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}

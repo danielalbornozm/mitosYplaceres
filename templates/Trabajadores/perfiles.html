@@ -2,38 +2,24 @@
 {% load static %}
 
 {% block content %}
-
-
-    <div class="container-fluid">
-        <h2 style="text-align: center;" class="mt-4">PERFIL DE TRABAJADOR</h2>
-        <div class="row">
-            
+    <div class="container">
+        <h2 class="text-center mt-4">PERFIL DE TRABAJADOR</h2>
+        <div class="row mt-4">
             {% for perfil in perfiles %}
-                <div class="col-6 col-md-3 mt-4">
-                    <div class="card mb-3 shadow">
-                        <div class="card-header bg-dark text-white text-center" style="font-size:large;">{{ perfil.cargo }}</div>
+                <div class="col-md-6 mb-4 ">
+                    <div class="card border-0 shadow mx-auto " style="width: 400px;">
+                        <div class="card-header bg-dark text-white text-center" style="font-size: large;">{{ perfil.cargo }}</div>
                         <div class="card-body text-center">
-                            <a href="">
-                                <img src="{% static 'images/trabajadores/' %}{{ perfil.foto }}" alt="" class="card-img-top" style="width: 250px; height: 200px;"><br><br>
-                            </a>
-                            <p style="font-size: small;">{{ perfil.descripcion }}</p><br>
-                            <a href="{% url 'mostrar_trabajadores' perfil.id %}" class="btn btn-primary mt-3" style="font-size: small;">Ver Empleados</a>
-
+                            <img src="{% static 'images/' %}{{ perfil.foto }}" alt="{{ perfil.cargo }}" class="card-img-top rounded-circle" style="width: 150px; height: 150px; object-fit: cover;">
                         </div>
+                        <div class="col-12 text-center">
+                            <a href="{% url 'mostrar_trabajadores' perfil.id %}" class="btn btn-primary btn-sm mb-3" style="width: 150px;">Ver Empleados</a>
+                        </div>
+
+
                     </div>
                 </div>
             {% endfor %}
         </div>
     </div>
-
 {% endblock %}
-
-    <script>
-        function cerrarSesion() {
-            // Aquí puedes agregar la lógica para cerrar sesión, por ejemplo, redireccionar a la página de inicio de sesión.
-            alert("Cerrando Sesión");
-        }
-    </script>
-</body>
-
-</html>
