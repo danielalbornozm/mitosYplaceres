@@ -233,7 +233,7 @@ class CompraProveedorForm(forms.ModelForm):
             'numero_factura': forms.NumberInput(attrs={'type': 'number', 'min': 0, 'autocomplete': 'off'}),
 
         }
-    
+    """
     def clean_numero_factura(self):
         numero_factura = self.cleaned_data.get('numero_factura')
 
@@ -246,6 +246,7 @@ class CompraProveedorForm(forms.ModelForm):
             raise forms.ValidationError("El número de factura debe contener solo números.")
 
         return numero_factura
+    """
 ###############################################################################################
 
 from dataclasses import field

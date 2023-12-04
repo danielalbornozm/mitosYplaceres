@@ -33,6 +33,16 @@
                 <li class="nav-item {% if request.path == '/perfiles_trabajadores/' %}active{% endif %}">
                     <a class="nav-link" href="{% url 'menu_admin' %}">Menu Principal</a>
                 </li>
+                {% if request.user.is_authenticated %}
+                    <li class="nav-item ms-1 me-1">
+                        <a class="nav-link" href="#">Usuario: <b> {{ request.user.username | upper }}, bienvenido a tu aplicación</b></a>
+                    </li>
+                {% else %}
+                    <li class="nav-item ms-1 me-1">
+                        <a class="btn btn-outline-dark fw-bold text-uppercase" href="{% url 'login' %}">Inicio de sesión</a>
+                    </li>
+                {% endif %}
+
                 <li class="nav-item {% if request.path == '/perfil/' %}active{% endif %}">
                     {% if perfil.id %}
                     <a class="nav-link" href="{% url 'mostrar_trabajadores' perfil.id %}">{{ perfil.cargo }} <span class="sr-only"></span></a>

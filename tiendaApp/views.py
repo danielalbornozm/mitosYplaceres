@@ -17,6 +17,7 @@ def inicio(request):
     }
     return render(request, 'producto/inicio.html', data)
 
+"""
 def categoria(request, id_categoria, categoria):
     
     print(f"Vista mostrar_trabajadores alcanzada con perfil_id: {id_categoria}")
@@ -32,6 +33,7 @@ def categoria(request, id_categoria, categoria):
         'productos': productos
     }
     return render(request, 'producto/categoria.html', data)
+"""
 
 def productos(request, id_categoria, categoria, id_subcategoria, subcategoria):
     categorias = Categoria.objects.all()
@@ -266,6 +268,7 @@ def buscar_trabajadores(request):
     # Renderizar los resultados en un fragmento de HTML
     return render(request, 'trabajadores/fragmento_resultados_busqueda.html', {'trabajadores': trabajadores})
 
+@permission_required('tiendaApp.menu_admin', login_url='menu_admin')
 def compra_proveedor(request):
     cantidad_productos_range = range(1, 11)
 
@@ -512,9 +515,9 @@ def login_view(request):
 
     return render(request, 'registration/login.html', {'form': form})
 
-@login_required
 def exit(request):
     logout(request)
+    print("Llegamos aquí")
     return redirect('inicio')
 
 
@@ -596,5 +599,6 @@ def login_view(request):
     return render(request, 'registration/login.html', {'form': form})
 
 @login_required
-def exit(request):
+def logout_view(request):
     logout(request)
+    return redirect('inicio')

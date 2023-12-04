@@ -1,10 +1,11 @@
-{% extends "producto/base.html" %}
+{% extends "frontEnd/base.html" %}
 {% block title %}Contacto{% endblock %}
 
 {% load static %}
 
 {% block contenido %}
 
+<!--
 <div class="banner-container" style="position: relative;">
     <img src="{% static 'images/trabajadores/banner.jpg' %}" alt="Banner" style="width: 100%; height: 200px;">
     <div class="banner-text" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; color: #fff;">
@@ -13,8 +14,26 @@
       <p>Estamos aquí para responder a tus preguntas, recibir tus comentarios y ayudarte en lo que necesites</p>
     </div>
   </div>
+-->
 
-<div class="card mx-auto mt-3" style="max-width: 690px; background-color: #f2CEDB;">
+<div class="banner-container py-3" style="background-color: #B3124D; color: white;">
+  <div class="container text-center">
+      <div class="row">
+          <div class="col-12">
+              <p class="mb-0 h2">Contáctanos</p>
+          </div>
+      </div>
+      <div class="row mt-3">
+          <div class="col-12">
+            <p>¡Estamos encantados de saber de ti! Utiliza el formulario a continuación para ponerte en contacto con nosotros</p>
+            <p>Estamos aquí para responder a tus preguntas, recibir tus comentarios y ayudarte en lo que necesites</p>
+          </div>
+      </div>
+  </div>
+</div>
+
+
+<div class="card mx-auto mt-3 mb-3" style="max-width: 690px; background-color: #f2CEDB;">
   <div class="card-body">
     <form id="contacto-form" method="post" action="{% url 'contacto' %}" class="row">
       {% csrf_token %}
