@@ -1,5 +1,5 @@
-{% extends "userTemplates/base.html" %}
-{% block contenido %}
+{% extends "Trabajadores/base.html" %}
+{% block content %}
 {% load static %}
     <div class="row mt-5">
         <div class="col-10 offset-1">
@@ -47,9 +47,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col">
-                        <a class="btn btn-dark" href="{% url 'listaUsuarios' %}">Listado de Usuarios</a>
-                    </div>
+                
                     <div class="col">
                         <button type="submit" class="btn btn-warning">Modificar</button>
                     </div>

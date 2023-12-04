@@ -16,7 +16,7 @@
                 <h2>{{ perfil.cargo }}</h2>
 
                 <form id="searchForm" class="d-flex">
-                    <input class="form-control" type="search" name="q" placeholder="Ingrese el nombre del trabajador"
+                    <input class="form-control" type="search" name="q" placeholder="Ingrese el nombre del producto"
                         aria-label="Search" style="width: 400px;" id="searchInput">
                     <button type="submit" class="btn btn-primary ms-2">Buscar</button>
                 </form>
@@ -59,11 +59,12 @@
                         <td>{{ producto.subcategoria }}</td>
                         <td>{{ producto.primerJuguete }}</td>
                         <td>
-                            <!-- Agrega aquí el código para mostrar la imagen del producto -->
+                            <img src="{{ producto.foto.url }}" alt="Foto del producto" width="50" height="auto">
                         </td>
                         
                         <td>
-                                <a class="btn btn-warning btn-sm" href="{% url 'detalle_producto' producto_id=producto.id %}">Ver</a>
+                                <a class="btn btn-warning btn-sm" href="{% url 'detalle_producto' producto_id=producto.id %}">Modificar</a>
+
                         </td>
                         
                     </tr>

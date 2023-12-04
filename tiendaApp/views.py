@@ -75,7 +75,7 @@ def mantenedor_productos(request):
 
 
 
-def detalle_producto(request, id_categoria, categoria, id_subcategoria, subcategoria, producto_id):
+def detalle_producto(request, producto_id, id_categoria=None, id_subcategoria=None, subcategoria=None):
     
     producto = get_object_or_404(Producto, id=producto_id)
     
@@ -101,7 +101,7 @@ def detalle_producto(request, id_categoria, categoria, id_subcategoria, subcateg
                     producto.foto = request.FILES['foto']
                 form.save()
                 print("Editando")
-                return redirect('productos', id_categoria, categoria, id_subcategoria, subcategoria)
+                return redirect('categorias_productos')
             else:
                 print(form.errors)
     else:
@@ -139,6 +139,8 @@ from .forms import TrabajadorForm, TrabajadorEditForm, ContactoForm, CompraProve
 from django.db.models import Q
 from django.core.mail import send_mail
 from django.http import JsonResponse
+import os
+
 
 # Create your views here.
 
@@ -294,6 +296,14 @@ def compra_proveedor(request):
 def lista_clientes(request):
     usuarios = Usuario.objects.all()
     tipos = Tipo.objects.all()
+
+    query = request.GET.get('q')
+    if query:
+        usuarios = usuarios.filter(
+            Q(nombre__icontains=query) |
+            Q(paterno__icontains=query) |
+            Q(materno__icontains=query) 
+        )
     
 
     data = {
@@ -306,11 +316,20 @@ def categorias_productos(request):
     categorias = Categoria.objects.all()
     subcategoria = Subcategoria.objects.all()
     productos = Producto.objects.all()
+
+    query = request.GET.get('q')
+    if query:
+        productos = productos.filter(
+            Q(nombre__icontains=query) |
+            Q(marca__icontains=query) 
+
+        )
     data = {
         'categorias': categorias,
         'subcategorias': subcategoria,
         'productos': productos
     }
+    
     return render(request, 'Trabajadores/lista_productos.html', data)
 
 def registro_producto(request):
@@ -332,6 +351,23 @@ def registro_producto(request):
     return render(request, 'Trabajadores/registro_producto.html', {'form': form})
 
 
+def lista_correos(request):
+    mensaje = MensajeContacto.objects.all()
+    print(mensaje)
+
+    query = request.GET.get('q')
+    if query:
+        mensaje = MensajeContacto.filter(
+            Q(nombre__icontains=query) |
+            Q(paterno__icontains=query)
+        )
+    
+    data = {
+        'mensaje':mensaje
+    }
+    
+    
+    return render(request, 'Trabajadores/lista_correos.html', data)
 
 
 ############################################################################################################
@@ -413,7 +449,7 @@ def busqueda(request):
         'usuarios': datos, 
         'tipos': tipos,
     }
-    return render(request, 'userTemplates/listaUsuarios.html', data)
+    return render(request, 'Trabajadores/lista_clientes.html', data)
 
 def listaTipo(request):    
     q = request.GET.get('q')

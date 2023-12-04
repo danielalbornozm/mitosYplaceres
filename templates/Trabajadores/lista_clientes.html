@@ -16,7 +16,7 @@
                 <h2>{{ perfil.cargo }}</h2>
 
                 <form id="searchForm" class="d-flex">
-                    <input class="form-control" type="search" name="q" placeholder="Ingrese el nombre del trabajador"
+                    <input class="form-control" type="search" name="q" placeholder="Ingrese el nombre del cliente"
                         aria-label="Search" style="width: 400px;" id="searchInput">
                     <button type="submit" class="btn btn-primary ms-2">Buscar</button>
                 </form>
@@ -33,6 +33,7 @@
             <table class="table table-striped mt-3">
                 <thead>
                     <tr>
+                        <th>#</th>
                         <th>Nombre</th>
                         <th>Apellido Paterno</th>
                         <th>Apellido Materno</th>
@@ -42,12 +43,13 @@
                         <th>Teléfono</th>
                         <th>Correo</th>
                         <th>Foto</th>
+                        <th>Accion</th>
                         
                     </tr>
                 </thead>
                 <tbody>
                     {% for usuario in usuarios %}
-                    <tr data-perfil-id="{{ usuario.id }}">
+                        <td>{{forloop.counter}}</td>
                         <td>{{ usuario.nombre }}</td>
                         <td>{{ usuario.paterno }}</td>
                         <td>{{ usuario.materno }}</td>
@@ -61,6 +63,10 @@
                             <img src="{{usuario.foto.url}}" alt="Foto del Usuario" width="50" height="auto">
                             {% endif %}
                         </td>
+                        <td>
+                            <a class="btn btn-danger btn-sm" href="{% url 'usuarioDelete' usuario.id %}">Eliminar</a>
+
+                        </td>
                     </tr>
                     {% endfor %}
                 </tbody>
@@ -69,8 +75,6 @@
     </div>
 </div>
 
-<script>
-    // script JavaScript aquí
-</script>
+
 
 {% endblock %}

@@ -38,7 +38,8 @@ urlpatterns = [
     path('administracion/lista_clientes', vista.lista_clientes, name='lista_clientes'),
     path('administracion/lista_productos', vista.categorias_productos, name='categorias_productos'),
     path('administracion/ingresar_producto/registrar_producto/', vista.registro_producto, name='registro_producto'),
-    path('administracion/lista_productos/edicion_producto/<int:producto_id>/', vista.detalle_producto, name='detalle_producto'),
+    path('administracion/lista_productos/<int:producto_id>/', vista.detalle_producto, name='detalle_producto'),
+    path('administracion/mensajes_clientes', vista.lista_correos, name='lista_correos'),
 
 
     path('detalle_trabajador/<int:trabajador_id>/<int:perfil_id>/', vista.editar_trabajador, name='editar_trabajador'),

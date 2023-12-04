@@ -230,7 +230,7 @@ class CompraProveedorForm(forms.ModelForm):
         fields = ['numero_factura', 'proveedor', 'rut_proveedor', 'correo_proveedor', 'fecha_compra']
         widgets = {
             'fecha_compra': forms.SelectDateWidget(years=range(2023, 2051)),
-            'numero_factura': forms.TextInput(attrs={'type': 'number', 'min': 0, 'autocomplete': 'off'}),
+            'numero_factura': forms.NumberInput(attrs={'type': 'number', 'min': 0, 'autocomplete': 'off'}),
 
         }
     

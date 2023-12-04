@@ -1,0 +1,53 @@
+{% extends "Trabajadores/base.html" %}
+{% block title %}Lista de Mensajes{% endblock %}
+
+{% load static %}
+
+{% block content %}
+<div class="container">
+    <div class="card mt-4">
+        <div class="card-header text-white" style="font-size: large; background-color:rgb(20, 20, 118);">
+            <h2 style="text-align: center; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">
+                Mensajes de clientes
+            </h2>
+        </div>
+        <div class="d-flex justify-content-between align-items-center">
+            <h2>{{ perfil.cargo }}</h2>
+
+            <form id="searchForm" class="d-flex">
+                <input class="form-control" type="search" name="q" placeholder="Ingrese el nombre del cliente"
+                    aria-label="Search" style="width: 400px;" id="searchInput">
+                <button type="submit" class="btn btn-primary ms-2">Buscar</button>
+            </form>
+        </div><br>
+
+    <table class="table table-striped mt-3">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Correo</th>
+                <th>Mensaje</th>
+                <th>Accion</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for mensaje in mensajes %}
+           <script>console.log(mensaje.nombre)</script> 
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ mensaje.nombre }}</td>
+                    <td>{{ mensaje.apellido }}</td>
+                    <td>{{ mensaje.correo }}</td>
+                    <td>{{ mensaje.mensaje }}</td>
+                    <td>
+                        <a class="btn btn-danger btn-sm" href="{% url 'eliminar_mensaje' mensaje.id %}">Leer</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+{% endblock %}

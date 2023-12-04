@@ -1,61 +1,61 @@
-{% extends "producto/base.html" %}
+{% extends "Trabajadores/base.html" %}
 {% load static %}
 
-{% block titulo %}
-    Mantenedor de productos
-{% endblock titulo %}
+{% block title %}
+    Editor productos
+{% endblock title %}
 
+{% block content %}
 
-{% block contenido %}
-
-<div class="container-fluid">
-    <div class="row mt-5">
-        <div class="col">
-            <h2 style="text-align: center;">Mantenedor de productos</h2>
-            <hr>
+<div class="container" style="width: 1100px;">
+    <div class="card mt-4">
+        <div class="card-header  text-white" style="font-size: large; background-color:rgb(20, 20, 118);">
+            <h2 style="text-align: center; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">Editor de producto</h2>
+        </div>
+        <div class="card-body">
             <form method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="row">
                     {{ form.non_field_errors }}
                     <div class="col-9">
                         <div class="row">
-                            <div class="col-3 mb-3">
-                                {{ form.nombre.label_tag }}
+                            <div class="col-4 mb-3">
+                                <label for="id_nombre">Nombre:</label>
                                 {{ form.nombre }}
                                 {{ form.nombre.errors }}
                             </div>
-                            <div class="col-3 mb-3">
-                                {{ form.marca.label_tag }}
+                            <div class="col-4 mb-3">
+                                <label for="id_marca">Marca:</label>
                                 {{ form.marca }}
                                 {{ form.marca.errors }}
                             </div>
-                            <div class="col-3 mb-3">
-                                {{ form.precio.label_tag }}
+                            <div class="col-4 mb-3">
+                                <label for="id_precio">Precio:</label>
                                 {{ form.precio }}
                                 {{ form.precio.errors }}
                             </div>
-                            <div class="col-3 mb-3">
-                                {{ form.cantidad.label_tag }}
+                            <div class="col-4 mb-3">
+                                <label for="id_cantidad">Cantidad:</label>
                                 {{ form.cantidad }}
                                 {{ form.cantidad.errors }}
                             </div>
-                            <div class="col-3 mb-3">
-                                {{ form.categoria.label_tag }}
+                            <div class="col-4 mb-3">
+                                <label for="id_categoria">Categoría:</label>
                                 {{ form.categoria }}
                                 {{ form.categoria.errors }}
                             </div>
-                            <div class="col-3 mb-3">
-                                {{ form.subcategoria.label_tag }}
+                            <div class="col-4 mb-3">
+                                <label for="id_subcategoria">Subcategoría:</label>
                                 {{ form.subcategoria }}
                                 {{ form.subcategoria.errors }}
                             </div>
-                            <div class="col-3 mb-3">
-                                <label for="id_materno">Primer juguete:</label>
+                            <div class="col-4 mb-3">
+                                <label for="id_primerJuguete">Primer juguete:</label>
                                 {{ form.primerJuguete }}
                                 {{ form.primerJuguete.errors }}
                             </div>
-                            <div class="col-6 mb-3">
-                                {{ form.descripcion.label_tag }}
+                            <div class="col-8 mb-3">
+                                <label for="id_descripcion">Descripción:</label>
                                 {{ form.descripcion }}
                                 {{ form.descripcion.errors }}
                             </div>
@@ -70,24 +70,18 @@
                                     <img src="{% static 'images/productos/producto.png' %}" alt="Imagen de un producto"
                                         width="200" height="auto" class="mx-auto my-auto d-block">
                                 {% endif %}
-                                <label for="foto">Fotografía del producto:</label>
-                                <input type="file" name="foto" id="foto" class="form-control form-control-sm">
+                                <label for="id_foto">Fotografía del producto:</label>
+                                <input type="file" name="foto" id="id_foto" class="form-control form-control-sm mt-3">
                             </div>
                         </div>
                     </div>
                 </div>
-                <hr>
-                <div class="row justify-content-center text-center">
-                    <div class="col-4">
-                        <button class="btn btn-warning btn-sm" type="submit" name="editar">Editar</button>
-                    </div>
-                    <div class="col-4">
-                        <a class="btn btn-danger btn-sm" href="{% url 'productoDel' id_categoria=id_categoria categoria=categoria id_subcategoria=id_subcategoria subcategoria=subcategoria producto_id=producto_id %}">Eliminar</a>
-                    </div>
-                </div>
+                
+                <button type="submit" class="btn btn-info mt-3 col-md-2 offset-md-5">Guardar</button>
+
             </form>
         </div>
     </div>
 </div>
 
-{% endblock contenido %}
+{% endblock content %}

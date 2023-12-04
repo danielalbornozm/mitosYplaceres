@@ -102,7 +102,7 @@ class MensajeContacto(models.Model):
 
 # Clase compra a proveedores  
 class CompraProveedor(models.Model):
-    numero_factura = models.CharField(max_length=50, unique=True, verbose_name="Número de Factura")
+    numero_factura = models.PositiveIntegerField( verbose_name="Número de Factura")
     proveedor = models.CharField(max_length=200, verbose_name="Proveedor")
     rut_proveedor = models.CharField(max_length=20, verbose_name="RUT del proveedor", blank=True, null=True)
     correo_proveedor = models.EmailField(max_length=255, verbose_name="Correo electrónico del proveedor", blank=True, null=True)
