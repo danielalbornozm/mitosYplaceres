@@ -39,8 +39,8 @@ class Subcategoria(models.Model):
 class Producto(models.Model):
     nombre = models.CharField(max_length=200, verbose_name="Nombre del producto")
     marca = models.CharField(max_length=100, verbose_name="Marca del producto")
-    precio = models.IntegerField(verbose_name="Precio del producto")
-    cantidad = models.IntegerField(verbose_name="Stock del producto")
+    precio = models.PositiveIntegerField(verbose_name="Precio del producto")
+    cantidad = models.PositiveIntegerField(verbose_name="Stock del producto")
     categoria = models.ForeignKey(Categoria, null=False, on_delete=models.PROTECT)
     subcategoria = models.ForeignKey(Subcategoria, null=False, on_delete=models.PROTECT)
     primerJuguete = models.CharField(max_length=2, choices=primerJuguete, default='No')
@@ -63,6 +63,8 @@ class Producto(models.Model):
         db_table = 'producto'
         verbose_name = 'Producto'
         verbose_name_plural = 'Productos'
+        
+###########################################################################################
 
 # Clase Perfil trabajador
 class PerfilTrabajador(models.Model):

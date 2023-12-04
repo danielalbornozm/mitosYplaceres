@@ -15,7 +15,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from pathlib import Path
-from xml.etree.ElementInclude import include
+#from xml.etree.ElementInclude import include
 from django.contrib import admin
 from django.urls import path, include
 from tiendaApp import views as vista
@@ -25,7 +25,8 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', vista.inicio, name='inicio'),
+    path('', vista.inicioFront, name='inicio'),
+    path('productos/', vista.inicio, name='inicioProductos'),
     path('<str:id_categoria>/<str:categoria>/', vista.categoria, name='categoria'),
     path('<str:id_subcategoria>/<str:subcategoria>/<str:id_categoria>/<str:categoria>/', vista.productos, name='productos'),
     path('<str:id_subcategoria>/<str:subcategoria>/<str:id_categoria>/<str:categoria>/<str:producto_id>/editar/', vista.detalle_producto, name='detalle_producto'),
@@ -61,7 +62,7 @@ urlpatterns = [
     path('categorias/', vista.get_categorias, name='categorias'),
     path('subcategorias/<int:categoria_id>', vista.get_subcategorias, name='subcategorias'),
     path('producto/<int:categoria_id>/<int:subcategoria_id>', vista.get_productos, name='producto'),
-    
+  
     path('buscador', vista.busqueda, name='buscador'),
     path('listaTipo', vista.listaTipo, name="listaTipo"),
 ]
