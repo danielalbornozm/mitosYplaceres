@@ -604,3 +604,18 @@ def limpiar_carrito(request):
     carrito.limpiar()
     return redirect("tienda")
 
+def buscar_producto(request):
+    productos = Producto.objects.all()
+
+    # Obtener el valor de búsqueda desde la consulta GET
+    q = request.GET.get('q')
+
+    # Filtrar productos según la búsqueda
+    if q:
+        productos = productos.filter(nombre__icontains=q)
+
+    data = {
+        'productos': productos
+    }
+    return render(request, 'ventas/tienda.html', data)
+
