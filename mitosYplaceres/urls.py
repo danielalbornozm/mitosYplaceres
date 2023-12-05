@@ -28,14 +28,13 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', vista.inicioFront, name='inicio'),
     path('productos/', vista.inicio, name='inicioProductos'),
-    path('<str:id_categoria>/<str:categoria>/', vista.categoria, name='categoria'),
+    #path('<str:id_categoria>/<str:categoria>/', vista.categoria, name='categoria'),
     path('<str:id_subcategoria>/<str:subcategoria>/<str:id_categoria>/<str:categoria>/', vista.productos, name='productos'),
-    path('<str:id_subcategoria>/<str:subcategoria>/<str:id_categoria>/<str:categoria>/<str:producto_id>/mantenedor/', vista.mantenedor_productos, name='productoAdd'),
     path('<str:id_subcategoria>/<str:subcategoria>/<str:id_categoria>/<str:categoria>/<str:producto_id>/editar/', vista.detalle_producto, name='detalle_producto'),
     path('<str:id_subcategoria>/<str:subcategoria>/<str:id_categoria>/<str:categoria>/<str:producto_id>/confirmar/', vista.eliminar_producto, name='productoDel'),
     path('perfiles/', mostrar_perfiles, name="mostrar_perfiles"),  # Corregido aquí
     path('perfiles/mostrar_trabajadores/<int:perfil_id>/', vista.mostrar_trabajadores, name='mostrar_trabajadores'),
-    path('mostrar_trabajadores/agregar_trabajador/<int:perfil_id>/', agregar_trabajador, name='agregar_trabajador'),
+    
     path('detalle_trabajador/<int:trabajador_id>/<int:perfil_id>/', editar_trabajador, name='editar_trabajador'),
     path('detalle_trabajador/elim_trabajador/<int:trabajador_id>/', elim_trabajador, name='elim_trabajador'),
     path('contacto', enviar_mensaje, name='contacto' ),
@@ -51,6 +50,20 @@ urlpatterns = [
     path('inicioSesion/', vista.login_view, name='login'),
     path('cerrarSesion/', vista.exit, name='exit'),
 
+    path('administracion/',vista.menu_admin, name='menu_admin'),
+    path('administracion/mostrar_trabajadores/agregar_trabajador/', vista.agregar_trabajador, name='agregar_trabajador'),
+    path('administracion/ingresar_producto', vista.compra_proveedor, name='compra_proveedor'),
+    path('administracion/lista_clientes', vista.lista_clientes, name='lista_clientes'),
+    path('administracion/lista_productos', vista.categorias_productos, name='categorias_productos'),
+    path('administracion/ingresar_producto/registrar_producto/', vista.registro_producto, name='registro_producto'),
+    path('administracion/lista_productos/<int:producto_id>/', vista.detalle_producto, name='detalle_producto'),
+    path('administracion/mensajes_clientes', vista.lista_correos, name='lista_correos'),
+    
+    path('categorias/', vista.get_categorias, name='categorias'),
+    path('subcategorias/<int:categoria_id>', vista.get_subcategorias, name='subcategorias'),
+    path('producto/<int:categoria_id>/<int:subcategoria_id>', vista.get_productos, name='producto'),
+    #path('contacto/', vista.get_contacto, name='contacto'),
+    
     path('buscador', vista.busqueda, name='buscador'),
     path('listaTipo', vista.listaTipo, name="listaTipo"),
 
