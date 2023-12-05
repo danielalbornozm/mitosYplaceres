@@ -23,6 +23,8 @@ const cargarProductos = async (idCategoria, idSubcategoria) => {
                                     <span>$${producto.precio}</span>
                                     <hr />
                                     <span>Cantidad: ${producto.cantidad}</span>
+                                    <hr />
+                                    <a href="{% url 'Add' producto.id %}" class="btn btn-primary mt-1">Agregar</a>
                                 </div>
                             </div>
                         </a>

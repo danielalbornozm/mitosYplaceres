@@ -52,9 +52,6 @@
 <!-- BARRA DE BUSQUEDA DE PRODUCTOS -->
 <nav class="navbar navbar-expand-lg d-flex justify-content-center mt-3" style="background-color:#B3124D">
     <ul class="navbar-nav mt-1">
-        <li>
-          <h3 style="color:black; text-transform:uppercase; text-decoration:none;">CATALOGO DE PRODUCTOS</h3>
-        </li>
         <li class="nav-item dropdown ms-5 me-5">
           <select class="form-select" aria-label="Default select example" id="cboCategoria" name="cboCategoria"></select>
         </li>
@@ -62,7 +59,7 @@
           <select class="form-select" aria-label="Default select example" id="cboSubcategoria" name="cboSubcategoria"></select>
         </li>
         <li class="nav-item ms-1 me-5">
-          <a class="btn btn-outline-dark fw-bold text-uppercase" href="{% url 'tienda' %}">Ir a comprar</a>
+          <a class="btn btn-outline-dark fw-bold text-uppercase" href="{% url 'tienda' %}">Ver carrito</a><b>{{cantidad_carrito}}</b>
         </li>
     </ul>
 </nav>
