@@ -1,26 +1,36 @@
-{% extends "userTemplates/base.html" %}
+{% extends "frontEnd/base.html" %}
 {% block contenido %}
 {% load static %}
     <div class="container">
-        <div class="row">
-            <div class="col-12 align-self-center"><h2>Tienda Catalogo onlineeee</h2></div>
-            <div class="card-body">
-                <img src="{% static 'images/carrito/cart.png' %}" alt="Foto del producto" width="50" height="auto"><b>{{cantidad_carrito}}</b>
-            </div>
-            <div>
-                <p>{{mensaje}}</p>
-                <a href="{% url 'order_list' %}">Mis pedidos</a>
+        <div class="row mt-3">
+            <div class="col mt-auto py-3 text-center" style="background-color: #B3124D; color: black;">
+                <div class="navbar navbar-expand-lg justify-content-center"> 
+                    <ul class="navbar-nav">
+                        <li class="nav-item ms-1 me-1">
+                            <a class="btn btn-outline-dark fw-bold text-uppercase ms-1 me-1justify-content-center" href="{% url 'tienda' %}" style="width:150px; height:auto;">
+                                TIENDA
+                            </a>
+                        </li>
+                        <li class="nav-item ms-1 me-1">
+                            <form class="d-flex" role="search" action="{% url 'buscarProducto' %}" method="get">
+                                <input class="form-control me-2" type="search" placeholder="Buscar por nombre" aria-label="Search" name="q">
+                                <button class="btn btn-outline-dark fw-bold text-uppercase ms-1 me-1" type="submit">Buscar</button>
+                            </form>
+                        </li>
+                        <li class="nav-item ms-1 me-1">
+                            <img src="{% static 'images/carrito/cart.png' %}" alt="Foto del producto" width="50" height="auto"><b style="font-size: 24px;">{{cantidad_carrito}}</b>
+                        </li>
+                        <li class="nav-item ms-1 me-1">    
+                            <p>{{mensaje}}</p>
+                        </li>
+                        <li class="nav-item ms-1 me-1">
+                            <a class="btn btn-outline-dark fw-bold text-uppercase ms-1 me-1" href="{% url 'order_list' %}">Mis pedidos</a>
+                        </li>
+                    </ul>  
+                </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col">
-                <form class="d-flex" role="search" action="{% url 'buscarProducto' %}" method="get">
-                    <input class="form-control me-2" type="search" placeholder="Buscar producto por tipo" aria-label="Search" name="q">
-                    <button class="btn btn-outline-success" type="submit">Buscar</button>
-                </form>
-            </div>
-        </div>
-        <div class="row">
+        <div class="row mt-3 mb-3">
             <div class="col-8">
                 <div class="row" style="padding: 10px 0;">
                     <div class="col-12">
@@ -37,7 +47,7 @@
                                         <br>
                                         <img src="{{ producto.foto.url }}" alt="Foto del producto" width="50" height="auto">
                                         <br>
-                                        <a href="{% url 'Add' producto.id %}" class="btn btn-primary mt-1">Agregar al carrito</a>
+                                        <a href="{% url 'Add' producto.id %}" class="btn btn-outline-dark fw-bold text-uppercase mt-1">Agregar al carrito</a>
                                     </div>
                                 </div>
                             </div>
