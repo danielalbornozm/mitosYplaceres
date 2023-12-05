@@ -1,6 +1,6 @@
 from gettext import translation
 from itertools import product
-from typing_extensions import Self
+from typing import Self
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.core.mail import send_mail
