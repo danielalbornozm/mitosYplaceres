@@ -1,5 +1,6 @@
 {% extends "frontEnd/base.html" %}
 {% block title %}Contacto{% endblock %}
+{% load static %}
 
 {% load static %}
 
@@ -61,3 +62,11 @@
 </div>
 
 {% endblock %}
+
+{% block js %}
+  
+  {% if mensaje_enviado %}
+    <script src="{% static 'js/mensaje_contacto.js' %}"></script>
+  {% endif %}
+
+  {% endblock js %}

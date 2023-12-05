@@ -239,7 +239,6 @@ def elim_trabajador(request, trabajador_id):
 
     return redirect('mostrar_trabajadores', perfil_id=perfil_id)
 
-@login_required(login_url='inicio')
 def enviar_mensaje(request):
     if request.method == 'POST':
         form = ContactoForm(request.POST)
@@ -252,9 +251,13 @@ def enviar_mensaje(request):
             # Crear un nuevo objeto MensajeContacto y guardar en la base de datos
             nuevo_mensaje = MensajeContacto(nombre=nombre, apellido=apellido, correo=correo, mensaje=mensaje)
             nuevo_mensaje.save()
-
-
-            return redirect('contacto')
+            
+            # Limpiar los campos del formulario
+            form = ContactoForm()
+            
+            # Agregar un mensaje a través del contexto para indicar que el mensaje fue enviado
+            return render(request, 'producto/contacto.html', {'mensaje_enviado': True, 'form': form})
+        
     else:
         form = ContactoForm()
 
@@ -559,6 +562,7 @@ def get_productos(_request, categoria_id, subcategoria_id):
         
     return JsonResponse(data)
 
+"""
 def get_contacto(_request):
     contacto = list(MensajeContacto.objects.values())
     
@@ -568,7 +572,7 @@ def get_contacto(_request):
         data = {'message':"Sin datos"}
         
     return JsonResponse(data)
-        
+"""     
 
 
 
