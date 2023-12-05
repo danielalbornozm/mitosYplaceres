@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import permission_required
-from tiendaApp.models import Categoria, Subcategoria, Producto
+from tiendaApp.models import Categoria, Subcategoria, Producto, CompraProveedor
 from tiendaApp.Carrito import Carrito
 from tiendaApp.forms import ProductoForm
 
@@ -371,6 +371,10 @@ def lista_correos(request):
     
     return render(request, 'Trabajadores/lista_correos.html', {'mensajes': mensajes})
 
+@login_required(login_url='inicio')
+def lista_facturas(request):
+    compras = CompraProveedor.objects.all()
+    return render(request, 'Trabajadores/lista_facturas.html', {'compras': compras})
 
 ############################################################################################################
 
