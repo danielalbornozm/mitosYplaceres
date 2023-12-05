@@ -59,6 +59,13 @@ class Producto(models.Model):
     def __str__(self):
         return "{}".format(self.nombre)
     
+    
+    def reducir_cantidad(self, cantidad):
+        if cantidad <= self.cantidad:
+            self.cantidad -= cantidad
+            self.save()
+            return True
+        return False 
     class Meta:
         db_table = 'producto'
         verbose_name = 'Producto'

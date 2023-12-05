@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import permission_required
-from tiendaApp.models import Categoria, Subcategoria, Producto
+from tiendaApp.models import Categoria, Subcategoria, Producto, CompraProveedor
+from tiendaApp.Carrito import Carrito
 from tiendaApp.forms import ProductoForm
 
 
@@ -78,8 +79,6 @@ def mantenedor_productos(request):
     return render(request, 'producto/productoAdd.html', {'form': form})
 
 
-
-
 def detalle_producto(request, producto_id, id_categoria=None, id_subcategoria=None, subcategoria=None):
     
     producto = get_object_or_404(Producto, id=producto_id)
@@ -87,7 +86,7 @@ def detalle_producto(request, producto_id, id_categoria=None, id_subcategoria=No
     data = {
         'id_subcategoria': id_subcategoria,
         'id_categoria': id_categoria,
-
+        #'categoria': categoria,
         'subcategoria': subcategoria,
         'producto_id': producto_id,
         'foto': producto.foto,
@@ -100,7 +99,8 @@ def detalle_producto(request, producto_id, id_categoria=None, id_subcategoria=No
         form = ProductoForm(request.POST, request.FILES, instance=producto)
         print("Estamos")
 
-        if 'editar' in request.POST:
+        if 'guardar' in request.POST:
+            print("aquí")
             if form.is_valid():
                 if 'foto' in request.FILES:
                     producto.foto = request.FILES['foto']
@@ -142,14 +142,14 @@ from django.db.models import Q
 from django.core.mail import send_mail
 from django.http import JsonResponse
 import os
-
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
-
+@login_required(login_url='inicio')
 def menu_admin(request):
     return render(request, 'Trabajadores/Administrador.html')
 
-
+@login_required(login_url='inicio')
 def mostrar_perfiles(request):
     perfiles = PerfilTrabajador.objects.all()
     
@@ -157,6 +157,7 @@ def mostrar_perfiles(request):
     
     return render(request,'Trabajadores/perfiles.html', data)
 
+@login_required(login_url='inicio')
 def mostrar_trabajadores(request, perfil_id):
     
     
@@ -174,6 +175,7 @@ def mostrar_trabajadores(request, perfil_id):
 
     return render(request, 'Trabajadores/mostrar_trabajadores.html', {'perfil': perfil, 'trabajadores': trabajadores})
 
+@login_required(login_url='inicio')
 def agregar_trabajador(request):
 
     if request.method == 'POST':
@@ -197,8 +199,7 @@ def agregar_trabajador(request):
 
     return render(request, 'Trabajadores/agregar_trabajador.html', {'form': form})
 
-
-
+@login_required(login_url='inicio')
 def editar_trabajador(request, trabajador_id, perfil_id):
     trabajador = get_object_or_404(Trabajador, id=trabajador_id)
 
@@ -224,8 +225,7 @@ def editar_trabajador(request, trabajador_id, perfil_id):
 
     return render(request, 'Trabajadores/detalle_trabajador.html', {'trabajador': trabajador, 'form_edicion': form})
 
-
-
+@login_required(login_url='inicio')
 def elim_trabajador(request, trabajador_id):
     trabajador = get_object_or_404(Trabajador, id=trabajador_id)
 
@@ -247,14 +247,19 @@ def enviar_mensaje(request):
             # Crear un nuevo objeto MensajeContacto y guardar en la base de datos
             nuevo_mensaje = MensajeContacto(nombre=nombre, apellido=apellido, correo=correo, mensaje=mensaje)
             nuevo_mensaje.save()
-
-
-            return redirect('contacto')
+            
+            # Limpiar los campos del formulario
+            form = ContactoForm()
+            
+            # Agregar un mensaje a través del contexto para indicar que el mensaje fue enviado
+            return render(request, 'producto/contacto.html', {'mensaje_enviado': True, 'form': form})
+        
     else:
         form = ContactoForm()
 
     return render(request, 'producto/contacto.html', {'form': form})
 
+@login_required(login_url='inicio')
 def buscar_trabajadores(request):
     # Obtener el valor de búsqueda de la solicitud GET
     query = request.GET.get('q', '')
@@ -265,6 +270,7 @@ def buscar_trabajadores(request):
     # Renderizar los resultados en un fragmento de HTML
     return render(request, 'trabajadores/fragmento_resultados_busqueda.html', {'trabajadores': trabajadores})
 
+@login_required(login_url='inicio')
 @permission_required('tiendaApp.menu_admin', login_url='menu_admin')
 def compra_proveedor(request):
     cantidad_productos_range = range(1, 11)
@@ -295,7 +301,7 @@ def compra_proveedor(request):
 
     return render(request, 'Trabajadores/compra_proveedor.html', {'form': form, 'detalle_form': detalle_form, 'cantidad_productos_range': cantidad_productos_range})
 
-
+@login_required(login_url='inicio')
 def lista_clientes(request):
     usuarios = Usuario.objects.all()
     tipos = Tipo.objects.all()
@@ -315,6 +321,7 @@ def lista_clientes(request):
     }
     return render(request, 'Trabajadores/lista_clientes.html', data)
 
+@login_required(login_url='inicio')
 def categorias_productos(request):
     categorias = Categoria.objects.all()
     subcategoria = Subcategoria.objects.all()
@@ -335,6 +342,7 @@ def categorias_productos(request):
     
     return render(request, 'Trabajadores/lista_productos.html', data)
 
+@login_required(login_url='inicio')
 def registro_producto(request):
     if request.method == 'POST':
         form = ProductoForm(request.POST, request.FILES)
@@ -353,12 +361,17 @@ def registro_producto(request):
     
     return render(request, 'Trabajadores/registro_producto.html', {'form': form})
 
-
+@login_required(login_url='inicio')
 def lista_correos(request):
     mensajes = MensajeContacto.objects.all()
-    return render(request, 'Trabajadores/lista_correos.html', {'mensajes': mensajes})
+    print(mensajes)
     
+    return render(request, 'Trabajadores/lista_correos.html', {'mensajes': mensajes})
 
+@login_required(login_url='inicio')
+def lista_facturas(request):
+    compras = CompraProveedor.objects.all()
+    return render(request, 'Trabajadores/lista_facturas.html', {'compras': compras})
 
 ############################################################################################################
 
@@ -488,7 +501,7 @@ def login_view(request):
             if user is not None:
                 login(request, user)
                 # Obtener la URL a la que se debe redirigir
-                next_url = request.GET.get('next', 'inicioProductos')
+                next_url = request.GET.get('next', 'menu_admin')
                 # Redirigir a la página deseada después del inicio de sesión
                 return redirect(next_url)
             else:
@@ -499,9 +512,9 @@ def login_view(request):
 
     return render(request, 'registration/login.html', {'form': form})
 
-def exit(request):
+@login_required
+def logout_view(request):
     logout(request)
-    print("Llegamos aquí")
     return redirect('inicio')
 
 
@@ -548,41 +561,62 @@ def get_productos(_request, categoria_id, subcategoria_id):
         data = {'message':"Sin datos"}
         
     return JsonResponse(data)
-        
 
-
-
-
-# INICIO DE SESION
-
-from django.shortcuts import render
-from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.decorators import login_required
-
-
-def login_view(request):
-    if request.method == 'POST':
-        form = AuthenticationForm(request, request.POST)
-        if form.is_valid():
-            username = form.cleaned_data['username']
-            password = form.cleaned_data['password']
-            user = authenticate(request, username=username, password=password)
-            if user is not None:
-                login(request, user)
-                # Obtener la URL a la que se debe redirigir
-                next_url = request.GET.get('next', 'menu_admin')
-                # Redirigir a la página deseada después del inicio de sesión
-                return redirect(next_url)
-            else:
-                # El usuario no pudo ser autenticado, puedes manejar esto de alguna manera
-                pass
+"""
+def get_contacto(_request):
+    contacto = list(MensajeContacto.objects.values())
+    
+    if (len(contacto) > 0):
+        data = {'message':"Éxito", 'contacto':contacto}
     else:
-        form = AuthenticationForm()
+        data = {'message':"Sin datos"}
+        
+    return JsonResponse(data)
+"""
 
-    return render(request, 'registration/login.html', {'form': form})
+###################################################################################################################
 
-@login_required
-def logout_view(request):
-    logout(request)
-    return redirect('inicio')
+#Vistas Carrito
+
+def tienda(request):
+    productos = Producto.objects.all()
+    return render(request, "ventas/tienda.html", {'productos':productos})
+
+def agregar_producto(request, producto_id):
+    carrito = Carrito(request)
+    producto = Producto.objects.get(id=producto_id)
+    carrito.agregar(producto)
+    return redirect("tienda")
+
+def eliminar_producto(request, producto_id):
+    carrito = Carrito(request)
+    producto = Producto.objects.get(id=producto_id)
+    carrito.eliminar(producto)
+    return redirect("tienda")
+
+def restar_producto(request, producto_id):
+    carrito = Carrito(request)
+    producto = Producto.objects.get(id=producto_id)
+    carrito.restar(producto)
+    return redirect("tienda")
+
+def limpiar_carrito(request):
+    carrito = Carrito(request)
+    carrito.limpiar()
+    return redirect("tienda")
+
+def buscar_producto(request):
+    productos = Producto.objects.all()
+
+    # Obtener el valor de búsqueda desde la consulta GET
+    q = request.GET.get('q')
+
+    # Filtrar productos según la búsqueda
+    if q:
+        productos = productos.filter(nombre__icontains=q)
+
+    data = {
+        'productos': productos
+    }
+    return render(request, 'ventas/tienda.html', data)
+

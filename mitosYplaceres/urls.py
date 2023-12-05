@@ -18,10 +18,11 @@ from pathlib import Path
 #from xml.etree.ElementInclude import include
 from django.contrib import admin
 from django.urls import path, include
+from orders.views import validarCarrito
 from tiendaApp import views as vista
 from django.conf import settings
 from django.conf.urls.static import static
-
+from tiendaApp.views import  agregar_producto, eliminar_producto, limpiar_carrito, mostrar_trabajadores, agregar_trabajador,editar_trabajador,elim_trabajador,mostrar_perfiles, enviar_mensaje, restar_producto
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -56,15 +57,27 @@ urlpatterns = [
     path('administracion/ingresar_producto/registrar_producto/', vista.registro_producto, name='registro_producto'),
     path('administracion/<int:producto_id>/', vista.detalle_producto, name='detalle_producto'),
     path('administracion/mensajes_clientes', vista.lista_correos, name='lista_correos'),
+    path('administracion/lista_facturas', vista.lista_facturas, name='lista_facturas'),
     path('administracion/lista_productos/<int:producto_id>/', vista.eliminar_producto, name='productoDel'),
 
     
     path('categorias/', vista.get_categorias, name='categorias'),
     path('subcategorias/<int:categoria_id>', vista.get_subcategorias, name='subcategorias'),
     path('producto/<int:categoria_id>/<int:subcategoria_id>', vista.get_productos, name='producto'),
+    #path('contacto/', vista.get_contacto, name='contacto'),
   
     path('buscador', vista.busqueda, name='buscador'),
     path('listaTipo', vista.listaTipo, name="listaTipo"),
+
+    path('agregar/#/<int:producto_id>/', agregar_producto, name="Add"),
+    path('eliminar/#/<int:producto_id>/', eliminar_producto, name="Del"),
+    path('restar/#/<int:producto_id>/', restar_producto, name="Sub"),
+    path('limpiar/', limpiar_carrito, name="CLS"),
+    path('buscar/', vista.buscar_producto, name="buscarProducto" ),
+
+    path('tienda/', vista.tienda, name='tienda'),
+    path('orders/#/', include('orders.urls')),
+
 ]
 
 if settings.DEBUG:

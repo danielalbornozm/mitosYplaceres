@@ -1,0 +1,54 @@
+{% extends "userTemplates/base.html" %}
+{% block contenido %}
+{% load static %}
+    <div class="container">
+        <div class="row">
+            <div class="col-12 align-self-center"><h2>Tienda Catalogo onlineeee</h2></div>
+            <div class="card-body">
+                <img src="{% static 'images/carrito/cart.png' %}" alt="Foto del producto" width="50" height="auto"><b>{{cantidad_carrito}}</b>
+            </div>
+            <div>
+                <p>{{mensaje}}</p>
+                <a href="{% url 'order_list' %}">Mis pedidos</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <form class="d-flex" role="search" action="{% url 'buscarProducto' %}" method="get">
+                    <input class="form-control me-2" type="search" placeholder="Buscar producto por tipo" aria-label="Search" name="q">
+                    <button class="btn btn-outline-success" type="submit">Buscar</button>
+                </form>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-8">
+                <div class="row" style="padding: 10px 0;">
+                    <div class="col-12">
+                        <div class="row">
+                            {% for producto in productos %}
+                            <div class="col-4">
+                                <div class="card mt-4">
+                                    <div class="card-body">
+                                        <b>Nombre: {{producto.nombre}}</b>
+                                        <br>
+                                        <b>Precio:</b> $ {{producto.precio}}
+                                        <br>
+                                        <b>Cantidad:</b> {{producto.cantidad}}
+                                        <br>
+                                        <img src="{{ producto.foto.url }}" alt="Foto del producto" width="50" height="auto">
+                                        <br>
+                                        <a href="{% url 'Add' producto.id %}" class="btn btn-primary mt-1">Agregar al carrito</a>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4">
+                {% include "ventas/carrito.html" %}
+            </div>
+        </div>
+    </div>
+{% endblock  %}
