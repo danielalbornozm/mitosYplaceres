@@ -59,6 +59,8 @@ urlpatterns = [
     path('administracion/mensajes_clientes', vista.lista_correos, name='lista_correos'),
     path('administracion/lista_facturas', vista.lista_facturas, name='lista_facturas'),
     path('administracion/lista_productos/<int:producto_id>/', vista.eliminar_producto, name='productoDel'),
+    path('administracion/lista_ventas', vista.lista_ventas, name='lista_ventas'),
+
 
     
     path('categorias/', vista.get_categorias, name='categorias'),

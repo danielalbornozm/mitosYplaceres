@@ -128,6 +128,14 @@ class TrabajadorForm(forms.ModelForm):
 
         return True
 
+    def clean_nombre(self):
+        nombre = self.cleaned_data.get("nombre")
+
+        # Verificar que el nombre solo contenga letras y espacios
+        if nombre and not re.match(r'^[a-zA-Z\s]+$', nombre):
+            raise forms.ValidationError("El nombre debe contener solo letras y espacios")
+
+        return nombre
 
 class TrabajadorEditForm(forms.ModelForm):
     class Meta:
@@ -199,6 +207,14 @@ class TrabajadorEditForm(forms.ModelForm):
             return False
 
         return True
+    def clean_nombre(self):
+        nombre = self.cleaned_data.get("nombre")
+
+        # Verificar que el nombre solo contenga letras y espacios
+        if nombre and not re.match(r'^[a-zA-Z\s]+$', nombre):
+            raise forms.ValidationError("El nombre debe contener solo letras y espacios")
+
+        return nombre
     
     
 

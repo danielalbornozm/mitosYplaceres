@@ -145,6 +145,7 @@ from django.core.mail import send_mail
 from django.http import JsonResponse
 import os
 from django.contrib.auth.decorators import login_required
+from orders.models import Order, OrderLine
 
 # Create your views here.
 @login_required(login_url='inicio')
@@ -374,6 +375,13 @@ def lista_correos(request):
 def lista_facturas(request):
     compras = CompraProveedor.objects.all()
     return render(request, 'Trabajadores/lista_facturas.html', {'compras': compras})
+
+@login_required(login_url='inicio')
+def lista_ventas(request):
+    ventas = Order.objects.filter(user=request.user).order_by('-created_at')
+    return render(request, 'Trabajadores/lista_ventas.html', {'ventas': ventas})
+
+
 
 ############################################################################################################
 

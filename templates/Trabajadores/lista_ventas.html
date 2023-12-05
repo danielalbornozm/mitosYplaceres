@@ -1,0 +1,41 @@
+{% extends "Trabajadores/base.html" %}
+{% block title %}Lista de Ventas{% endblock %}
+
+{% load static %}
+
+{% block content %}
+    <div class="container mt-4">
+        <div class="card">
+            <div class="card-header text-white" style="font-size: large; background-color:rgb(20, 20, 118);">
+                <h2 style="text-align: center; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">
+                Lista de Ventas</h2>
+            </div>
+            <div class="card-body">
+                <table class="table table-striped mt-3">                    
+                    <thead>
+                        <tr>
+                            <th>ID de Venta</th>
+                            <th>Usuario</th>
+                            <th>Fecha de Creación</th>
+                            <th>Detalles de venta</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for order in orders %}
+                            <tr>
+                                <td>{{ order.id }}</td>
+                                <td>{{ order.user }}</td>
+                                <td>{{ order.created_at }}</td>
+                                <td>
+                                    {% for orderline in order.orderline_set.all %}
+                                        Producto: {{ orderline.producto }} - Cantidad: {{ orderline.cantidad }} <br>
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}
