@@ -30,7 +30,9 @@
 
                 {% if request.user.is_authenticated %}
                   <li class="nav-item ms-1 me-1">
-                    <h4>{{ request.user.username | upper }}, bienvenido</h4>
+                    <h4>{{ request.user.username | capfirst }}, bienvenido</h4>
+                  </li>
+                  <li>
                     <a class="btn btn-outline-dark fw-bold text-uppercase" href="{% url 'logout' %}">Cerrar sesión</a>
                   </li>
                 {% else %}
