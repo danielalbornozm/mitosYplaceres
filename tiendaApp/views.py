@@ -18,6 +18,7 @@ def inicio(request):
     }
     return render(request, 'producto/inicio.html', data)
 
+"""
 def categoria(request, id_categoria, categoria):
     
     print(f"Vista mostrar_trabajadores alcanzada con perfil_id: {id_categoria}")
@@ -33,6 +34,7 @@ def categoria(request, id_categoria, categoria):
         'productos': productos
     }
     return render(request, 'producto/categoria.html', data)
+"""
 
 def productos(request, id_categoria, categoria, id_subcategoria, subcategoria):
     categorias = Categoria.objects.all()
@@ -57,46 +59,25 @@ def productos(request, id_categoria, categoria, id_subcategoria, subcategoria):
     }
     return render(request, 'producto/productos.html', data)
 
-def mantenedor_productos(request, id_categoria, categoria, id_subcategoria, subcategoria, producto_id):
-    
-    data = {
-        'id_subcategoria': id_subcategoria,
-        'id_categoria': id_categoria,
-        'categoria': categoria,
-        'subcategoria': subcategoria,
-        'producto_id': producto_id
-    }
-    
-    # Revisamos si producto_id tiene valor
-    if producto_id == "0":
-        producto = None
-        form = ProductoForm()
-    else:
-        producto = get_object_or_404(Producto, id=producto_id)
-
-    # Valores por defecto para los campos del formulario
-    valores_iniciales = {
-        'categoria': id_categoria,  # Ajusta el nombre según tu modelo
-        'subcategoria': id_subcategoria,  # Ajusta el nombre según tu modelo
-        # Otros campos si los tienes
-    }
-
-    # Métodos según el botón presionado    
+def mantenedor_productos(request):
     if request.method == 'POST':
-        form = ProductoForm(request.POST, request.FILES, instance=producto)
-        print("Estamos")
+        form = ProductoForm(request.POST, request.FILES)
 
-        if 'guardar' in request.POST:
-            if form.is_valid():
-                form.save()
-                print("Guardando")
-                return redirect('productos', id_categoria, categoria, id_subcategoria, subcategoria)
-            else:
-                print(form.errors)
+        if form.is_valid():
+            producto = form.save(commit=False)
+            # Realizar acciones adicionales antes de guardar, si es necesario
+            producto.save()
+
+            messages.success(request, 'Producto registrado con éxito.')
+            return redirect('menu_admin')  
+        else:
+            print(form.errors)
     else:
-        form = ProductoForm(initial=valores_iniciales, instance=producto)
-        
-    return render(request, 'producto/productoAdd.html', {'form': form, **data})
+        form = ProductoForm()
+
+    print("Estamos aquí")  # Agrega mensajes de depuración
+    return render(request, 'producto/productoAdd.html', {'form': form})
+
 
 def detalle_producto(request, id_categoria, categoria, id_subcategoria, subcategoria, producto_id):
     
@@ -119,6 +100,7 @@ def detalle_producto(request, id_categoria, categoria, id_subcategoria, subcateg
         print("Estamos")
 
         if 'editar' in request.POST:
+            print("aquí")
             if form.is_valid():
                 if 'foto' in request.FILES:
                     producto.foto = request.FILES['foto']
@@ -158,47 +140,46 @@ def eliminar_producto(request, id_categoria, categoria, id_subcategoria, subcate
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from .models import PerfilTrabajador, Trabajador, MensajeContacto
-from .forms import TrabajadorForm, TrabajadorEditForm, ContactoForm
+from .forms import TrabajadorForm, TrabajadorEditForm, ContactoForm, CompraProveedorForm, DetalleCompraForm
 from django.db.models import Q
 from django.core.mail import send_mail
 from django.http import JsonResponse
+import os
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
+@login_required(login_url='inicio')
+def menu_admin(request):
+    return render(request, 'Trabajadores/Administrador.html')
+
+@login_required(login_url='inicio')
 def mostrar_perfiles(request):
-    # Obtener todos los perfiles de trabajadores
     perfiles = PerfilTrabajador.objects.all()
     
-    # Pasar los perfiles al data para que estén disponibles en la plantilla
     data = {'perfiles': perfiles}
     
     return render(request,'Trabajadores/perfiles.html', data)
 
+@login_required(login_url='inicio')
 def mostrar_trabajadores(request, perfil_id):
     
-    print(f"Vista mostrar_trabajadores alcanzada con perfil_id: {perfil_id}")
     
-    # Obtén el perfil asociado al ID proporcionado
     perfil = PerfilTrabajador.objects.get(id=perfil_id)
 
-    # Obtén los trabajadores asociados a ese perfil
     trabajadores = Trabajador.objects.filter(perfil=perfil)
 
-    # Procesar la consulta de búsqueda
     query = request.GET.get('q')
     if query:
-        # Filtrar los trabajadores por nombre, apellido, u otros campos relevantes
         trabajadores = trabajadores.filter(
             Q(nombre__icontains=query) |
             Q(paterno__icontains=query) |
             Q(materno__icontains=query)
-            # Agrega más campos según sea necesario
         )
 
-    # Si no es una solicitud Ajax, renderizar la página completa
     return render(request, 'Trabajadores/mostrar_trabajadores.html', {'perfil': perfil, 'trabajadores': trabajadores})
 
-def agregar_trabajador(request, perfil_id):
-    perfil = PerfilTrabajador.objects.get(pk=perfil_id)
+@login_required(login_url='inicio')
+def agregar_trabajador(request):
 
     if request.method == 'POST':
         form = TrabajadorForm(request.POST, request.FILES)
@@ -208,22 +189,20 @@ def agregar_trabajador(request, perfil_id):
 
             if contraseña == confirmar_contraseña:
                 trabajador = form.save(commit=False)
-                trabajador.perfil = perfil
+            
                 trabajador.save()
                 messages.success(request, 'Trabajador registrado con éxito.')
-                return redirect('mostrar_trabajadores', perfil_id=perfil_id)
+                return redirect('menu_admin')
             else:
                 messages.error(request, 'Las contraseñas no coinciden.')
         else:
-            # El formulario no es válido, maneja el error
             print(form.errors)
     else:
         form = TrabajadorForm()
 
-    return render(request, 'Trabajadores/agregar_trabajador.html', {'perfil': perfil, 'form': form})
+    return render(request, 'Trabajadores/agregar_trabajador.html', {'form': form})
 
-
-
+@login_required(login_url='inicio')
 def editar_trabajador(request, trabajador_id, perfil_id):
     trabajador = get_object_or_404(Trabajador, id=trabajador_id)
 
@@ -242,7 +221,6 @@ def editar_trabajador(request, trabajador_id, perfil_id):
             # Guarda el trabajador con los cambios en el perfil
             trabajador_form.save()
 
-            # Redirige al perfil anterior
             return redirect('mostrar_trabajadores', perfil_id=perfil_id)
 
     else:
@@ -250,41 +228,149 @@ def editar_trabajador(request, trabajador_id, perfil_id):
 
     return render(request, 'Trabajadores/detalle_trabajador.html', {'trabajador': trabajador, 'form_edicion': form})
 
-
-
+@login_required(login_url='inicio')
 def elim_trabajador(request, trabajador_id):
-    # Obtener el trabajador por ID
     trabajador = get_object_or_404(Trabajador, id=trabajador_id)
 
-    # Obtener el perfil del trabajador
-    perfil_id = trabajador.perfil.id  # Asegúrate de que el nombre del campo sea correcto
+    perfil_id = trabajador.perfil.id  
 
-    # Lógica para eliminar el trabajador
     trabajador.delete()
 
-    # Redirigir a donde desees después de la eliminación
     return redirect('mostrar_trabajadores', perfil_id=perfil_id)
 
 def enviar_mensaje(request):
     if request.method == 'POST':
         form = ContactoForm(request.POST)
         if form.is_valid():
-            # Guardar los datos en la base de datos
             nombre = form.cleaned_data['nombre']
             apellido = form.cleaned_data['apellido']
             correo = form.cleaned_data['correo']
             mensaje = form.cleaned_data['mensaje']
 
-            # Crear un nuevo objeto MensajeContacto y guardarlo en la base de datos
+            # Crear un nuevo objeto MensajeContacto y guardar en la base de datos
             nuevo_mensaje = MensajeContacto(nombre=nombre, apellido=apellido, correo=correo, mensaje=mensaje)
             nuevo_mensaje.save()
-
-
-            return redirect('contacto')
+            
+            # Limpiar los campos del formulario
+            form = ContactoForm()
+            
+            # Agregar un mensaje a través del contexto para indicar que el mensaje fue enviado
+            return render(request, 'producto/contacto.html', {'mensaje_enviado': True, 'form': form})
+        
     else:
         form = ContactoForm()
 
-    return render(request, 'contacto.html', {'form': form})
+    return render(request, 'producto/contacto.html', {'form': form})
+
+@login_required(login_url='inicio')
+def buscar_trabajadores(request):
+    # Obtener el valor de búsqueda de la solicitud GET
+    query = request.GET.get('q', '')
+
+    # Filtrar los trabajadores según el valor de búsqueda
+    trabajadores = Trabajador.objects.filter(nombre__icontains=query)
+
+    # Renderizar los resultados en un fragmento de HTML
+    return render(request, 'trabajadores/fragmento_resultados_busqueda.html', {'trabajadores': trabajadores})
+
+@login_required(login_url='inicio')
+@permission_required('tiendaApp.menu_admin', login_url='menu_admin')
+def compra_proveedor(request):
+    cantidad_productos_range = range(1, 11)
+
+    if request.method == 'POST':
+        form = CompraProveedorForm(request.POST)
+        detalle_form = DetalleCompraForm(request.POST)
+
+        if form.is_valid() and detalle_form.is_valid():
+            compra_principal = form.save()
+
+            nombre_producto = detalle_form.cleaned_data['producto']
+
+
+            producto = Producto.objects.get(nombre=nombre_producto)
+
+            detalle = detalle_form.save(commit=False)
+            detalle.compra = compra_principal
+            detalle.save()
+
+            producto.cantidad += detalle.cantidad
+            producto.save()
+
+            return redirect('menu_admin')
+    else:
+        form = CompraProveedorForm()
+        detalle_form = DetalleCompraForm()
+
+    return render(request, 'Trabajadores/compra_proveedor.html', {'form': form, 'detalle_form': detalle_form, 'cantidad_productos_range': cantidad_productos_range})
+
+@login_required(login_url='inicio')
+def lista_clientes(request):
+    usuarios = Usuario.objects.all()
+    tipos = Tipo.objects.all()
+
+    query = request.GET.get('q')
+    if query:
+        usuarios = usuarios.filter(
+            Q(nombre__icontains=query) |
+            Q(paterno__icontains=query) |
+            Q(materno__icontains=query) 
+        )
+    
+
+    data = {
+        'usuarios': usuarios, 
+        'tipos': tipos,
+    }
+    return render(request, 'Trabajadores/lista_clientes.html', data)
+
+@login_required(login_url='inicio')
+def categorias_productos(request):
+    categorias = Categoria.objects.all()
+    subcategoria = Subcategoria.objects.all()
+    productos = Producto.objects.all()
+
+    query = request.GET.get('q')
+    if query:
+        productos = productos.filter(
+            Q(nombre__icontains=query) |
+            Q(marca__icontains=query) 
+
+        )
+    data = {
+        'categorias': categorias,
+        'subcategorias': subcategoria,
+        'productos': productos
+    }
+    
+    return render(request, 'Trabajadores/lista_productos.html', data)
+
+@login_required(login_url='inicio')
+def registro_producto(request):
+    if request.method == 'POST':
+        form = ProductoForm(request.POST, request.FILES)
+
+        if form.is_valid():
+            producto = form.save(commit=False)
+            producto.save()
+
+            messages.success(request, 'Producto registrado con éxito.')
+            return redirect('compra_proveedor') 
+        else:
+            print(form.errors)
+    else:
+        form = ProductoForm()
+
+    
+    return render(request, 'Trabajadores/registro_producto.html', {'form': form})
+
+@login_required(login_url='inicio')
+def lista_correos(request):
+    mensajes = MensajeContacto.objects.all()
+    print(mensajes)
+    
+    return render(request, 'Trabajadores/lista_correos.html', {'mensajes': mensajes})
+
 
 ############################################################################################################
 
@@ -414,7 +500,7 @@ def login_view(request):
             if user is not None:
                 login(request, user)
                 # Obtener la URL a la que se debe redirigir
-                next_url = request.GET.get('next', 'inicioProductos')
+                next_url = request.GET.get('next', 'menu_admin')
                 # Redirigir a la página deseada después del inicio de sesión
                 return redirect(next_url)
             else:
@@ -426,10 +512,68 @@ def login_view(request):
     return render(request, 'registration/login.html', {'form': form})
 
 @login_required
-def exit(request):
+def logout_view(request):
     logout(request)
     return redirect('inicio')
 
+
+##########################################################################################################
+
+# Funciones para Django Front End
+
+from .models import Categoria, Subcategoria, Producto 
+
+def get_categorias(_request):
+    categoria = list(Categoria.objects.values())
+    
+    if (len(categoria) > 0):
+        data = {'message':"Éxito", 'categoria':categoria}
+    else:
+        data = {'message':"Sin datos"}
+        
+    return JsonResponse(data)
+
+def get_subcategorias(_request, categoria_id):
+    subcategoria = list(Subcategoria.objects.filter(categoria = categoria_id).values())
+    
+    if (len(subcategoria) > 0):
+        data = {'message':"Éxito", 'subcategoria':subcategoria}
+    else:
+        data = {'message':"Sin datos"}
+        
+    return JsonResponse(data)
+
+def get_productos(_request, categoria_id, subcategoria_id):
+    productos = list(Producto.objects.filter(categoria = categoria_id, subcategoria = subcategoria_id))
+    
+    if (len(productos) > 0):
+        data = {'message':"Éxito", 'productos': [
+            {
+                'nombre': producto.nombre,
+                'foto': producto.foto.url,
+                'precio': producto.precio,
+                'cantidad': producto.cantidad,   
+            }
+            for producto in productos
+        ]}
+    else:
+        data = {'message':"Sin datos"}
+        
+    return JsonResponse(data)
+
+"""
+def get_contacto(_request):
+    contacto = list(MensajeContacto.objects.values())
+    
+    if (len(contacto) > 0):
+        data = {'message':"Éxito", 'contacto':contacto}
+    else:
+        data = {'message':"Sin datos"}
+        
+    return JsonResponse(data)
+"""
+
+###################################################################################################################
 
 #Vistas Carrito
 
