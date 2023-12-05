@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import permission_required
 from tiendaApp.models import Categoria, Subcategoria, Producto
+from tiendaApp.Carrito import Carrito
 from tiendaApp.forms import ProductoForm
 
 
@@ -76,8 +77,6 @@ def mantenedor_productos(request):
 
     print("Estamos aquí")  # Agrega mensajes de depuración
     return render(request, 'producto/productoAdd.html', {'form': form})
-
-
 
 
 def detalle_producto(request, producto_id, id_categoria=None, id_subcategoria=None, subcategoria=None):
@@ -501,7 +500,7 @@ def login_view(request):
             if user is not None:
                 login(request, user)
                 # Obtener la URL a la que se debe redirigir
-                next_url = request.GET.get('next', 'inicioProductos')
+                next_url = request.GET.get('next', 'menu_admin')
                 # Redirigir a la página deseada después del inicio de sesión
                 return redirect(next_url)
             else:
@@ -512,9 +511,9 @@ def login_view(request):
 
     return render(request, 'registration/login.html', {'form': form})
 
-def exit(request):
+@login_required
+def logout_view(request):
     logout(request)
-    print("Llegamos aquí")
     return redirect('inicio')
 
 
@@ -572,41 +571,36 @@ def get_contacto(_request):
         data = {'message':"Sin datos"}
         
     return JsonResponse(data)
-"""     
+"""
 
+###################################################################################################################
 
+#Vistas Carrito
 
+def tienda(request):
+    productos = Producto.objects.all()
+    return render(request, "ventas/tienda.html", {'productos':productos})
 
-# INICIO DE SESION
+def agregar_producto(request, producto_id):
+    carrito = Carrito(request)
+    producto = Producto.objects.get(id=producto_id)
+    carrito.agregar(producto)
+    return redirect("tienda")
 
-from django.shortcuts import render
-from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.decorators import login_required
+def eliminar_producto(request, producto_id):
+    carrito = Carrito(request)
+    producto = Producto.objects.get(id=producto_id)
+    carrito.eliminar(producto)
+    return redirect("tienda")
 
+def restar_producto(request, producto_id):
+    carrito = Carrito(request)
+    producto = Producto.objects.get(id=producto_id)
+    carrito.restar(producto)
+    return redirect("tienda")
 
-def login_view(request):
-    if request.method == 'POST':
-        form = AuthenticationForm(request, request.POST)
-        if form.is_valid():
-            username = form.cleaned_data['username']
-            password = form.cleaned_data['password']
-            user = authenticate(request, username=username, password=password)
-            if user is not None:
-                login(request, user)
-                # Obtener la URL a la que se debe redirigir
-                next_url = request.GET.get('next', 'menu_admin')
-                # Redirigir a la página deseada después del inicio de sesión
-                return redirect(next_url)
-            else:
-                # El usuario no pudo ser autenticado, puedes manejar esto de alguna manera
-                pass
-    else:
-        form = AuthenticationForm()
+def limpiar_carrito(request):
+    carrito = Carrito(request)
+    carrito.limpiar()
+    return redirect("tienda")
 
-    return render(request, 'registration/login.html', {'form': form})
-
-@login_required
-def logout_view(request):
-    logout(request)
-    return redirect('inicio')
