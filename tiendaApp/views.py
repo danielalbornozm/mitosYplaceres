@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import permission_required
+from typing import Self
+
 from tiendaApp.models import Categoria, Subcategoria, Producto, CompraProveedor
 from tiendaApp.Carrito import Carrito
 from tiendaApp.forms import ProductoForm
