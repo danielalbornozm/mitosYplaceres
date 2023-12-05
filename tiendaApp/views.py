@@ -501,7 +501,7 @@ def login_view(request):
             if user is not None:
                 login(request, user)
                 # Obtener la URL a la que se debe redirigir
-                next_url = request.GET.get('next', 'menu_admin')
+                next_url = request.GET.get('next', 'opciones_usuario')
                 # Redirigir a la página deseada después del inicio de sesión
                 return redirect(next_url)
             else:
@@ -516,6 +516,9 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     return redirect('inicio')
+
+def opciones_usuario(request):
+    return render(request, 'frontEnd/opciones_usuario.html')
 
 
 ##########################################################################################################

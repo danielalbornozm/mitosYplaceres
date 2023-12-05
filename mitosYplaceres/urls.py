@@ -48,6 +48,7 @@ urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
     path('inicioSesion/', vista.login_view, name='login'),
     path('cerrarSesion/', vista.logout_view, name='logout'),
+    path('opciones/', vista.opciones_usuario, name='opciones_usuario'),
     
     path('administracion/',vista.menu_admin, name='menu_admin'),
     path('administracion/mostrar_trabajadores/agregar_trabajador/', vista.agregar_trabajador, name='agregar_trabajador'),

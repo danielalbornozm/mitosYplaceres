@@ -33,7 +33,10 @@
                     <h4>{{ request.user.username | capfirst }}, bienvenido</h4>
                   </li>
                   <li>
-                    <a class="btn btn-outline-dark fw-bold text-uppercase" href="{% url 'logout' %}">Cerrar sesión</a>
+                    <a class="btn btn-outline-dark fw-bold text-uppercase ms-1 me-1" href="{% url 'menu_admin' %}">Menu administración</a>
+                  </li>
+                  <li>
+                    <a class="btn btn-outline-dark fw-bold text-uppercase ms-1 me-1" href="{% url 'logout' %}">Cerrar sesión</a>
                   </li>
                 {% else %}
                   <li class="nav-item ms-1 me-1">

@@ -1,0 +1,37 @@
+{% extends "frontEnd/base.html" %}
+{% load static %}
+{% load humanize %}
+
+{% block titulo %}
+    Opciones usuario
+{% endblock titulo %}
+
+{% block contenido %}
+
+<!-- MOSTRAR Opciones usuarios -->
+<div class="container-fluid">
+    <div class="row d-flex justify-content-center align-items-center mt-3 mb-3">
+        <div class="col-6 d-flex justify-content-center align-items-center mt-3 mb-3">
+            <div class="card" style="width:500px; height:auto;">
+                <div class="card-header">
+                    <b>Ir a comprar</b>
+                </div>
+                <div class="card-body">
+                    <a class="btn btn-outline-dark fw-bold text-uppercase" href="{% url 'tienda' %}">Ir a comprar</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 d-flex justify-content-center align-items-center mt-3 mb-3">
+            <div class="card" style="width:500px; height:auto;">
+                <div class="card-header">
+                    <b>Ir a menu administración</b>
+                </div>
+                <div class="card-body">
+                    <a class="btn btn-outline-dark fw-bold text-uppercase" href="{% url 'menu_admin' %}">Administrar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock contenido %}

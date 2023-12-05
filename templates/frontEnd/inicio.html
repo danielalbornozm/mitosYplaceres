@@ -61,9 +61,15 @@
         <li class="nav-item dropdown me-5">
           <select class="form-select" aria-label="Default select example" id="cboSubcategoria" name="cboSubcategoria"></select>
         </li>
-        <li class="nav-item ms-1 me-5">
-          <a class="btn btn-outline-dark fw-bold text-uppercase" href="{% url 'tienda' %}">Ir a comprar</a>
-        </li>
+        {% if request.user.is_authenticated %}
+          <li>
+            <a class="btn btn-outline-dark fw-bold text-uppercase ms-1 me-1" href="{% url 'tienda' %}">Ir a tienda</a>
+          </li>
+        {% else %}
+          <li class="nav-item ms-1 me-1">
+            <a class="btn btn-outline-dark fw-bold text-uppercase" href="{% url 'login' %}">Ir a comprar</a>
+          </li>
+        {% endif %}
     </ul>
 </nav>
 
