@@ -28,22 +28,17 @@
                 <th>Nombre</th>
                 <th>Apellido</th>
                 <th>Correo</th>
-                <th>Mensaje</th>
-                <!--<th>Accion</th>-->
+
             </tr>
         </thead>
         <tbody>
             {% for mensaje in mensajes %}
-           <script>console.log(mensaje.nombre)</script> 
                 <tr>
                     <td>{{ forloop.counter }}</td>
                     <td>{{ mensaje.nombre }}</td>
                     <td>{{ mensaje.apellido }}</td>
                     <td>{{ mensaje.correo }}</td>
-                    <td>{{ mensaje.mensaje }}</td>
-                    <!--
-                    <td>
-                        <a class="btn btn-danger btn-sm" href="#">Leer</a>
+
                     </td>
                     -->
                 </tr>

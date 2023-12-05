@@ -65,7 +65,7 @@ def mantenedor_productos(request):
 
         if form.is_valid():
             producto = form.save(commit=False)
-            # Realizar acciones adicionales antes de guardar, si es necesario
+
             producto.save()
 
             messages.success(request, 'Producto registrado con éxito.')
@@ -114,13 +114,10 @@ def detalle_producto(request, producto_id, id_categoria=None, id_subcategoria=No
         
     return render(request, 'producto/detalle_producto.html', {'form': form, **data})
 
-def eliminar_producto(request, id_categoria, categoria, id_subcategoria, subcategoria, producto_id):
+def eliminar_producto(request, producto_id):
     
     data = {
-        'id_subcategoria': id_subcategoria,
-        'id_categoria': id_categoria,
-        'categoria': categoria,
-        'subcategoria': subcategoria,
+        
         'producto_id': producto_id
     }
     
@@ -129,7 +126,7 @@ def eliminar_producto(request, id_categoria, categoria, id_subcategoria, subcate
     if request.method == 'POST':
         producto.delete()
         print("Eliminando")
-        return redirect('productos', id_categoria, categoria, id_subcategoria, subcategoria)
+        return redirect('categorias_productos')
     else:
         print("Problema")
 

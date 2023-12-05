@@ -31,7 +31,6 @@ urlpatterns = [
     #path('<str:id_categoria>/<str:categoria>/', vista.categoria, name='categoria'),
     path('<str:id_subcategoria>/<str:subcategoria>/<str:id_categoria>/<str:categoria>/', vista.productos, name='productos'),
     path('<str:id_subcategoria>/<str:subcategoria>/<str:id_categoria>/<str:categoria>/<str:producto_id>/editar/', vista.detalle_producto, name='detalle_producto'),
-    path('<str:id_subcategoria>/<str:subcategoria>/<str:id_categoria>/<str:categoria>/<str:producto_id>/confirmar/', vista.eliminar_producto, name='productoDel'),
     path('perfiles/', vista.mostrar_perfiles, name="mostrar_perfiles"), 
     path('perfiles/mostrar_trabajadores/<int:perfil_id>/', vista.mostrar_trabajadores, name='mostrar_trabajadores'),
 
@@ -56,9 +55,11 @@ urlpatterns = [
     path('administracion/lista_clientes', vista.lista_clientes, name='lista_clientes'),
     path('administracion/lista_productos', vista.categorias_productos, name='categorias_productos'),
     path('administracion/ingresar_producto/registrar_producto/', vista.registro_producto, name='registro_producto'),
-    path('administracion/lista_productos/<int:producto_id>/', vista.detalle_producto, name='detalle_producto'),
+    path('administracion/<int:producto_id>/', vista.detalle_producto, name='detalle_producto'),
     path('administracion/mensajes_clientes', vista.lista_correos, name='lista_correos'),
     path('administracion/lista_facturas', vista.lista_facturas, name='lista_facturas'),
+    path('administracion/lista_productos/<int:producto_id>/', vista.eliminar_producto, name='productoDel'),
+
     
     path('categorias/', vista.get_categorias, name='categorias'),
     path('subcategorias/<int:categoria_id>', vista.get_subcategorias, name='subcategorias'),
