@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     'orders',
     'crispy_forms',
     'crispy_bootstrap5',
+    'tiendaApi',
+    'rest_framework',
 ]
 
 # Variables globales de Crispy

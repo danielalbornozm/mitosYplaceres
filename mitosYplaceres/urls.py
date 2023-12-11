@@ -23,6 +23,7 @@ from tiendaApp import views as vista
 from django.conf import settings
 from django.conf.urls.static import static
 from tiendaApp.views import  agregar_producto, eliminar_producto, limpiar_carrito, mostrar_trabajadores, agregar_trabajador,editar_trabajador,elim_trabajador,mostrar_perfiles, enviar_mensaje, restar_producto
+from tiendaApi import views as vistaApi
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -78,6 +79,11 @@ urlpatterns = [
 
     path('tienda/', vista.tienda, name='tienda'),
     path('orders/#/', include('orders.urls')),
+    
+    # Rutas de la Api RestFul
+    path('productosApi/', vistaApi.productosApi, name='productosApi'),
+    path('productosListApi/', vistaApi.producto_listado, name='productosListApi'),
+    path('productosListApi/<int:pk>', vistaApi.producto_detalle, name='productoDetalleApi'),
 
 ]
 
